@@ -21,7 +21,7 @@ public class DiseaseStageDTO {
         this.isActive = isActive;
     }
 
-    public DiseaseStageDTO(DiseaseStage diseaseStage){
+    public DiseaseStageDTO(DiseaseStage diseaseStage) {
         this.id = diseaseStage.getId();
         this.name = diseaseStage.getName();
         this.description = diseaseStage.getDescription();

@@ -48,11 +48,11 @@ public class DiseaseStageServiceImpl implements DiseaseStageService {
         }
     }
 
-    private DiseaseStageDTO createDiseaseStageDTO(DiseaseStage diseaseStage){
+    private DiseaseStageDTO createDiseaseStageDTO(DiseaseStage diseaseStage) {
         return new DiseaseStageDTO(diseaseStage);
     }
 
-    private DiseaseStage createDiseaseStage(DiseaseStageDTO dto){
-        return new DiseaseStage(dto.getId(),dto.getName(),dto.getDescription(),dto.isActive());
+    private DiseaseStage createDiseaseStage(DiseaseStageDTO dto) {
+        return new DiseaseStage(dto.getId(), dto.getName(), dto.getDescription(), dto.isActive());
     }
 }

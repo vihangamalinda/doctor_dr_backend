@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "Disease_Stage_Table")
 public class DiseaseStage {
     @Id
-    @GeneratedValue(strategy =GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "disease_stage_name")
     private String name;
@@ -18,11 +18,11 @@ public class DiseaseStage {
     public DiseaseStage() {
     }
 
-    public DiseaseStage(long id, String name, String description,boolean isActive) {
+    public DiseaseStage(long id, String name, String description, boolean isActive) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.isActive =isActive;
+        this.isActive = isActive;
     }
 
     public long getId() {

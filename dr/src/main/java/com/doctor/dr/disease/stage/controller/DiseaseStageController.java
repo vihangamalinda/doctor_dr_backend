@@ -11,27 +11,31 @@ import java.util.List;
 @RequestMapping("/v1/disease-stage")
 public class DiseaseStageController {
     private final DiseaseStageService diseaseStageService;
-    public DiseaseStageController(DiseaseStageService diseaseStageService){
-        this.diseaseStageService=diseaseStageService;
+
+    public DiseaseStageController(DiseaseStageService diseaseStageService) {
+        this.diseaseStageService = diseaseStageService;
     }
+
     @GetMapping("/all")
-    public ResponseEntity<List<DiseaseStageDTO>> getAll(){
+    public ResponseEntity<List<DiseaseStageDTO>> getAll() {
         List<DiseaseStageDTO> diseaseStageDTOList = this.diseaseStageService.getAll();
         return ResponseEntity.ok(diseaseStageDTOList);
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<DiseaseStageDTO> getById(@RequestParam("id") long id){
+    public ResponseEntity<DiseaseStageDTO> getById(@RequestParam("id") long id) {
         DiseaseStageDTO diseaseStageDTO = this.diseaseStageService.getById(id);
         return ResponseEntity.ok(diseaseStageDTO);
     }
+
     @PostMapping("/create")
-    public ResponseEntity<String> create(DiseaseStageDTO diseaseStageDTO){
+    public ResponseEntity<String> create(DiseaseStageDTO diseaseStageDTO) {
         this.diseaseStageService.create(diseaseStageDTO);
         return ResponseEntity.ok("created");
     }
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteById(@RequestParam("id") long id){
+    public ResponseEntity<String> deleteById(@RequestParam("id") long id) {
         this.diseaseStageService.deleteById(id);
         return ResponseEntity.ok("deleted");
     }

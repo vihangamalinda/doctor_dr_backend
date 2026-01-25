@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DiseaseStageRepository extends JpaRepository<DiseaseStage,Long> {
+public interface DiseaseStageRepository extends JpaRepository<DiseaseStage, Long> {
     List<DiseaseStage> findAllByIsActiveTrue();
 }
