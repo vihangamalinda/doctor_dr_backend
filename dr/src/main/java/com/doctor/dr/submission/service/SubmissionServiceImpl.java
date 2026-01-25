@@ -49,9 +49,11 @@ public class SubmissionServiceImpl implements SubmissionService{
 
     @Override
     public void deleteById(long id) {
-        Submission submission =this.findSubmissionById(id);
-        submission.setActive(false);
-        this.submissionRepository.save(submission);
+        Submission submission = this.findSubmissionById(id);
+        if (submission.isActive()) {
+            submission.setActive(false);
+            this.submissionRepository.save(submission);
+        }
     }
     private SubmissionDTO createSubmissionDTO(Submission submission){
         return new SubmissionDTO(submission);
