@@ -2,7 +2,7 @@ package com.doctor.dr.submission.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class CreateSubmissionDTO {
+public class SubmissionRequestDTO {
     private long submissionId;
 
     private String patientReferenceId;
@@ -13,10 +13,10 @@ public class CreateSubmissionDTO {
 
     private MultipartFile multipartFileImage;
 
-    public CreateSubmissionDTO() {
+    public SubmissionRequestDTO() {
     }
 
-    public CreateSubmissionDTO(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease,MultipartFile image) {
+    public SubmissionRequestDTO(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, MultipartFile image) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;

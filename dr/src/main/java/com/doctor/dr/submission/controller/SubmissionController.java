@@ -1,6 +1,6 @@
 package com.doctor.dr.submission.controller;
 
-import com.doctor.dr.submission.dto.CreateSubmissionDTO;
+import com.doctor.dr.submission.dto.SubmissionRequestDTO;
 import com.doctor.dr.submission.dto.SubmissionDTO;
 import com.doctor.dr.submission.service.SubmissionService;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +29,8 @@ public class SubmissionController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody CreateSubmissionDTO createSubmissionDTO){
-        this.submissionService.create(createSubmissionDTO);
+    public ResponseEntity<String> create(@RequestBody SubmissionRequestDTO submissionRequestDTO){
+        this.submissionService.create(submissionRequestDTO);
         return  ResponseEntity.ok("created");
     }
     @DeleteMapping("/delete/{id}")

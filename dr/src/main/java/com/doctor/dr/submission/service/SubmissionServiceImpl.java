@@ -1,6 +1,6 @@
 package com.doctor.dr.submission.service;
 
-import com.doctor.dr.submission.dto.CreateSubmissionDTO;
+import com.doctor.dr.submission.dto.SubmissionRequestDTO;
 import com.doctor.dr.submission.dto.SubmissionDTO;
 import com.doctor.dr.submission.entity.Submission;
 import com.doctor.dr.submission.repository.SubmissionRepository;
@@ -38,12 +38,12 @@ public class SubmissionServiceImpl implements SubmissionService{
      * TODO
      */
     @Override
-    public void create(CreateSubmissionDTO createSubmissionDTO) {
-        MultipartFile multipartFileImage = createSubmissionDTO.getMultipartFileImage();
-        Submission submission = createSubmissionFromCreateSubmissionDTO(createSubmissionDTO);
+    public void create(SubmissionRequestDTO submissionRequestDTO) {
+        MultipartFile multipartFileImage = submissionRequestDTO.getMultipartFileImage();
+        Submission submission = createSubmissionFromCreateSubmissionDTO(submissionRequestDTO);
         // need to use  model and verify the desease
         // submission.hasDisease =
-        // submission.stage=
+        // submission.setDiseaseStage(diseaseStage)
         this.submissionRepository.save(submission);
     }
 
@@ -58,7 +58,7 @@ public class SubmissionServiceImpl implements SubmissionService{
     private SubmissionDTO createSubmissionDTO(Submission submission){
         return new SubmissionDTO(submission);
     }
-    private Submission createSubmissionFromCreateSubmissionDTO(CreateSubmissionDTO dto){
+    private Submission createSubmissionFromCreateSubmissionDTO(SubmissionRequestDTO dto){
         return new Submission(dto.getSubmissionId(),dto.getPatientReferenceId(),dto.getCreatedDate(),dto.getCreatedTime(),dto.isActive(), dto.hasDisease());
     }
 }
