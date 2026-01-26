@@ -55,6 +55,6 @@ public class DiseaseStageServiceImpl implements DiseaseStageService {
 
     private DiseaseStage createDiseaseStage(DiseaseStageRequestDTO dto) {
 //        List<Submission> submissionList=dto.getSubmissionDTOList().stream().map(SubmissionMapper::dtoToEntity).collect(Collectors.toList());
-        return new DiseaseStage(dto.getId(), dto.getName(), dto.getDescription(), dto.isActive());
+        return new DiseaseStage(dto.getId(), dto.getName(), dto.getDescription(), dto.isActive(),dto.getDiseaseLevel());
     }
 }

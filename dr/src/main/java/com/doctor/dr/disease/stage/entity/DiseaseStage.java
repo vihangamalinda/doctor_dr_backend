@@ -14,15 +14,18 @@ public class DiseaseStage {
     private String description;
     @Column(name = "is_active")
     private boolean isActive;
+    @Column(name = "disease_level")
+    private int diseaseLevel;
 
     public DiseaseStage() {
     }
 
-    public DiseaseStage(long id, String name, String description, boolean isActive) {
+    public DiseaseStage(long id, String name, String description, boolean isActive,int diseaseLevel) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.isActive = isActive;
+        this.diseaseLevel = diseaseLevel;
     }
 
     public long getId() {
@@ -55,5 +58,13 @@ public class DiseaseStage {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public int getDiseaseLevel() {
+        return diseaseLevel;
+    }
+
+    public void setDiseaseLevel(int diseaseLevel) {
+        this.diseaseLevel = diseaseLevel;
     }
 }
