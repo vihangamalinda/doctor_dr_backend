@@ -1,15 +1,15 @@
 package com.doctor.dr.submission.service;
 
 import com.doctor.dr.submission.dto.SubmissionRequestDTO;
-import com.doctor.dr.submission.dto.SubmissionDTO;
+import com.doctor.dr.submission.dto.SubmissionResponseDTO;
 
 import java.util.List;
 
 
 public interface SubmissionService {
-    List<SubmissionDTO> getAll();
+    List<SubmissionResponseDTO> getAll();
 
-    SubmissionDTO getSubmissionById(long id);
+    SubmissionResponseDTO getSubmissionById(long id);
 
     void create(SubmissionRequestDTO submissionRequestDTO);
 

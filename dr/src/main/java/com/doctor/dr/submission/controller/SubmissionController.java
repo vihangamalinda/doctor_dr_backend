@@ -1,7 +1,7 @@
 package com.doctor.dr.submission.controller;
 
 import com.doctor.dr.submission.dto.SubmissionRequestDTO;
-import com.doctor.dr.submission.dto.SubmissionDTO;
+import com.doctor.dr.submission.dto.SubmissionResponseDTO;
 import com.doctor.dr.submission.service.SubmissionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +17,15 @@ public class SubmissionController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<SubmissionDTO>> getAll(){
-        List<SubmissionDTO> submissionList = this.submissionService.getAll();
+    public ResponseEntity<List<SubmissionResponseDTO>> getAll(){
+        List<SubmissionResponseDTO> submissionList = this.submissionService.getAll();
         return  ResponseEntity.ok(submissionList);
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<SubmissionDTO> getSubmissionById(@RequestParam("id") long id){
-        SubmissionDTO submissionDTO = this.submissionService.getSubmissionById(id);
-        return ResponseEntity.ok(submissionDTO);
+    public ResponseEntity<SubmissionResponseDTO> getSubmissionById(@RequestParam("id") long id){
+        SubmissionResponseDTO submissionResponseDTO = this.submissionService.getSubmissionById(id);
+        return ResponseEntity.ok(submissionResponseDTO);
     }
 
     @PostMapping("/create")

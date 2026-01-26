@@ -1,9 +1,8 @@
 package com.doctor.dr.submission.dto;
 
 import com.doctor.dr.submission.entity.Submission;
-import jakarta.persistence.Column;
 
-public class SubmissionDTO {
+public class SubmissionResponseDTO {
     private long submissionId;
 
     private String patientReferenceId;
@@ -12,10 +11,10 @@ public class SubmissionDTO {
     private boolean isActive;
     private boolean hasDisease;
 
-    public SubmissionDTO() {
+    public SubmissionResponseDTO() {
     }
 
-    public SubmissionDTO(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease) {
+    public SubmissionResponseDTO(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;
@@ -24,7 +23,7 @@ public class SubmissionDTO {
         this.hasDisease = hasDisease;
     }
 
-    public SubmissionDTO(Submission submission){
+    public SubmissionResponseDTO(Submission submission){
         this.submissionId =submission.getSubmissionId();
         this.patientReferenceId =submission.getPatientReferenceId();
         this.createdDate =submission.getCreatedDate();

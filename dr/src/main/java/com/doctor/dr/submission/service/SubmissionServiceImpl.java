@@ -1,7 +1,7 @@
 package com.doctor.dr.submission.service;
 
 import com.doctor.dr.submission.dto.SubmissionRequestDTO;
-import com.doctor.dr.submission.dto.SubmissionDTO;
+import com.doctor.dr.submission.dto.SubmissionResponseDTO;
 import com.doctor.dr.submission.entity.Submission;
 import com.doctor.dr.submission.repository.SubmissionRepository;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,13 @@ public class SubmissionServiceImpl implements SubmissionService{
     }
 
     @Override
-    public List<SubmissionDTO> getAll() {
+    public List<SubmissionResponseDTO> getAll() {
         List<Submission> submissionList =this.submissionRepository.findAllByIsActiveTrue();
         return submissionList.stream().map(this::createSubmissionDTO).collect(Collectors.toList());
     }
 
     @Override
-    public SubmissionDTO getSubmissionById(long id) {
+    public SubmissionResponseDTO getSubmissionById(long id) {
         Submission submission = findSubmissionById(id);
         return this.createSubmissionDTO(submission);
     }
@@ -55,8 +55,8 @@ public class SubmissionServiceImpl implements SubmissionService{
             this.submissionRepository.save(submission);
         }
     }
-    private SubmissionDTO createSubmissionDTO(Submission submission){
-        return new SubmissionDTO(submission);
+    private SubmissionResponseDTO createSubmissionDTO(Submission submission){
+        return new SubmissionResponseDTO(submission);
     }
     private Submission createSubmissionFromCreateSubmissionDTO(SubmissionRequestDTO dto){
         return new Submission(dto.getSubmissionId(),dto.getPatientReferenceId(),dto.getCreatedDate(),dto.getCreatedTime(),dto.isActive(), dto.hasDisease());
