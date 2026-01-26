@@ -1,6 +1,7 @@
 package com.doctor.dr.disease.stage.service;
 
 import com.doctor.dr.disease.stage.dto.DiseaseStageDTO;
+import com.doctor.dr.disease.stage.dto.DiseaseStageRequestDTO;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public interface DiseaseStageService {
 
     DiseaseStageDTO getById(long id);
 
-    void create(DiseaseStageDTO diseaseStageDTO);
+    void create(DiseaseStageRequestDTO diseaseStageRequestDTO);
 
     void deleteById(long id);
 }

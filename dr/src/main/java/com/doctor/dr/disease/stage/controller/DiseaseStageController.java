@@ -1,6 +1,7 @@
 package com.doctor.dr.disease.stage.controller;
 
 import com.doctor.dr.disease.stage.dto.DiseaseStageDTO;
+import com.doctor.dr.disease.stage.dto.DiseaseStageRequestDTO;
 import com.doctor.dr.disease.stage.service.DiseaseStageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,8 @@ public class DiseaseStageController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody DiseaseStageDTO diseaseStageDTO) {
-        this.diseaseStageService.create(diseaseStageDTO);
+    public ResponseEntity<String> create(@RequestBody DiseaseStageRequestDTO diseaseStageRequestDTO) {
+        this.diseaseStageService.create(diseaseStageRequestDTO);
         return ResponseEntity.ok("created");
     }
 
