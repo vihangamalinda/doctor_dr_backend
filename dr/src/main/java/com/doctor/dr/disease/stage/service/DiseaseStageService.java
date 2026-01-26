@@ -1,14 +1,14 @@
 package com.doctor.dr.disease.stage.service;
 
-import com.doctor.dr.disease.stage.dto.DiseaseStageDTO;
+import com.doctor.dr.disease.stage.dto.DiseaseStageResponseDTO;
 import com.doctor.dr.disease.stage.dto.DiseaseStageRequestDTO;
 
 import java.util.List;
 
 public interface DiseaseStageService {
-    List<DiseaseStageDTO> getAll();
+    List<DiseaseStageResponseDTO> getAll();
 
-    DiseaseStageDTO getById(long id);
+    DiseaseStageResponseDTO getById(long id);
 
     void create(DiseaseStageRequestDTO diseaseStageRequestDTO);
 

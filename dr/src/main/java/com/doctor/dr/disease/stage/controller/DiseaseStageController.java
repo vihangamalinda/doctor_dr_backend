@@ -1,6 +1,6 @@
 package com.doctor.dr.disease.stage.controller;
 
-import com.doctor.dr.disease.stage.dto.DiseaseStageDTO;
+import com.doctor.dr.disease.stage.dto.DiseaseStageResponseDTO;
 import com.doctor.dr.disease.stage.dto.DiseaseStageRequestDTO;
 import com.doctor.dr.disease.stage.service.DiseaseStageService;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +18,15 @@ public class DiseaseStageController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<DiseaseStageDTO>> getAll() {
-        List<DiseaseStageDTO> diseaseStageDTOList = this.diseaseStageService.getAll();
-        return ResponseEntity.ok(diseaseStageDTOList);
+    public ResponseEntity<List<DiseaseStageResponseDTO>> getAll() {
+        List<DiseaseStageResponseDTO> diseaseStageResponseDTOList = this.diseaseStageService.getAll();
+        return ResponseEntity.ok(diseaseStageResponseDTOList);
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<DiseaseStageDTO> getById(@RequestParam("id") long id) {
-        DiseaseStageDTO diseaseStageDTO = this.diseaseStageService.getById(id);
-        return ResponseEntity.ok(diseaseStageDTO);
+    public ResponseEntity<DiseaseStageResponseDTO> getById(@RequestParam("id") long id) {
+        DiseaseStageResponseDTO diseaseStageResponseDTO = this.diseaseStageService.getById(id);
+        return ResponseEntity.ok(diseaseStageResponseDTO);
     }
 
     @PostMapping("/create")

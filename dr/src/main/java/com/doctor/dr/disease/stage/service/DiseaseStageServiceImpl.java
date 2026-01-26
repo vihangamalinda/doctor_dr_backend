@@ -1,11 +1,9 @@
 package com.doctor.dr.disease.stage.service;
 
-import com.doctor.dr.disease.stage.dto.DiseaseStageDTO;
+import com.doctor.dr.disease.stage.dto.DiseaseStageResponseDTO;
 import com.doctor.dr.disease.stage.dto.DiseaseStageRequestDTO;
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import com.doctor.dr.disease.stage.repository.DiseaseStageRepository;
-import com.doctor.dr.submission.entity.Submission;
-import com.doctor.dr.submission.mapper.SubmissionMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,13 +18,13 @@ public class DiseaseStageServiceImpl implements DiseaseStageService {
     }
 
     @Override
-    public List<DiseaseStageDTO> getAll() {
+    public List<DiseaseStageResponseDTO> getAll() {
         List<DiseaseStage> diseaseStageList = this.diseaseStageRepository.findAllByIsActiveTrue();
         return diseaseStageList.stream().map(this::createDiseaseStageDTO).collect(Collectors.toList());
     }
 
     @Override
-    public DiseaseStageDTO getById(long id) {
+    public DiseaseStageResponseDTO getById(long id) {
         DiseaseStage diseaseStage = findById(id);
 
         return this.createDiseaseStageDTO(diseaseStage);
@@ -51,8 +49,8 @@ public class DiseaseStageServiceImpl implements DiseaseStageService {
         }
     }
 
-    private DiseaseStageDTO createDiseaseStageDTO(DiseaseStage diseaseStage) {
-        return new DiseaseStageDTO(diseaseStage);
+    private DiseaseStageResponseDTO createDiseaseStageDTO(DiseaseStage diseaseStage) {
+        return new DiseaseStageResponseDTO(diseaseStage);
     }
 
     private DiseaseStage createDiseaseStage(DiseaseStageRequestDTO dto) {

@@ -1,9 +1,8 @@
 package com.doctor.dr.disease.stage.dto;
 
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
-import jakarta.persistence.Column;
 
-public class DiseaseStageDTO {
+public class DiseaseStageResponseDTO {
     private long id;
 
     private String name;
@@ -11,17 +10,17 @@ public class DiseaseStageDTO {
 
     private boolean isActive;
 
-    public DiseaseStageDTO() {
+    public DiseaseStageResponseDTO() {
     }
 
-    public DiseaseStageDTO(long id, String name, String description, boolean isActive) {
+    public DiseaseStageResponseDTO(long id, String name, String description, boolean isActive) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.isActive = isActive;
     }
 
-    public DiseaseStageDTO(DiseaseStage diseaseStage) {
+    public DiseaseStageResponseDTO(DiseaseStage diseaseStage) {
         this.id = diseaseStage.getId();
         this.name = diseaseStage.getName();
         this.description = diseaseStage.getDescription();
