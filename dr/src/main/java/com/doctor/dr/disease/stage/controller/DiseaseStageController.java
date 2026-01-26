@@ -29,7 +29,7 @@ public class DiseaseStageController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(DiseaseStageDTO diseaseStageDTO) {
+    public ResponseEntity<String> create(@RequestBody DiseaseStageDTO diseaseStageDTO) {
         this.diseaseStageService.create(diseaseStageDTO);
         return ResponseEntity.ok("created");
     }

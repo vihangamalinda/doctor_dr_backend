@@ -29,7 +29,7 @@ public class SubmissionController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(CreateSubmissionDTO createSubmissionDTO){
+    public ResponseEntity<String> create(@RequestBody CreateSubmissionDTO createSubmissionDTO){
         this.submissionService.create(createSubmissionDTO);
         return  ResponseEntity.ok("created");
     }
