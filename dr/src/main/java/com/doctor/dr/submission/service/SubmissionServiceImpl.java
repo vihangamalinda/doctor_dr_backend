@@ -1,7 +1,8 @@
 package com.doctor.dr.submission.service;
 
-import com.doctor.dr.submission.dto.CreateSubmissionDTO;
-import com.doctor.dr.submission.dto.SubmissionDTO;
+import com.doctor.dr.disease.stage.entity.DiseaseStage;
+import com.doctor.dr.submission.dto.SubmissionRequestDTO;
+import com.doctor.dr.submission.dto.SubmissionResponseDTO;
 import com.doctor.dr.submission.entity.Submission;
 import com.doctor.dr.submission.repository.SubmissionRepository;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,13 @@ public class SubmissionServiceImpl implements SubmissionService{
     }
 
     @Override
-    public List<SubmissionDTO> getAll() {
+    public List<SubmissionResponseDTO> getAll() {
         List<Submission> submissionList =this.submissionRepository.findAllByIsActiveTrue();
         return submissionList.stream().map(this::createSubmissionDTO).collect(Collectors.toList());
     }
 
     @Override
-    public SubmissionDTO getSubmissionById(long id) {
+    public SubmissionResponseDTO getSubmissionById(long id) {
         Submission submission = findSubmissionById(id);
         return this.createSubmissionDTO(submission);
     }
@@ -38,25 +39,41 @@ public class SubmissionServiceImpl implements SubmissionService{
      * TODO
      */
     @Override
-    public void create(CreateSubmissionDTO createSubmissionDTO) {
-        MultipartFile multipartFileImage = createSubmissionDTO.getMultipartFileImage();
-        Submission submission = createSubmissionFromCreateSubmissionDTO(createSubmissionDTO);
+    public void create(SubmissionRequestDTO submissionRequestDTO) {
+        MultipartFile multipartFileImage = submissionRequestDTO.getMultipartFileImage();
+        Submission submission = createSubmissionFromCreateSubmissionDTO(submissionRequestDTO);
         // need to use  model and verify the desease
         // submission.hasDisease =
-        // submission.stage=
+        // submission.setDiseaseStage(getDiseaseStageByDiseaseLevel(level))
         this.submissionRepository.save(submission);
     }
 
     @Override
     public void deleteById(long id) {
-        Submission submission =this.findSubmissionById(id);
-        submission.setActive(false);
-        this.submissionRepository.save(submission);
+        Submission submission = this.findSubmissionById(id);
+        if (submission.isActive()) {
+            submission.setActive(false);
+            this.submissionRepository.save(submission);
+        }
     }
-    private SubmissionDTO createSubmissionDTO(Submission submission){
-        return new SubmissionDTO(submission);
+
+    @Override
+    public List<SubmissionResponseDTO> getSubmissionByDiseaseStageId(long id) {
+        List<Submission> submissionList =this.submissionRepository.findByDiseaseStage_id(id);
+
+        return submissionList.stream().map(this::createSubmissionDTO).collect(Collectors.toList());
     }
-    private Submission createSubmissionFromCreateSubmissionDTO(CreateSubmissionDTO dto){
-        return new Submission(dto.getSubmissionId(),dto.getPatientReferenceId(),dto.getCreatedDate(),dto.getCreatedTime(),dto.isActive(), dto.hasDisease());
+
+    private SubmissionResponseDTO createSubmissionDTO(Submission submission){
+        return new SubmissionResponseDTO(submission);
+    }
+    private Submission createSubmissionFromCreateSubmissionDTO(SubmissionRequestDTO dto){
+        return new Submission(dto.getSubmissionId(),dto.getPatientReferenceId(),dto.getCreatedDate(),dto.getCreatedTime(),dto.isActive(), dto.hasDisease(),null);
+    }
+
+    private DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel){
+        DiseaseStage diseaseStage =new DiseaseStage();
+        diseaseStage.setId(diseaseLevel); //might need to use proxy to comminucate to the diseaseStage layer
+        return diseaseStage;
     }
 }

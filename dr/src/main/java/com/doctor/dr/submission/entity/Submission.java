@@ -1,5 +1,6 @@
 package com.doctor.dr.submission.entity;
 
+import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import jakarta.annotation.Generated;
 import jakarta.persistence.*;
 
@@ -19,20 +20,25 @@ public class Submission {
     private boolean isActive;
     @Column(name="has_disease")
     private boolean hasDisease;
-//    private DiseaseStage diseaseStage;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "disease_stage_id",nullable = true)
+    private DiseaseStage diseaseStage;
+
 //    private CustomUser customUser;
 //    private Status status;
 
     public Submission() {
     }
 
-    public Submission(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease) {
+    public Submission(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease,DiseaseStage diseaseStage) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;
         this.createdTime = createdTime;
         this.isActive = isActive;
         this.hasDisease = hasDisease;
+        this.diseaseStage =diseaseStage;
     }
 
     public long getSubmissionId() {
@@ -73,6 +79,14 @@ public class Submission {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public DiseaseStage getDiseaseStage() {
+        return diseaseStage;
+    }
+
+    public void setDiseaseStage(DiseaseStage diseaseStage) {
+        this.diseaseStage = diseaseStage;
     }
 
     public boolean hasDisease() {

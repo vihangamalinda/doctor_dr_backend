@@ -1,9 +1,8 @@
 package com.doctor.dr.submission.dto;
 
-import com.doctor.dr.submission.entity.Submission;
-import jakarta.persistence.Column;
+import org.springframework.web.multipart.MultipartFile;
 
-public class SubmissionDTO {
+public class SubmissionRequestDTO {
     private long submissionId;
 
     private String patientReferenceId;
@@ -12,25 +11,19 @@ public class SubmissionDTO {
     private boolean isActive;
     private boolean hasDisease;
 
-    public SubmissionDTO() {
+    private MultipartFile multipartFileImage;
+
+    public SubmissionRequestDTO() {
     }
 
-    public SubmissionDTO(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease) {
+    public SubmissionRequestDTO(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, MultipartFile image) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;
         this.createdTime = createdTime;
         this.isActive = isActive;
         this.hasDisease = hasDisease;
-    }
-
-    public SubmissionDTO(Submission submission){
-        this.submissionId =submission.getSubmissionId();
-        this.patientReferenceId =submission.getPatientReferenceId();
-        this.createdDate =submission.getCreatedDate();
-        this.createdTime = submission.getCreatedTime();
-        this.hasDisease = submission.hasDisease();
-        this.isActive =submission.isActive();
+        this.multipartFileImage =image;
     }
 
     public long getSubmissionId() {
@@ -55,5 +48,9 @@ public class SubmissionDTO {
 
     public boolean hasDisease() {
         return hasDisease;
+    }
+
+    public MultipartFile getMultipartFileImage() {
+        return multipartFileImage;
     }
 }
