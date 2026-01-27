@@ -11,8 +11,6 @@ public class DiseaseStageResponseDTO {
     private boolean isActive;
     private int diseaseLevel;
 
-    public DiseaseStageResponseDTO() {
-    }
 
     public DiseaseStageResponseDTO(long id, String name, String description, boolean isActive,int diseaseLevel) {
         this.id = id;
@@ -20,13 +18,6 @@ public class DiseaseStageResponseDTO {
         this.description = description;
         this.isActive = isActive;
         this.diseaseLevel=diseaseLevel;
-    }
-
-    public DiseaseStageResponseDTO(DiseaseStage diseaseStage) {
-        this.id = diseaseStage.getId();
-        this.name = diseaseStage.getName();
-        this.description = diseaseStage.getDescription();
-        this.isActive = diseaseStage.isActive();
     }
 
     public long getId() {
