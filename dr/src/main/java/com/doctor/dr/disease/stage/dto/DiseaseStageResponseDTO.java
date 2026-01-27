@@ -3,13 +3,13 @@ package com.doctor.dr.disease.stage.dto;
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
 
 public class DiseaseStageResponseDTO {
-    private Long id;
+    private final Long id;
 
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
 
-    private boolean isActive;
-    private Integer diseaseLevel;
+    private final boolean isActive;
+    private final Integer diseaseLevel;
 
 
     public DiseaseStageResponseDTO(Long id, String name, String description, boolean isActive,Integer diseaseLevel) {

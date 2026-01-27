@@ -3,18 +3,15 @@ package com.doctor.dr.submission.dto;
 import com.doctor.dr.submission.entity.Submission;
 
 public class SubmissionResponseDTO {
-    private long submissionId;
+    private final long submissionId;
 
-    private String patientReferenceId;
-    private String createdDate;
-    private String createdTime;
-    private boolean isActive;
-    private boolean hasDisease;
+    private final String patientReferenceId;
+    private final String createdDate;
+    private final String createdTime;
+    private final boolean isActive;
+    private final boolean hasDisease;
 
-    private long diseaseStageId;
-
-    public SubmissionResponseDTO() {
-    }
+    private final long diseaseStageId;
 
     public SubmissionResponseDTO(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease,long diseaseStageId) {
         this.submissionId = submissionId;
