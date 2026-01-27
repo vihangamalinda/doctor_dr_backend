@@ -5,18 +5,15 @@ import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import java.util.List;
 
 public class DiseaseStageRequestDTO {
-    private long id;
+    private Long id;
 
     private String name;
     private String description;
 
     private boolean isActive;
-    private int diseaseLevel;
+    private Integer diseaseLevel;
 
-    public DiseaseStageRequestDTO() {
-    }
-
-    public DiseaseStageRequestDTO(long id, String name, String description, boolean isActive,int diseaseLevel) {
+    public DiseaseStageRequestDTO(Long id, String name, String description, boolean isActive,Integer diseaseLevel) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -24,7 +21,7 @@ public class DiseaseStageRequestDTO {
         this.diseaseLevel =diseaseLevel;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -40,7 +37,7 @@ public class DiseaseStageRequestDTO {
         return isActive;
     }
 
-    public int getDiseaseLevel() {
+    public Integer getDiseaseLevel() {
         return diseaseLevel;
     }
 }
