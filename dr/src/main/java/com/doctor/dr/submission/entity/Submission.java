@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class Submission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long submissionId;
+    private Long submissionId;
     @Column(name="patient_reference_id")
     private String patientReferenceId;
     @Column(name="created_date")

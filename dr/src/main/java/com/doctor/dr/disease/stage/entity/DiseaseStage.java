@@ -11,7 +11,7 @@ import java.util.List;
 public class DiseaseStage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(name = "disease_stage_name")
     private String name;
     @Column(name = "disease_stage_description")
