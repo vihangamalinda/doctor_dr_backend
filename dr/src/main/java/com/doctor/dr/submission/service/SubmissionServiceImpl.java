@@ -1,5 +1,6 @@
 package com.doctor.dr.submission.service;
 
+import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import com.doctor.dr.submission.dto.SubmissionRequestDTO;
 import com.doctor.dr.submission.dto.SubmissionResponseDTO;
 import com.doctor.dr.submission.entity.Submission;
@@ -43,7 +44,7 @@ public class SubmissionServiceImpl implements SubmissionService{
         Submission submission = createSubmissionFromCreateSubmissionDTO(submissionRequestDTO);
         // need to use  model and verify the desease
         // submission.hasDisease =
-        // submission.setDiseaseStage(diseaseStage)
+        // submission.setDiseaseStage(getDiseaseStageByDiseaseLevel(level))
         this.submissionRepository.save(submission);
     }
 
@@ -55,10 +56,24 @@ public class SubmissionServiceImpl implements SubmissionService{
             this.submissionRepository.save(submission);
         }
     }
+
+    @Override
+    public List<SubmissionResponseDTO> getSubmissionByDiseaseStageId(long id) {
+        List<Submission> submissionList =this.submissionRepository.findByDiseaseStage_id(id);
+
+        return submissionList.stream().map(this::createSubmissionDTO).collect(Collectors.toList());
+    }
+
     private SubmissionResponseDTO createSubmissionDTO(Submission submission){
         return new SubmissionResponseDTO(submission);
     }
     private Submission createSubmissionFromCreateSubmissionDTO(SubmissionRequestDTO dto){
-        return new Submission(dto.getSubmissionId(),dto.getPatientReferenceId(),dto.getCreatedDate(),dto.getCreatedTime(),dto.isActive(), dto.hasDisease());
+        return new Submission(dto.getSubmissionId(),dto.getPatientReferenceId(),dto.getCreatedDate(),dto.getCreatedTime(),dto.isActive(), dto.hasDisease(),null);
+    }
+
+    private DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel){
+        DiseaseStage diseaseStage =new DiseaseStage();
+        diseaseStage.setId(diseaseLevel); //might need to use proxy to comminucate to the diseaseStage layer
+        return diseaseStage;
     }
 }

@@ -14,4 +14,6 @@ public interface SubmissionService {
     void create(SubmissionRequestDTO submissionRequestDTO);
 
     void deleteById(long id);
+
+    List<SubmissionResponseDTO> getSubmissionByDiseaseStageId(long id);
 }

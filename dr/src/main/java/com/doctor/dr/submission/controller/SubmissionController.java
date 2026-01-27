@@ -38,4 +38,9 @@ public class SubmissionController {
         this.submissionService.deleteById(id);
         return ResponseEntity.ok("deleted");
     }
+    @GetMapping("/disease-stage/{id}")
+    public ResponseEntity<List<SubmissionResponseDTO>> getSubmissionByDiseaseStageId(@RequestParam("id") long id){
+        List<SubmissionResponseDTO> submissionResponseDTOS =this.submissionService.getSubmissionByDiseaseStageId(id);
+        return ResponseEntity.ok(submissionResponseDTOS);
+    }
 }
