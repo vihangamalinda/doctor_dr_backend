@@ -1,6 +1,10 @@
 package com.doctor.dr.disease.stage.entity;
 
+import com.doctor.dr.submission.entity.Submission;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Disease_Stage_Table")
@@ -16,6 +20,9 @@ public class DiseaseStage {
     private boolean isActive;
     @Column(name = "disease_level")
     private int diseaseLevel;
+
+    @OneToMany(mappedBy = "diseaseStage",fetch = FetchType.LAZY)
+    private List<Submission> submissionList = new ArrayList<>();
 
     public DiseaseStage() {
     }
@@ -66,5 +73,13 @@ public class DiseaseStage {
 
     public void setDiseaseLevel(int diseaseLevel) {
         this.diseaseLevel = diseaseLevel;
+    }
+
+    public List<Submission> getSubmissionList() {
+        return submissionList;
+    }
+
+    public void setSubmissionList(List<Submission> submissionList) {
+        this.submissionList = submissionList;
     }
 }
