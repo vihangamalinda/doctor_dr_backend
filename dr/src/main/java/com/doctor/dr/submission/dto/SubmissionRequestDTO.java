@@ -39,11 +39,11 @@ public class SubmissionRequestDTO {
         return createdTime;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public boolean hasDisease() {
+    public boolean getHasDisease() {
         return hasDisease;
     }
 

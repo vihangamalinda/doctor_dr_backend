@@ -51,7 +51,7 @@ public class SubmissionServiceImpl implements SubmissionService{
     @Override
     public void deleteById(long id) {
         Submission submission = this.findSubmissionById(id);
-        if (submission.isActive()) {
+        if (submission.getIsActive()) {
             submission.setActive(false);
             this.submissionRepository.save(submission);
         }
@@ -68,7 +68,7 @@ public class SubmissionServiceImpl implements SubmissionService{
         return new SubmissionResponseDTO(submission);
     }
     private Submission createSubmissionFromCreateSubmissionDTO(SubmissionRequestDTO dto){
-        return new Submission(dto.getSubmissionId(),dto.getPatientReferenceId(),dto.getCreatedDate(),dto.getCreatedTime(),dto.isActive(), dto.hasDisease(),null);
+        return new Submission(dto.getSubmissionId(),dto.getPatientReferenceId(),dto.getCreatedDate(),dto.getCreatedTime(),dto.getIsActive(), dto.getHasDisease(),null);
     }
 
     private DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel){

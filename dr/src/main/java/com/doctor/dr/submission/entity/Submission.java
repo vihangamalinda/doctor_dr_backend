@@ -73,7 +73,7 @@ public class Submission {
         this.createdTime = createdTime;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
@@ -89,7 +89,7 @@ public class Submission {
         this.diseaseStage = diseaseStage;
     }
 
-    public boolean hasDisease() {
+    public boolean getHasDisease() {
         return hasDisease;
     }
 
