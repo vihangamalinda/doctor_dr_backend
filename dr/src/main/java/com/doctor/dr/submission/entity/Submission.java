@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class Submission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long submissionId;
+    private Long submissionId;
     @Column(name="patient_reference_id")
     private String patientReferenceId;
     @Column(name="created_date")
@@ -73,11 +73,11 @@ public class Submission {
         this.createdTime = createdTime;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setIsActive(boolean active) {
         isActive = active;
     }
 
@@ -89,7 +89,7 @@ public class Submission {
         this.diseaseStage = diseaseStage;
     }
 
-    public boolean hasDisease() {
+    public boolean getHasDisease() {
         return hasDisease;
     }
 

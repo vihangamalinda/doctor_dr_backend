@@ -3,18 +3,16 @@ package com.doctor.dr.disease.stage.dto;
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
 
 public class DiseaseStageResponseDTO {
-    private long id;
+    private final Long id;
 
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
 
-    private boolean isActive;
-    private int diseaseLevel;
+    private final boolean isActive;
+    private final Integer diseaseLevel;
 
-    public DiseaseStageResponseDTO() {
-    }
 
-    public DiseaseStageResponseDTO(long id, String name, String description, boolean isActive,int diseaseLevel) {
+    public DiseaseStageResponseDTO(Long id, String name, String description, boolean isActive,Integer diseaseLevel) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -22,14 +20,7 @@ public class DiseaseStageResponseDTO {
         this.diseaseLevel=diseaseLevel;
     }
 
-    public DiseaseStageResponseDTO(DiseaseStage diseaseStage) {
-        this.id = diseaseStage.getId();
-        this.name = diseaseStage.getName();
-        this.description = diseaseStage.getDescription();
-        this.isActive = diseaseStage.isActive();
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -45,7 +36,7 @@ public class DiseaseStageResponseDTO {
         return isActive;
     }
 
-    public int getDiseaseLevel() {
+    public Integer getDiseaseLevel() {
         return diseaseLevel;
     }
 }

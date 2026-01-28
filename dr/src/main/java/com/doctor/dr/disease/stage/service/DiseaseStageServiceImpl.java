@@ -3,7 +3,9 @@ package com.doctor.dr.disease.stage.service;
 import com.doctor.dr.disease.stage.dto.DiseaseStageResponseDTO;
 import com.doctor.dr.disease.stage.dto.DiseaseStageRequestDTO;
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
+import com.doctor.dr.disease.stage.mapper.DiseaseStageMapper;
 import com.doctor.dr.disease.stage.repository.DiseaseStageRepository;
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,21 +15,23 @@ import java.util.stream.Collectors;
 public class DiseaseStageServiceImpl implements DiseaseStageService {
     private final DiseaseStageRepository diseaseStageRepository;
 
+    private final DiseaseStageMapper diseaseStageMapper;
+
     public DiseaseStageServiceImpl(DiseaseStageRepository diseaseStageRepository) {
         this.diseaseStageRepository = diseaseStageRepository;
+        this.diseaseStageMapper = Mappers.getMapper(DiseaseStageMapper.class);
     }
 
     @Override
     public List<DiseaseStageResponseDTO> getAll() {
         List<DiseaseStage> diseaseStageList = this.diseaseStageRepository.findAllByIsActiveTrue();
-        return diseaseStageList.stream().map(this::createDiseaseStageDTO).collect(Collectors.toList());
+        return diseaseStageList.stream().map(this.diseaseStageMapper::toDiseaseStageResponseDTO).collect(Collectors.toList());
     }
 
     @Override
     public DiseaseStageResponseDTO getById(long id) {
         DiseaseStage diseaseStage = findById(id);
-
-        return this.createDiseaseStageDTO(diseaseStage);
+        return this.diseaseStageMapper.toDiseaseStageResponseDTO(diseaseStage);
     }
 
     private DiseaseStage findById(long id) {
@@ -36,7 +40,7 @@ public class DiseaseStageServiceImpl implements DiseaseStageService {
 
     @Override
     public void create(DiseaseStageRequestDTO diseaseStageRequestDTO) {
-        DiseaseStage diseaseStage = this.createDiseaseStage(diseaseStageRequestDTO);
+        DiseaseStage diseaseStage = this.diseaseStageMapper.toDiseaseStage(diseaseStageRequestDTO);
         this.diseaseStageRepository.save(diseaseStage);
     }
 
@@ -47,14 +51,5 @@ public class DiseaseStageServiceImpl implements DiseaseStageService {
             diseaseStage.setActive(false);
             this.diseaseStageRepository.save(diseaseStage);
         }
-    }
-
-    private DiseaseStageResponseDTO createDiseaseStageDTO(DiseaseStage diseaseStage) {
-        return new DiseaseStageResponseDTO(diseaseStage);
-    }
-
-    private DiseaseStage createDiseaseStage(DiseaseStageRequestDTO dto) {
-//        List<Submission> submissionList=dto.getSubmissionDTOList().stream().map(SubmissionMapper::dtoToEntity).collect(Collectors.toList());
-        return new DiseaseStage(dto.getId(), dto.getName(), dto.getDescription(), dto.isActive(),dto.getDiseaseLevel());
     }
 }

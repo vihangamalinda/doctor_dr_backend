@@ -3,20 +3,17 @@ package com.doctor.dr.submission.dto;
 import com.doctor.dr.submission.entity.Submission;
 
 public class SubmissionResponseDTO {
-    private long submissionId;
+    private final Long submissionId;
 
-    private String patientReferenceId;
-    private String createdDate;
-    private String createdTime;
-    private boolean isActive;
-    private boolean hasDisease;
+    private final String patientReferenceId;
+    private final String createdDate;
+    private final String createdTime;
+    private final boolean isActive;
+    private final boolean hasDisease;
 
-    private long diseaseStageId;
+    private final Long diseaseStageId;
 
-    public SubmissionResponseDTO() {
-    }
-
-    public SubmissionResponseDTO(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease,long diseaseStageId) {
+    public SubmissionResponseDTO(Long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease,Long diseaseStageId) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;
@@ -26,17 +23,7 @@ public class SubmissionResponseDTO {
         this.diseaseStageId =diseaseStageId;
     }
 
-    public SubmissionResponseDTO(Submission submission){
-        this.submissionId =submission.getSubmissionId();
-        this.patientReferenceId =submission.getPatientReferenceId();
-        this.createdDate =submission.getCreatedDate();
-        this.createdTime = submission.getCreatedTime();
-        this.hasDisease = submission.hasDisease();
-        this.isActive =submission.isActive();
-        this.diseaseStageId=submission.getDiseaseStage().getId();
-    }
-
-    public long getSubmissionId() {
+    public Long getSubmissionId() {
         return submissionId;
     }
 
@@ -52,7 +39,7 @@ public class SubmissionResponseDTO {
         return createdTime;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
@@ -60,7 +47,7 @@ public class SubmissionResponseDTO {
         return hasDisease;
     }
 
-    public long getDiseaseStageId() {
+    public Long getDiseaseStageId() {
         return diseaseStageId;
     }
 }

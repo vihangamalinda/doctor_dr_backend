@@ -3,20 +3,17 @@ package com.doctor.dr.submission.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 public class SubmissionRequestDTO {
-    private long submissionId;
+    private final Long submissionId;
 
-    private String patientReferenceId;
-    private String createdDate;
-    private String createdTime;
-    private boolean isActive;
-    private boolean hasDisease;
+    private final String patientReferenceId;
+    private final String createdDate;
+    private final String createdTime;
+    private final boolean isActive;
+    private final boolean hasDisease;
 
-    private MultipartFile multipartFileImage;
+    private final MultipartFile multipartFileImage;
 
-    public SubmissionRequestDTO() {
-    }
-
-    public SubmissionRequestDTO(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, MultipartFile image) {
+    public SubmissionRequestDTO(Long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, MultipartFile image) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;
@@ -26,7 +23,7 @@ public class SubmissionRequestDTO {
         this.multipartFileImage =image;
     }
 
-    public long getSubmissionId() {
+    public Long getSubmissionId() {
         return submissionId;
     }
 
@@ -42,11 +39,11 @@ public class SubmissionRequestDTO {
         return createdTime;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public boolean hasDisease() {
+    public boolean getHasDisease() {
         return hasDisease;
     }
 
