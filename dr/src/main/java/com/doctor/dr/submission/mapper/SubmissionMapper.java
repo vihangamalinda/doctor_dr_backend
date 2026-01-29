@@ -10,12 +10,13 @@ import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
 public interface SubmissionMapper {
-    @Mapping(source = "diseaseStage",target = "diseaseStageId",qualifiedByName = "mapDiseaseStageId")
+    @Mapping(source = "diseaseStage", target = "diseaseStageId", qualifiedByName = "mapDiseaseStageId")
     SubmissionResponseDTO toSubmissionResponseDTO(Submission submission);
+
     Submission toSubmission(SubmissionRequestDTO submissionRequestDTO);
 
     @Named("mapDiseaseStageId")
-    default Long mapDiseaseStageId(DiseaseStage diseaseStage){
-        return diseaseStage == null?null:diseaseStage.getId();
+    default Long mapDiseaseStageId(DiseaseStage diseaseStage) {
+        return diseaseStage == null ? null : diseaseStage.getId();
     }
 }

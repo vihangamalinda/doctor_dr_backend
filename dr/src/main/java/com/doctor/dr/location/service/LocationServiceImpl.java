@@ -13,16 +13,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class LocationServiceImpl implements LocationService{
+public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
 
-    public LocationServiceImpl(LocationRepository locationRepository){
+    public LocationServiceImpl(LocationRepository locationRepository) {
 
-        this.locationRepository =locationRepository;
+        this.locationRepository = locationRepository;
         this.locationMapper = Mappers.getMapper(LocationMapper.class);
     }
+
     @Override
     public List<LocationResponseDTO> getAll() {
         List<Location> locationList = this.locationRepository.findAllByIsActiveTrue();
@@ -49,7 +50,7 @@ public class LocationServiceImpl implements LocationService{
 
     @Override
     public void deleteById(long id) {
-        Location location =this.findById(id);
+        Location location = this.findById(id);
         location.setActive(false);
         this.locationRepository.save(location);
     }

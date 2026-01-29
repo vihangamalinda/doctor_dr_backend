@@ -9,25 +9,25 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String locationIndex;
-    private  String road;
+    private String road;
     private String city;
     private String country;
     @Column(name = "postal_code")
-    private String postalCode ;
-    @Column(name="is_active")
+    private String postalCode;
+    @Column(name = "is_active")
     private boolean isActive;
 
     public Location() {
     }
 
-    public Location(Long id, String locationIndex, String road, String city, String country, String postalCode,boolean isActive) {
+    public Location(Long id, String locationIndex, String road, String city, String country, String postalCode, boolean isActive) {
         this.id = id;
         this.locationIndex = locationIndex;
         this.road = road;
         this.city = city;
         this.country = country;
         this.postalCode = postalCode;
-        this.isActive =isActive;
+        this.isActive = isActive;
     }
 
     public Long getId() {

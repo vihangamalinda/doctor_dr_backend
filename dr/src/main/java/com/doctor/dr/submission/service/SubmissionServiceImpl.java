@@ -13,8 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
-public class SubmissionServiceImpl implements SubmissionService{
+public class SubmissionServiceImpl implements SubmissionService {
     private final SubmissionRepository submissionRepository;
     private final SubmissionMapper submissionMapper;
 
@@ -25,7 +26,7 @@ public class SubmissionServiceImpl implements SubmissionService{
 
     @Override
     public List<SubmissionResponseDTO> getAll() {
-        List<Submission> submissionList =this.submissionRepository.findAllByIsActiveTrue();
+        List<Submission> submissionList = this.submissionRepository.findAllByIsActiveTrue();
         return submissionList.stream().map(this.submissionMapper::toSubmissionResponseDTO).collect(Collectors.toList());
     }
 
@@ -40,7 +41,6 @@ public class SubmissionServiceImpl implements SubmissionService{
     }
 
     /**
-     *
      * TODO
      */
     @Override
@@ -64,13 +64,13 @@ public class SubmissionServiceImpl implements SubmissionService{
 
     @Override
     public List<SubmissionResponseDTO> getSubmissionByDiseaseStageId(long id) {
-        List<Submission> submissionList =this.submissionRepository.findByDiseaseStage_id(id);
+        List<Submission> submissionList = this.submissionRepository.findByDiseaseStage_id(id);
 
         return submissionList.stream().map(this.submissionMapper::toSubmissionResponseDTO).collect(Collectors.toList());
     }
 
-    private DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel){
-        DiseaseStage diseaseStage =new DiseaseStage();
+    private DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel) {
+        DiseaseStage diseaseStage = new DiseaseStage();
         diseaseStage.setId(diseaseLevel); //might need to use proxy to comminucate to the diseaseStage layer
         return diseaseStage;
     }

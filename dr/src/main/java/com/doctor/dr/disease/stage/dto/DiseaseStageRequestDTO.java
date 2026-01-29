@@ -13,12 +13,12 @@ public class DiseaseStageRequestDTO {
     private final boolean isActive;
     private final Integer diseaseLevel;
 
-    public DiseaseStageRequestDTO(Long id, String name, String description, boolean isActive,Integer diseaseLevel) {
+    public DiseaseStageRequestDTO(Long id, String name, String description, boolean isActive, Integer diseaseLevel) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.isActive = isActive;
-        this.diseaseLevel =diseaseLevel;
+        this.diseaseLevel = diseaseLevel;
     }
 
     public Long getId() {

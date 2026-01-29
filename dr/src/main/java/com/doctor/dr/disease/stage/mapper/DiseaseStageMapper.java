@@ -8,7 +8,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface DiseaseStageMapper {
-   DiseaseStageResponseDTO toDiseaseStageResponseDTO(DiseaseStage diseaseStage);
-   DiseaseStage toDiseaseStage(DiseaseStageRequestDTO diseaseStageRequestDTO);
+    DiseaseStageResponseDTO toDiseaseStageResponseDTO(DiseaseStage diseaseStage);
+
+    DiseaseStage toDiseaseStage(DiseaseStageRequestDTO diseaseStageRequestDTO);
 
 }

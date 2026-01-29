@@ -21,13 +21,13 @@ public class DiseaseStage {
     @Column(name = "disease_level")
     private int diseaseLevel;
 
-    @OneToMany(mappedBy = "diseaseStage",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "diseaseStage", fetch = FetchType.LAZY)
     private List<Submission> submissionList = new ArrayList<>();
 
     public DiseaseStage() {
     }
 
-    public DiseaseStage(long id, String name, String description, boolean isActive,int diseaseLevel) {
+    public DiseaseStage(long id, String name, String description, boolean isActive, int diseaseLevel) {
         this.id = id;
         this.name = name;
         this.description = description;

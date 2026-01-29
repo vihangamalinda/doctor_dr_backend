@@ -13,14 +13,14 @@ public class SubmissionResponseDTO {
 
     private final Long diseaseStageId;
 
-    public SubmissionResponseDTO(Long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease,Long diseaseStageId) {
+    public SubmissionResponseDTO(Long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, Long diseaseStageId) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;
         this.createdTime = createdTime;
         this.isActive = isActive;
-        this.hasDisease =hasDisease;
-        this.diseaseStageId =diseaseStageId;
+        this.hasDisease = hasDisease;
+        this.diseaseStageId = diseaseStageId;
     }
 
     public Long getSubmissionId() {

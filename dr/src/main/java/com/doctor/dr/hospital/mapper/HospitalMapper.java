@@ -14,11 +14,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Mapper(componentModel = "spring",uses = {LocationDetailMapper.class})
+@Mapper(componentModel = "spring", uses = {LocationDetailMapper.class})
 public interface HospitalMapper {
-    @Mapping(source = "location",target = "location",qualifiedByName = "toLocationResponseDTO")
+    @Mapping(source = "location", target = "location", qualifiedByName = "toLocationResponseDTO")
     HospitalResponseDTO toHospitalResponseDTO(Hospital hospital);
-    @Mapping(source = "location",target = "location",qualifiedByName = "toLocation")
+
+    @Mapping(source = "location", target = "location", qualifiedByName = "toLocation")
     Hospital toHospital(HospitalRequestDTO hospitalRequestDTO);
 
 }
