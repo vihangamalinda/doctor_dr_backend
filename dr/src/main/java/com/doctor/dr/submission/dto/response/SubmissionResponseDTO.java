@@ -12,8 +12,9 @@ public class SubmissionResponseDTO {
     private final boolean hasDisease;
 
     private final Long diseaseStageId;
+    private final StatusDetailResponseDTO status;
 
-    public SubmissionResponseDTO(Long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, Long diseaseStageId) {
+    public SubmissionResponseDTO(Long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, Long diseaseStageId, StatusDetailResponseDTO status) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;
@@ -21,6 +22,7 @@ public class SubmissionResponseDTO {
         this.isActive = isActive;
         this.hasDisease = hasDisease;
         this.diseaseStageId = diseaseStageId;
+        this.status = status;
     }
 
     public Long getSubmissionId() {
@@ -49,5 +51,9 @@ public class SubmissionResponseDTO {
 
     public Long getDiseaseStageId() {
         return diseaseStageId;
+    }
+
+    public StatusDetailResponseDTO getStatus() {
+        return status;
     }
 }
