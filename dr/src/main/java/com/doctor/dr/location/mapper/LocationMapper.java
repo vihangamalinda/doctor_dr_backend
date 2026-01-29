@@ -12,9 +12,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", implementationName = "LocationMapperImpl")
 public interface LocationMapper {
     Location toLocation(LocationRequestDTO locationRequestDTO);
+
     @Mapping(source = ".",target = "address",qualifiedByName = "mapAddress")
     LocationResponseDTO toLocationResponseDTO(Location location);
 
