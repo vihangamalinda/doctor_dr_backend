@@ -1,4 +1,4 @@
-package com.doctor.dr.submission.dto;
+package com.doctor.dr.submission.dto.request;
 
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,4 +1,4 @@
-package com.doctor.dr.submission.dto;
+package com.doctor.dr.submission.dto.response;
 
 import com.doctor.dr.submission.entity.Submission;
 

@@ -1,8 +1,8 @@
 package com.doctor.dr.submission.service;
 
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
-import com.doctor.dr.submission.dto.SubmissionRequestDTO;
-import com.doctor.dr.submission.dto.SubmissionResponseDTO;
+import com.doctor.dr.submission.dto.request.SubmissionRequestDTO;
+import com.doctor.dr.submission.dto.response.SubmissionResponseDTO;
 import com.doctor.dr.submission.entity.Submission;
 import com.doctor.dr.submission.mapper.SubmissionMapper;
 import com.doctor.dr.submission.repository.SubmissionRepository;
