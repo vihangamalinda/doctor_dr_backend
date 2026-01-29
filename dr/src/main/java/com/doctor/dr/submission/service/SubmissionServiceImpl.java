@@ -45,11 +45,18 @@ public class SubmissionServiceImpl implements SubmissionService {
      */
     @Override
     public void create(SubmissionRequestDTO submissionRequestDTO) {
+
         MultipartFile multipartFileImage = submissionRequestDTO.getMultipartFileImage();
         Submission submission = this.submissionMapper.toSubmission(submissionRequestDTO);
+//        submission.setStatus(); // pending
+//        persistEntity(submission); before sending to model after reciving feed back persist again
         // need to use  model and verify the desease
         // submission.hasDisease =
         // submission.setDiseaseStage(getDiseaseStageByDiseaseLevel(level))
+        persistEntity(submission);
+    }
+
+    private void persistEntity(Submission submission) {
         this.submissionRepository.save(submission);
     }
 
@@ -58,7 +65,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         Submission submission = this.findSubmissionById(id);
         if (submission.getIsActive()) {
             submission.setIsActive(false);
-            this.submissionRepository.save(submission);
+            persistEntity(submission);
         }
     }
 
