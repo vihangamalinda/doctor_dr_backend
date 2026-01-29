@@ -15,9 +15,4 @@ public interface SubmissionMapper {
     SubmissionResponseDTO toSubmissionResponseDTO(Submission submission);
 
     Submission toSubmission(SubmissionRequestDTO submissionRequestDTO);
-
-    @Named("mapDiseaseStageId")
-    default Long mapDiseaseStageId(DiseaseStage diseaseStage) {
-        return diseaseStage == null ? null : diseaseStage.getId();
-    }
 }
