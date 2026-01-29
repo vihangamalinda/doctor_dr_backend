@@ -1,6 +1,10 @@
 package com.doctor.dr.status.entity;
 
+import com.doctor.dr.submission.entity.Submission;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Status_Table")
@@ -15,6 +19,9 @@ public class Status {
     private String relatedTable;
     @Column(name = "is_active")
     private boolean isActive;
+
+    @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
+    private List<Submission> submissionList = new ArrayList<>();
 
     public Status() {
     }
