@@ -1,8 +1,8 @@
 package com.doctor.dr.submission.service;
 
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
-import com.doctor.dr.submission.dto.SubmissionRequestDTO;
-import com.doctor.dr.submission.dto.SubmissionResponseDTO;
+import com.doctor.dr.submission.dto.request.SubmissionRequestDTO;
+import com.doctor.dr.submission.dto.response.SubmissionResponseDTO;
 import com.doctor.dr.submission.entity.Submission;
 import com.doctor.dr.submission.mapper.SubmissionMapper;
 import com.doctor.dr.submission.repository.SubmissionRepository;
@@ -45,11 +45,18 @@ public class SubmissionServiceImpl implements SubmissionService {
      */
     @Override
     public void create(SubmissionRequestDTO submissionRequestDTO) {
+
         MultipartFile multipartFileImage = submissionRequestDTO.getMultipartFileImage();
         Submission submission = this.submissionMapper.toSubmission(submissionRequestDTO);
+//        submission.setStatus(); // pending
+//        persistEntity(submission); before sending to model after reciving feed back persist again
         // need to use  model and verify the desease
         // submission.hasDisease =
         // submission.setDiseaseStage(getDiseaseStageByDiseaseLevel(level))
+        persistEntity(submission);
+    }
+
+    private void persistEntity(Submission submission) {
         this.submissionRepository.save(submission);
     }
 
@@ -58,7 +65,7 @@ public class SubmissionServiceImpl implements SubmissionService {
         Submission submission = this.findSubmissionById(id);
         if (submission.getIsActive()) {
             submission.setIsActive(false);
-            this.submissionRepository.save(submission);
+            persistEntity(submission);
         }
     }
 

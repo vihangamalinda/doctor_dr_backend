@@ -1,7 +1,7 @@
 package com.doctor.dr.submission.service;
 
-import com.doctor.dr.submission.dto.SubmissionRequestDTO;
-import com.doctor.dr.submission.dto.SubmissionResponseDTO;
+import com.doctor.dr.submission.dto.request.SubmissionRequestDTO;
+import com.doctor.dr.submission.dto.response.SubmissionResponseDTO;
 
 import java.util.List;
 
