@@ -8,9 +8,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring",uses = {StatusDetailMapper.class})
+@Mapper(componentModel = "spring",uses = {StatusDetailMapper.class,DiseaseStageDetailMapper.class})
 public interface SubmissionMapper {
-    @Mapping(source = "diseaseStage", target = "diseaseStageId", qualifiedByName = "mapDiseaseStageId")
+    @Mapping(source = "diseaseStage", target = "diseaseStage", qualifiedByName = "toDiseaseStageDetailResponseDTO")
     @Mapping(source = "status",target = "status",qualifiedByName = "toStatusDetailResponseDTO")
     SubmissionResponseDTO toSubmissionResponseDTO(Submission submission);
 
