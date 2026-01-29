@@ -1,8 +1,8 @@
-package com.doctor.dr.location.mapper;
+package com.doctor.dr.hospital.mapper;
 
-import com.doctor.dr.disease.stage.entity.DiseaseStage;
-import com.doctor.dr.location.dto.LocationRequestDTO;
-import com.doctor.dr.location.dto.LocationResponseDTO;
+
+import com.doctor.dr.hospital.dto.request.LocationDetailRequestDTO;
+import com.doctor.dr.hospital.dto.response.LocationDetailResponseDTO;
 import com.doctor.dr.location.entity.Location;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,12 +12,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Mapper(componentModel = "spring", implementationName = "LocationMapperImpl")
-public interface LocationMapper {
-    Location toLocation(LocationRequestDTO locationRequestDTO);
+@Mapper(componentModel = "spring",implementationName = "HospitalLocationDetailMapperImpl")
+public interface LocationDetailMapper {
+    @Named("toLocation")
+    Location toLocation(LocationDetailRequestDTO locationRequestDTO);
 
+    @Named("toLocationResponseDTO")
     @Mapping(source = ".",target = "address",qualifiedByName = "mapAddress")
-    LocationResponseDTO toLocationResponseDTO(Location location);
+    LocationDetailResponseDTO toLocationResponseDTO(Location location);
 
     @Named("mapAddress")
     default String mapAddress(Location location){
@@ -32,4 +34,6 @@ public interface LocationMapper {
                 .filter(Objects::nonNull)
                 .collect(Collectors.joining("/"));
     }
+
+
 }
