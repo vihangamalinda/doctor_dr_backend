@@ -12,17 +12,17 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Mapper(componentModel = "spring",implementationName = "HospitalLocationDetailMapperImpl")
+@Mapper(componentModel = "spring", implementationName = "HospitalLocationDetailMapperImpl")
 public interface LocationDetailMapper {
     @Named("toLocation")
     Location toLocation(LocationDetailRequestDTO locationRequestDTO);
 
     @Named("toLocationResponseDTO")
-    @Mapping(source = ".",target = "address",qualifiedByName = "mapAddress")
+    @Mapping(source = ".", target = "address", qualifiedByName = "mapAddress")
     LocationDetailResponseDTO toLocationResponseDTO(Location location);
 
     @Named("mapAddress")
-    default String mapAddress(Location location){
+    default String mapAddress(Location location) {
         if (location == null) return null;
 
         return Stream.of(

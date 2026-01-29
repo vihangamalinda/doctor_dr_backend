@@ -5,24 +5,24 @@ import jakarta.annotation.Generated;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="Submission_Table")
+@Table(name = "Submission_Table")
 public class Submission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long submissionId;
-    @Column(name="patient_reference_id")
+    @Column(name = "patient_reference_id")
     private String patientReferenceId;
-    @Column(name="created_date")
+    @Column(name = "created_date")
     private String createdDate;
-    @Column(name="created_time")
+    @Column(name = "created_time")
     private String createdTime;
-    @Column(name="is_active")
+    @Column(name = "is_active")
     private boolean isActive;
-    @Column(name="has_disease")
+    @Column(name = "has_disease")
     private boolean hasDisease;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "disease_stage_id",nullable = true)
+    @JoinColumn(name = "disease_stage_id", nullable = true)
     private DiseaseStage diseaseStage;
 
 //    private CustomUser customUser;
@@ -31,14 +31,14 @@ public class Submission {
     public Submission() {
     }
 
-    public Submission(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease,DiseaseStage diseaseStage) {
+    public Submission(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, DiseaseStage diseaseStage) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;
         this.createdTime = createdTime;
         this.isActive = isActive;
         this.hasDisease = hasDisease;
-        this.diseaseStage =diseaseStage;
+        this.diseaseStage = diseaseStage;
     }
 
     public long getSubmissionId() {

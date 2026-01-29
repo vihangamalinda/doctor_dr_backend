@@ -4,7 +4,7 @@ import com.doctor.dr.location.entity.Location;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="Hospital_Table")
+@Table(name = "Hospital_Table")
 public class Hospital {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +21,12 @@ public class Hospital {
     public Hospital() {
     }
 
-    public Hospital(Long id, String name, Location location, String emergencyNumber,boolean isActive) {
+    public Hospital(Long id, String name, Location location, String emergencyNumber, boolean isActive) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.emergencyNumber = emergencyNumber;
-        this.isActive=isActive;
+        this.isActive = isActive;
     }
 
     public Long getId() {

@@ -20,7 +20,7 @@ public class SubmissionRequestDTO {
         this.createdTime = createdTime;
         this.isActive = isActive;
         this.hasDisease = hasDisease;
-        this.multipartFileImage =image;
+        this.multipartFileImage = image;
     }
 
     public Long getSubmissionId() {

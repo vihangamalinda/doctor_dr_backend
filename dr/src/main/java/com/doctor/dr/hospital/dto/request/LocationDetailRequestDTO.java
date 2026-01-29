@@ -2,11 +2,11 @@ package com.doctor.dr.hospital.dto.request;
 
 public class LocationDetailRequestDTO {
     private final String locationIndex;
-    private  final String road;
+    private final String road;
     private final String city;
     private final String country;
 
-    private final String postalCode ;
+    private final String postalCode;
 
     public LocationDetailRequestDTO(String locationIndex, String road, String city, String country, String postalCode) {
         this.locationIndex = locationIndex;

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class HospitalServiceImpl implements HospitalService{
+public class HospitalServiceImpl implements HospitalService {
     private final HospitalRepository hospitalRepository;
     private final HospitalMapper hospitalMapper;
 
@@ -23,7 +23,7 @@ public class HospitalServiceImpl implements HospitalService{
 
     @Override
     public List<HospitalResponseDTO> getAll() {
-        List<Hospital> hospitalList =this.hospitalRepository.findAllByIsActiveTrue();
+        List<Hospital> hospitalList = this.hospitalRepository.findAllByIsActiveTrue();
         return hospitalList.stream().map(this.hospitalMapper::toHospitalResponseDTO).collect(Collectors.toList());
     }
 
@@ -46,7 +46,7 @@ public class HospitalServiceImpl implements HospitalService{
 
     @Override
     public void delete(long id) {
-        Hospital hospital =findById(id);
+        Hospital hospital = findById(id);
         hospital.setIsActive(false);
         persistEntity(hospital);
     }

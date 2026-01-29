@@ -12,27 +12,30 @@ import java.util.List;
 @RequestMapping("/v1/location")
 public class LocationController {
     private final LocationService locationService;
-    public LocationController(LocationService locationService){
-        this.locationService =locationService;
+
+    public LocationController(LocationService locationService) {
+        this.locationService = locationService;
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<LocationResponseDTO>> getAll(){
+    public ResponseEntity<List<LocationResponseDTO>> getAll() {
         List<LocationResponseDTO> locationResponseDTOS = this.locationService.getAll();
         return ResponseEntity.ok(locationResponseDTOS);
     }
+
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody LocationRequestDTO locationRequestDTO){
+    public ResponseEntity<String> create(@RequestBody LocationRequestDTO locationRequestDTO) {
         this.locationService.create(locationRequestDTO);
         return ResponseEntity.ok("created");
     }
+
     @GetMapping("/id/{id}")
-    public ResponseEntity<LocationResponseDTO> getById(@RequestParam("id") long id){
+    public ResponseEntity<LocationResponseDTO> getById(@RequestParam("id") long id) {
         return ResponseEntity.ok(this.locationService.getById(id));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteById(@RequestParam("id") long id){
+    public ResponseEntity<String> deleteById(@RequestParam("id") long id) {
         this.locationService.deleteById(id);
         return ResponseEntity.ok("deleted");
     }

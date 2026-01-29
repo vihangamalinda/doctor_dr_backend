@@ -16,11 +16,11 @@ import java.util.stream.Stream;
 public interface LocationMapper {
     Location toLocation(LocationRequestDTO locationRequestDTO);
 
-    @Mapping(source = ".",target = "address",qualifiedByName = "mapAddress")
+    @Mapping(source = ".", target = "address", qualifiedByName = "mapAddress")
     LocationResponseDTO toLocationResponseDTO(Location location);
 
     @Named("mapAddress")
-    default String mapAddress(Location location){
+    default String mapAddress(Location location) {
         if (location == null) return null;
 
         return Stream.of(
