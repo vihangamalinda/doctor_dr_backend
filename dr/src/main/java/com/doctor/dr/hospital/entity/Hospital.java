@@ -12,6 +12,7 @@ public class Hospital {
 
     private String name;
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
     private Location location;
     @Column(name = "emergency_number")
     private String emergencyNumber;
