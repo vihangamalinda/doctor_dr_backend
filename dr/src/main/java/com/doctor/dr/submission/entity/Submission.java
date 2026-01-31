@@ -2,6 +2,7 @@ package com.doctor.dr.submission.entity;
 
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import com.doctor.dr.status.entity.Status;
+import com.doctor.dr.user.profile.entity.UserProfile;
 import jakarta.annotation.Generated;
 import jakarta.persistence.*;
 
@@ -29,13 +30,15 @@ public class Submission {
     @JoinColumn(name = "disease_stage_id", nullable = true)
     private DiseaseStage diseaseStage;
 
-//    private CustomUser customUser;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_profile_id",nullable = false)
+    private UserProfile userProfile;
 //    private Status status;
 
     public Submission() {
     }
 
-    public Submission(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, DiseaseStage diseaseStage) {
+    public Submission(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, DiseaseStage diseaseStage,UserProfile userProfile) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;
@@ -44,6 +47,7 @@ public class Submission {
         this.hasDisease = hasDisease;
         this.diseaseStage = diseaseStage;
         this.status = null;
+        this.userProfile =userProfile;
     }
 
     public long getSubmissionId() {
@@ -108,5 +112,13 @@ public class Submission {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 }

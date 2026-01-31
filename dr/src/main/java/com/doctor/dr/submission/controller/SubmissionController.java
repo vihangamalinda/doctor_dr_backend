@@ -46,4 +46,10 @@ public class SubmissionController {
         List<SubmissionResponseDTO> submissionResponseDTOS = this.submissionService.getSubmissionByDiseaseStageId(id);
         return ResponseEntity.ok(submissionResponseDTOS);
     }
+
+    @GetMapping("/user-profile/{id}")
+    public ResponseEntity<List<SubmissionResponseDTO>> getSubmissionsByUserProfileId(@RequestParam("id") long id){
+        List<SubmissionResponseDTO> submissionResponseDTOList =this.submissionService.getSubmissionsByUserProfileId(id);
+        return ResponseEntity.ok(submissionResponseDTOList);
+    }
 }

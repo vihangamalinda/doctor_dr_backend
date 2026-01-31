@@ -76,6 +76,12 @@ public class SubmissionServiceImpl implements SubmissionService {
         return submissionList.stream().map(this.submissionMapper::toSubmissionResponseDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<SubmissionResponseDTO> getSubmissionsByUserProfileId(long userProfileId) {
+        List<Submission> submissionList =this.submissionRepository.findByUserProfile_id(userProfileId);
+        return submissionList.stream().map(this.submissionMapper::toSubmissionResponseDTO).collect(Collectors.toList());
+    }
+
     private DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel) {
         DiseaseStage diseaseStage = new DiseaseStage();
         diseaseStage.setId(diseaseLevel); //might need to use proxy to comminucate to the diseaseStage layer

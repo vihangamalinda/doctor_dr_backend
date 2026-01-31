@@ -1,7 +1,11 @@
 package com.doctor.dr.hospital.entity;
 
 import com.doctor.dr.location.entity.Location;
+import com.doctor.dr.user.profile.entity.UserProfile;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Hospital_Table")
@@ -12,11 +16,15 @@ public class Hospital {
 
     private String name;
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
     private Location location;
     @Column(name = "emergency_number")
     private String emergencyNumber;
     @Column(name = "is_active")
     private boolean isActive;
+
+    @OneToMany()
+    private List<UserProfile> userProfileList = new ArrayList<>();
 
     public Hospital() {
     }
@@ -67,5 +75,13 @@ public class Hospital {
 
     public void setIsActive(boolean active) {
         isActive = active;
+    }
+
+    public List<UserProfile> getUserProfileList() {
+        return userProfileList;
+    }
+
+    public void setUserProfileList(List<UserProfile> userProfileList) {
+        this.userProfileList = userProfileList;
     }
 }

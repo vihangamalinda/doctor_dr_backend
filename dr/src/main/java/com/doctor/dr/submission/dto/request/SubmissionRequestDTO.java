@@ -10,10 +10,11 @@ public class SubmissionRequestDTO {
     private final String createdTime;
     private final boolean isActive;
     private final boolean hasDisease;
-
     private final MultipartFile multipartFileImage;
 
-    public SubmissionRequestDTO(Long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, MultipartFile image) {
+    private final UserProfileDetailRequestDTO userProfile;
+
+    public SubmissionRequestDTO(Long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, MultipartFile image, UserProfileDetailRequestDTO userProfile) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
         this.createdDate = createdDate;
@@ -21,6 +22,7 @@ public class SubmissionRequestDTO {
         this.isActive = isActive;
         this.hasDisease = hasDisease;
         this.multipartFileImage = image;
+        this.userProfile = userProfile;
     }
 
     public Long getSubmissionId() {
@@ -49,5 +51,9 @@ public class SubmissionRequestDTO {
 
     public MultipartFile getMultipartFileImage() {
         return multipartFileImage;
+    }
+
+    public UserProfileDetailRequestDTO getUserProfile() {
+        return userProfile;
     }
 }

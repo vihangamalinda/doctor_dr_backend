@@ -16,4 +16,7 @@ public interface SubmissionService {
     void deleteById(long id);
 
     List<SubmissionResponseDTO> getSubmissionByDiseaseStageId(long id);
+
+    List<SubmissionResponseDTO> getSubmissionsByUserProfileId(long userProfileId);
+
 }

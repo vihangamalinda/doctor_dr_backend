@@ -12,4 +12,6 @@ public interface SubmissionRepository extends JpaRepository<Submission, Long> {
 
     List<Submission> findByDiseaseStage_id(long id);
 
+    List<Submission> findByUserProfile_id(long id);
+
 }
