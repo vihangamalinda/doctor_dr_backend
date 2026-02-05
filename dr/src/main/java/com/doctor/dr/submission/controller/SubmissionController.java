@@ -3,6 +3,7 @@ package com.doctor.dr.submission.controller;
 import com.doctor.dr.submission.dto.request.SubmissionRequestDTO;
 import com.doctor.dr.submission.dto.response.SubmissionResponseDTO;
 import com.doctor.dr.submission.service.SubmissionService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +30,8 @@ public class SubmissionController {
         return ResponseEntity.ok(submissionResponseDTO);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody SubmissionRequestDTO submissionRequestDTO) {
+    @PostMapping(value="/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> create(@ModelAttribute SubmissionRequestDTO submissionRequestDTO) {
         this.submissionService.create(submissionRequestDTO);
         return ResponseEntity.ok("created");
     }
