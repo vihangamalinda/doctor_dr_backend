@@ -34,20 +34,12 @@ public class SubmissionRequestDTO {
         return createdDateTime;
     }
 
-    public String getCreatedTime() {
-        return createdTime;
-    }
-
-    public boolean getIsActive() {
-        return isActive;
-    }
-
-    public boolean getHasDisease() {
-        return hasDisease;
-    }
-
     public MultipartFile getMultipartFileImage() {
         return multipartFileImage;
+    }
+
+    public void setMultipartFileImage(MultipartFile multipartFileImage) {
+        this.multipartFileImage = multipartFileImage;
     }
 
     public UserProfileDetailRequestDTO getUserProfile() {
