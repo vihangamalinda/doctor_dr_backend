@@ -2,23 +2,23 @@ package com.doctor.dr.submission.dto.response;
 
 import com.doctor.dr.submission.entity.Submission;
 
+import java.time.LocalDateTime;
+
 public class SubmissionResponseDTO {
     private final Long submissionId;
 
     private final String patientReferenceId;
-    private final String createdDate;
-    private final String createdTime;
+    private final LocalDateTime createdDateTime;
     private final boolean isActive;
     private final boolean hasDisease;
     private final DiseaseStageDetailResponseDTO diseaseStage;
     private final StatusDetailResponseDTO status;
     private final UserProfileDetailResponseDTO userProfile;
 
-    public SubmissionResponseDTO(Long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, DiseaseStageDetailResponseDTO diseaseStage, StatusDetailResponseDTO status, UserProfileDetailResponseDTO userProfile) {
+    public SubmissionResponseDTO(Long submissionId, String patientReferenceId, LocalDateTime createdDateTime, boolean isActive, boolean hasDisease, DiseaseStageDetailResponseDTO diseaseStage, StatusDetailResponseDTO status, UserProfileDetailResponseDTO userProfile) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
-        this.createdDate = createdDate;
-        this.createdTime = createdTime;
+        this.createdDateTime = createdDateTime;
         this.isActive = isActive;
         this.hasDisease = hasDisease;
         this.diseaseStage =diseaseStage;
@@ -34,19 +34,16 @@ public class SubmissionResponseDTO {
         return patientReferenceId;
     }
 
-    public String getCreatedDate() {
-        return createdDate;
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
     }
 
-    public String getCreatedTime() {
-        return createdTime;
-    }
 
     public boolean getIsActive() {
         return isActive;
     }
 
-    public boolean hasDisease() {
+    public boolean getHasDisease() {
         return hasDisease;
     }
 

@@ -2,25 +2,22 @@ package com.doctor.dr.submission.dto.request;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+
 public class SubmissionRequestDTO {
     private final Long submissionId;
 
     private final String patientReferenceId;
-    private final String createdDate;
-    private final String createdTime;
-    private final boolean isActive;
-    private final boolean hasDisease;
-    private final MultipartFile multipartFileImage;
+    private final LocalDateTime createdDateTime;
+
+    private MultipartFile multipartFileImage;
 
     private final UserProfileDetailRequestDTO userProfile;
 
-    public SubmissionRequestDTO(Long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, MultipartFile image, UserProfileDetailRequestDTO userProfile) {
+    public SubmissionRequestDTO(Long submissionId, String patientReferenceId, LocalDateTime createdDateTime, MultipartFile image, UserProfileDetailRequestDTO userProfile) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
-        this.createdDate = createdDate;
-        this.createdTime = createdTime;
-        this.isActive = isActive;
-        this.hasDisease = hasDisease;
+        this.createdDateTime = createdDateTime;
         this.multipartFileImage = image;
         this.userProfile = userProfile;
     }
@@ -33,8 +30,8 @@ public class SubmissionRequestDTO {
         return patientReferenceId;
     }
 
-    public String getCreatedDate() {
-        return createdDate;
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
     }
 
     public String getCreatedTime() {
