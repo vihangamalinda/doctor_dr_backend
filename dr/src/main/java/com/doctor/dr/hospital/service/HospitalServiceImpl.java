@@ -16,9 +16,14 @@ public class HospitalServiceImpl implements HospitalService {
     private final HospitalRepository hospitalRepository;
     private final HospitalMapper hospitalMapper;
 
-    public HospitalServiceImpl(HospitalRepository hospitalRepository) {
+    public HospitalServiceImpl(HospitalRepository hospitalRepository,HospitalMapper hospitalMapper) {
         this.hospitalRepository = hospitalRepository;
-        this.hospitalMapper = Mappers.getMapper(HospitalMapper.class);
+        this.hospitalMapper = hospitalMapper;
+
+//        this.hospitalMapper = Mappers.getMapper(HospitalMapper.class);
+//        System.out.println("hospital mapper");
+//        System.out.println(hospitalMapper );
+
     }
 
     @Override

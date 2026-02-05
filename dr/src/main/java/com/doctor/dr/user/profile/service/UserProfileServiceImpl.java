@@ -30,7 +30,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public void create(UserProfileRequestDTO userProfileRequestDTO) {
         UserProfile userProfile = this.userProfileMapper.toUserProfile(userProfileRequestDTO);
-        userProfile.setActive(true);
+        userProfile.setIsActive(true);
         persistEntity(userProfile);
     }
 
@@ -45,7 +45,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public void deleteById(long id) {
         UserProfile userProfile = this.findById(id);
-        userProfile.setActive(false);
+        userProfile.setIsActive(false);
         this.persistEntity(userProfile);
     }
 

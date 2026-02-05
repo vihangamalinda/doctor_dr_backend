@@ -16,21 +16,6 @@ public interface LocationDetailMapper {
     Location toLocation(LocationDetailRequestDTO locationRequestDTO);
 
     @Named("toLocationResponseDTO")
-    @Mapping(source = ".", target = "address", qualifiedByName = "mapAddress")
     LocationDetailResponseDTO toLocationResponseDTO(Location location);
-
-    @Named("mapAddress")
-    default String mapAddress(Location location) {
-        if (location == null) return null;
-
-        return Stream.of(
-                        location.getLocationIndex(),
-                        location.getRoad(),
-                        location.getCity(),
-                        location.getCountry()
-                )
-                .filter(Objects::nonNull)
-                .collect(Collectors.joining("/"));
-    }
 
 }

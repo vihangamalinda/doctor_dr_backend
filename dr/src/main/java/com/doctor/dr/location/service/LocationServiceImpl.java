@@ -33,7 +33,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public void create(LocationRequestDTO locationRequestDTO) {
         Location location = this.locationMapper.toLocation(locationRequestDTO);
-        location.setActive(true);
+        location.setIsActive(true);
         this.locationRepository.save(location);
     }
 
@@ -51,7 +51,7 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public void deleteById(long id) {
         Location location = this.findById(id);
-        location.setActive(false);
+        location.setIsActive(false);
         this.locationRepository.save(location);
     }
 }

@@ -6,6 +6,8 @@ import com.doctor.dr.user.profile.entity.UserProfile;
 import jakarta.annotation.Generated;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "Submission_Table")
 public class Submission {
@@ -15,9 +17,7 @@ public class Submission {
     @Column(name = "patient_reference_id")
     private String patientReferenceId;
     @Column(name = "created_date")
-    private String createdDate;
-    @Column(name = "created_time")
-    private String createdTime;
+    private LocalDateTime createdDateTime;
     @Column(name = "is_active")
     private boolean isActive;
     @Column(name = "has_disease")
@@ -38,11 +38,10 @@ public class Submission {
     public Submission() {
     }
 
-    public Submission(long submissionId, String patientReferenceId, String createdDate, String createdTime, boolean isActive, boolean hasDisease, DiseaseStage diseaseStage,UserProfile userProfile) {
+    public Submission(long submissionId, String patientReferenceId, LocalDateTime createdDateTime, boolean isActive, boolean hasDisease, DiseaseStage diseaseStage,UserProfile userProfile) {
         this.submissionId = submissionId;
         this.patientReferenceId = patientReferenceId;
-        this.createdDate = createdDate;
-        this.createdTime = createdTime;
+        this.createdDateTime = createdDateTime;
         this.isActive = isActive;
         this.hasDisease = hasDisease;
         this.diseaseStage = diseaseStage;
@@ -66,20 +65,12 @@ public class Submission {
         this.patientReferenceId = patientReferenceId;
     }
 
-    public String getCreatedDate() {
-        return createdDate;
+    public LocalDateTime getCreatedDateTime() {
+        return createdDateTime;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(String createdTime) {
-        this.createdTime = createdTime;
+    public void setCreatedDateTime(LocalDateTime createdDateTime) {
+        this.createdDateTime = createdDateTime;
     }
 
     public boolean getIsActive() {
