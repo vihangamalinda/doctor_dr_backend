@@ -1,4 +1,4 @@
-package com.doctor.dr.submission.dto.response;
+package com.doctor.dr.reported.issue.dto.response;
 
 public class UserProfileDetailResponseDTO {
     private final Long id;

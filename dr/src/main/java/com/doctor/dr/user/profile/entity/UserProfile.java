@@ -2,6 +2,7 @@ package com.doctor.dr.user.profile.entity;
 
 import com.doctor.dr.hospital.entity.Hospital;
 import com.doctor.dr.location.entity.Location;
+import com.doctor.dr.reported.issue.entity.ReportedIssue;
 import com.doctor.dr.submission.entity.Submission;
 import jakarta.persistence.*;
 
@@ -34,6 +35,9 @@ public class UserProfile {
     private Hospital hospital;
     @OneToMany(mappedBy = "userProfile")
     private List<Submission> submissionList = new ArrayList<>();
+
+    @OneToMany()
+    private List<ReportedIssue> reportedIssueList = new ArrayList<>();
 
     public UserProfile() {
     }
