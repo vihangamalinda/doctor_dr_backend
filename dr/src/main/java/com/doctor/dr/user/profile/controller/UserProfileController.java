@@ -24,7 +24,7 @@ public class UserProfileController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(UserProfileRequestDTO userProfileRequestDTO){
+    public ResponseEntity<String> create(@RequestBody UserProfileRequestDTO userProfileRequestDTO){
         this.userProfileService.create(userProfileRequestDTO);
         return ResponseEntity.ok("created");
     }
