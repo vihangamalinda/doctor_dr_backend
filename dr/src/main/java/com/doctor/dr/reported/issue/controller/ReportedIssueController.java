@@ -39,4 +39,10 @@ public class ReportedIssueController {
         reportedIssueService.create(reportedIssueRequestDTO);
         return ResponseEntity.ok("created");
     }
+
+    @GetMapping("/user-profile/{id}")
+    public ResponseEntity<List<ReportedIssueResponseDTO>> getReportedIssueByUserProfileId(@PathVariable("id") long id) {
+        List<ReportedIssueResponseDTO> reportedIssueResponseDTOS = this.reportedIssueService.getReportedIssueByUserProfileId(id);
+        return ResponseEntity.ok(reportedIssueResponseDTOS);
+    }
 }

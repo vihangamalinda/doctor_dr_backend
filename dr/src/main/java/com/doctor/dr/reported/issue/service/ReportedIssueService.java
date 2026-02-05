@@ -13,4 +13,6 @@ public interface ReportedIssueService {
     void deleteById(long id);
 
     void create(ReportedIssueRequestDTO reportedIssueRequestDTO);
+
+    List<ReportedIssueResponseDTO> getReportedIssueByUserProfileId(long id);
 }

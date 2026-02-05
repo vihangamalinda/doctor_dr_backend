@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ReportedIssueRepository extends JpaRepository<ReportedIssue, Long> {
     List<ReportedIssue> findAllByIsActiveTrue();
+
+    List<ReportedIssue> findByUserProfile_id(long id);
 }

@@ -57,6 +57,12 @@ public class ReportedIssueServiceImpl implements ReportedIssueService {
         reportedIssue.setStatus(status);
     }
 
+    @Override
+    public List<ReportedIssueResponseDTO> getReportedIssueByUserProfileId(long id) {
+        List<ReportedIssue> reportedIssueList = this.reportedIssueRepository.findByUserProfile_id(id);
+        return reportedIssueList.stream().map(this.reportedIssueMapper::toReportedIssueResponseDTO).collect(Collectors.toList());
+    }
+
     private Status getStatusInformationById(long id) {
         return this.statusInformation.getStatusById(id);
     }
