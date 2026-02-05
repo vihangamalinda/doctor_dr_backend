@@ -1,6 +1,9 @@
 package com.doctor.dr.submission.service;
 
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
+import com.doctor.dr.disease.stage.service.information.DiseaseStageInformation;
+import com.doctor.dr.status.entity.Status;
+import com.doctor.dr.status.service.information.StatusInformation;
 import com.doctor.dr.submission.dto.request.SubmissionRequestDTO;
 import com.doctor.dr.submission.dto.response.SubmissionResponseDTO;
 import com.doctor.dr.submission.entity.Submission;
@@ -52,12 +55,35 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         MultipartFile multipartFileImage = submissionRequestDTO.getMultipartFileImage();
         Submission submission = this.submissionMapper.toSubmission(submissionRequestDTO);
+        submission.setIsActive(true);
+        Status pendingStatus = getStatusInformationById(1);
+        submission.setStatus(pendingStatus);
+        persistEntity(submission);
 //        submission.setStatus(); // pending
 //        persistEntity(submission); before sending to model after reciving feed back persist again
         // need to use  model and verify the desease
         // submission.hasDisease =
         // submission.setDiseaseStage(getDiseaseStageByDiseaseLevel(level))
+
+        DiseaseStage diseaseStage =getRandomDisease();
+        if(diseaseStage.getId() !=1){
+            submission.setHasDisease(true);
+        }
+        submission.setDiseaseStage(diseaseStage);
+        Status sucseededStatus = getStatusInformationById(2);
+        submission.setStatus(sucseededStatus);
         persistEntity(submission);
+    }
+
+    private Status getStatusInformationById(long statusId) {
+        return this.statusInformation.getStatusById(statusId);
+    }
+    private DiseaseStage getDiseaseStageInformation(long id){
+        return this.diseaseStageInformation.getDiseaseStageById(id);
+    }
+    private DiseaseStage getRandomDisease(){
+      int value=  (int)(Math.random() * ((6 - 1) + 1)) + 1;
+      return getDiseaseStageInformation(value);
     }
 
     private void persistEntity(Submission submission) {
