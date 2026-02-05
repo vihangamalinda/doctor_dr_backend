@@ -30,12 +30,12 @@ public class LocationController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<LocationResponseDTO> getById(@RequestParam("id") long id) {
+    public ResponseEntity<LocationResponseDTO> getById(@PathVariable("id") long id) {
         return ResponseEntity.ok(this.locationService.getById(id));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteById(@RequestParam("id") long id) {
+    public ResponseEntity<String> deleteById(@PathVariable("id") long id) {
         this.locationService.deleteById(id);
         return ResponseEntity.ok("deleted");
     }

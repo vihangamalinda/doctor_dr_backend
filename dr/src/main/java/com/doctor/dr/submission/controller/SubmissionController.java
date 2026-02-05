@@ -24,7 +24,7 @@ public class SubmissionController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<SubmissionResponseDTO> getSubmissionById(@RequestParam("id") long id) {
+    public ResponseEntity<SubmissionResponseDTO> getSubmissionById(@PathVariable("id") long id) {
         SubmissionResponseDTO submissionResponseDTO = this.submissionService.getSubmissionById(id);
         return ResponseEntity.ok(submissionResponseDTO);
     }
@@ -36,19 +36,19 @@ public class SubmissionController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteById(@RequestParam("id") long id) {
+    public ResponseEntity<String> deleteById(@PathVariable("id") long id) {
         this.submissionService.deleteById(id);
         return ResponseEntity.ok("deleted");
     }
 
     @GetMapping("/disease-stage/{id}")
-    public ResponseEntity<List<SubmissionResponseDTO>> getSubmissionByDiseaseStageId(@RequestParam("id") long id) {
+    public ResponseEntity<List<SubmissionResponseDTO>> getSubmissionByDiseaseStageId(@PathVariable("id") long id) {
         List<SubmissionResponseDTO> submissionResponseDTOS = this.submissionService.getSubmissionByDiseaseStageId(id);
         return ResponseEntity.ok(submissionResponseDTOS);
     }
 
     @GetMapping("/user-profile/{id}")
-    public ResponseEntity<List<SubmissionResponseDTO>> getSubmissionsByUserProfileId(@RequestParam("id") long id){
+    public ResponseEntity<List<SubmissionResponseDTO>> getSubmissionsByUserProfileId(@PathVariable("id") long id){
         List<SubmissionResponseDTO> submissionResponseDTOList =this.submissionService.getSubmissionsByUserProfileId(id);
         return ResponseEntity.ok(submissionResponseDTOList);
     }

@@ -30,13 +30,13 @@ public class UserProfileController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<UserProfileResponseDTO> getById(@RequestParam("id") long id){
+    public ResponseEntity<UserProfileResponseDTO> getById(@PathVariable("id") long id){
            UserProfileResponseDTO userProfileResponseDTO =this.userProfileService.getById(id);
             return ResponseEntity.ok(userProfileResponseDTO);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteById(@RequestParam("id") long id){
+    public ResponseEntity<String> deleteById(@PathVariable("id") long id){
         this.userProfileService.deleteById(id);
         return ResponseEntity.ok("deleted");
     }

@@ -23,7 +23,7 @@ public class HospitalController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<HospitalResponseDTO> getById(@RequestParam("id") long id) {
+    public ResponseEntity<HospitalResponseDTO> getById(@PathVariable("id") long id) {
         HospitalResponseDTO hospitalResponseDTO = this.hospitalService.getById(id);
         return ResponseEntity.ok(hospitalResponseDTO);
     }
@@ -35,7 +35,7 @@ public class HospitalController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@RequestParam("id") long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") long id) {
         this.hospitalService.delete(id);
         return ResponseEntity.ok("deleted");
     }

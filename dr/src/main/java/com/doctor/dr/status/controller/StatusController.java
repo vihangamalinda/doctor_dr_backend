@@ -24,7 +24,7 @@ public class StatusController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<StatusResponseDTO> getById(@RequestParam("id") long id) {
+    public ResponseEntity<StatusResponseDTO> getById(@PathVariable("id") long id) {
         StatusResponseDTO statusResponseDTO = this.statusService.getById(id);
         return ResponseEntity.ok(statusResponseDTO);
     }
@@ -36,7 +36,7 @@ public class StatusController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteById(@RequestParam("id") long id) {
+    public ResponseEntity<String> deleteById(@PathVariable("id") long id) {
         this.statusService.deleteById(id);
         return ResponseEntity.ok("deleted");
     }

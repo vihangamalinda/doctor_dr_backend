@@ -24,7 +24,7 @@ public class DiseaseStageController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<DiseaseStageResponseDTO> getById(@RequestParam("id") long id) {
+    public ResponseEntity<DiseaseStageResponseDTO> getById(@PathVariable("id") long id) {
         DiseaseStageResponseDTO diseaseStageResponseDTO = this.diseaseStageService.getById(id);
         return ResponseEntity.ok(diseaseStageResponseDTO);
     }
@@ -36,7 +36,7 @@ public class DiseaseStageController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteById(@RequestParam("id") long id) {
+    public ResponseEntity<String> deleteById(@PathVariable("id") long id) {
         this.diseaseStageService.deleteById(id);
         return ResponseEntity.ok("deleted");
     }
