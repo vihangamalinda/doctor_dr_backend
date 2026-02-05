@@ -1,7 +1,7 @@
 package com.doctor.dr.submission.dto.response;
 
 public class UserProfileDetailResponseDTO {
-    private Long id;
+    private final Long id;
 
     public UserProfileDetailResponseDTO(Long id) {
         this.id = id;
