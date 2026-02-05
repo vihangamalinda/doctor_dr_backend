@@ -7,13 +7,19 @@ public class LocationDetailRequestDTO {
     private final String country;
 
     private final String postalCode;
+    private final boolean isActive;
 
-    public LocationDetailRequestDTO(String locationIndex, String road, String city, String country, String postalCode) {
+    public LocationDetailRequestDTO(String locationIndex, String road, String city, String country, String postalCode, boolean isActive) {
         this.locationIndex = locationIndex;
         this.road = road;
         this.city = city;
         this.country = country;
         this.postalCode = postalCode;
+        this.isActive = isActive;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
     }
 
     public String getLocationIndex() {

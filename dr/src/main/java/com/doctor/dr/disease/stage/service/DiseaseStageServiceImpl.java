@@ -41,14 +41,15 @@ public class DiseaseStageServiceImpl implements DiseaseStageService {
     @Override
     public void create(DiseaseStageRequestDTO diseaseStageRequestDTO) {
         DiseaseStage diseaseStage = this.diseaseStageMapper.toDiseaseStage(diseaseStageRequestDTO);
+        diseaseStage.setIsActive(true);
         this.diseaseStageRepository.save(diseaseStage);
     }
 
     @Override
     public void deleteById(long id) {
         DiseaseStage diseaseStage = findById(id);
-        if (diseaseStage.isActive()) {
-            diseaseStage.setActive(false);
+        if (diseaseStage.getIsActive()) {
+            diseaseStage.setIsActive(false);
             this.diseaseStageRepository.save(diseaseStage);
         }
     }

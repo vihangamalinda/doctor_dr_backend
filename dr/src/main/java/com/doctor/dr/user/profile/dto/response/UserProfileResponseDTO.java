@@ -39,7 +39,7 @@ public class UserProfileResponseDTO {
         return location;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 

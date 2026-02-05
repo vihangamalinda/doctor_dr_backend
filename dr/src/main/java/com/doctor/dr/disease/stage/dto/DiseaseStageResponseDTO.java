@@ -32,7 +32,7 @@ public class DiseaseStageResponseDTO {
         return description;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 

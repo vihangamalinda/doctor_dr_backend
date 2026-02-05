@@ -39,7 +39,7 @@ public class StatusResponseDTO {
         return relatedTable;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 }
