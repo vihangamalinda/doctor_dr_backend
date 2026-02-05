@@ -1,5 +1,6 @@
 package com.doctor.dr.status.entity;
 
+import com.doctor.dr.reported.issue.entity.ReportedIssue;
 import com.doctor.dr.submission.entity.Submission;
 import jakarta.persistence.*;
 
@@ -22,6 +23,8 @@ public class Status {
 
     @OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
     private List<Submission> submissionList = new ArrayList<>();
+    @OneToMany()
+    private List<ReportedIssue> reportedIssueList = new ArrayList<>();
 
     public Status() {
     }
