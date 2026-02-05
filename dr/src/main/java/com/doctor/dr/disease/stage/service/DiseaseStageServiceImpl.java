@@ -17,9 +17,9 @@ public class DiseaseStageServiceImpl implements DiseaseStageService {
 
     private final DiseaseStageMapper diseaseStageMapper;
 
-    public DiseaseStageServiceImpl(DiseaseStageRepository diseaseStageRepository) {
+    public DiseaseStageServiceImpl(DiseaseStageRepository diseaseStageRepository,DiseaseStageMapper diseaseStageMapper) {
         this.diseaseStageRepository = diseaseStageRepository;
-        this.diseaseStageMapper = Mappers.getMapper(DiseaseStageMapper.class);
+        this.diseaseStageMapper = diseaseStageMapper;
     }
 
     @Override

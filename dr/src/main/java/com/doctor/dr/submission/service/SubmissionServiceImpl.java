@@ -18,10 +18,14 @@ import java.util.stream.Collectors;
 public class SubmissionServiceImpl implements SubmissionService {
     private final SubmissionRepository submissionRepository;
     private final SubmissionMapper submissionMapper;
+    private final StatusInformation statusInformation;
+    private final DiseaseStageInformation diseaseStageInformation;
 
-    public SubmissionServiceImpl(SubmissionRepository submissionRepository) {
+    public SubmissionServiceImpl(SubmissionRepository submissionRepository, SubmissionMapper submissionMapper, StatusInformation statusInformation, DiseaseStageInformation diseaseStageInformation) {
         this.submissionRepository = submissionRepository;
-        this.submissionMapper = Mappers.getMapper(SubmissionMapper.class);
+        this.submissionMapper = submissionMapper;
+        this.statusInformation = statusInformation;
+        this.diseaseStageInformation = diseaseStageInformation;
     }
 
     @Override
