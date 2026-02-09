@@ -1,6 +1,7 @@
 package com.doctor.dr.status.entity;
 
 import com.doctor.dr.reported.issue.entity.ReportedIssue;
+import com.doctor.dr.requested.help.entity.RequestedHelp;
 import com.doctor.dr.submission.entity.Submission;
 import jakarta.persistence.*;
 
@@ -25,6 +26,8 @@ public class Status {
     private List<Submission> submissionList = new ArrayList<>();
     @OneToMany()
     private List<ReportedIssue> reportedIssueList = new ArrayList<>();
+    @OneToMany()
+    private List<RequestedHelp> requestedHelpList = new ArrayList<>();
 
     public Status() {
     }

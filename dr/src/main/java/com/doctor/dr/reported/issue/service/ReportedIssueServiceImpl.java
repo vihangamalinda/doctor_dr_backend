@@ -46,6 +46,7 @@ public class ReportedIssueServiceImpl implements ReportedIssueService {
         ReportedIssue reportedIssue = findById(id);
         if (reportedIssue.getIsActive()) {
             reportedIssue.setIsActive(false);
+            persistEntity(reportedIssue);
         }
     }
 
@@ -55,8 +56,12 @@ public class ReportedIssueServiceImpl implements ReportedIssueService {
         reportedIssue.setIsActive(true);
         Status status = getStatusInformationById(10002);
         reportedIssue.setStatus(status);
+        persistEntity(reportedIssue);
     }
 
+    private ReportedIssue persistEntity(ReportedIssue reportedIssue){
+       return this.reportedIssueRepository.save(reportedIssue);
+    }
     @Override
     public List<ReportedIssueResponseDTO> getReportedIssueByUserProfileId(long id) {
         List<ReportedIssue> reportedIssueList = this.reportedIssueRepository.findByUserProfile_id(id);
