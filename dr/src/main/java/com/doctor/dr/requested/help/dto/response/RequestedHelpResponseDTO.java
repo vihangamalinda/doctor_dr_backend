@@ -26,12 +26,10 @@ public class RequestedHelpResponseDTO {
 
     private final UserProfileDetailResponseDTO reviewedByUserProfile;
 
-    private final String contactName;
-
-    private final String contactNumber;
+    private final  ContactDetailResponseDTO contact;
     private final boolean isActive;
 
-    public RequestedHelpResponseDTO(Long id, String title, String description, LocalDateTime createdDateTime, UserProfileDetailResponseDTO createdByUserProfile, StatusDetailResponseDTO status, String feedback, UserProfileDetailResponseDTO reviewedByUserProfile, String contactName, String contactNumber, boolean isActive) {
+    public RequestedHelpResponseDTO(Long id, String title, String description, LocalDateTime createdDateTime, UserProfileDetailResponseDTO createdByUserProfile, StatusDetailResponseDTO status, String feedback, UserProfileDetailResponseDTO reviewedByUserProfile, ContactDetailResponseDTO contact, boolean isActive) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -40,8 +38,7 @@ public class RequestedHelpResponseDTO {
         this.status = status;
         this.feedback = feedback;
         this.reviewedByUserProfile = reviewedByUserProfile;
-        this.contactName = contactName;
-        this.contactNumber = contactNumber;
+        this.contact = contact;
         this.isActive = isActive;
     }
 
@@ -77,12 +74,8 @@ public class RequestedHelpResponseDTO {
         return reviewedByUserProfile;
     }
 
-    public String getContactName() {
-        return contactName;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
+    public ContactDetailResponseDTO getContact() {
+        return contact;
     }
 
     public boolean getIsActive() {
