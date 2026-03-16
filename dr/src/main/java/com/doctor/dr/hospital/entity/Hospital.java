@@ -22,6 +22,8 @@ public class Hospital {
     private String emergencyNumber;
     @Column(name = "is_active")
     private boolean isActive;
+    @Column(name = "is_internal_system")
+    private boolean isInternalSystem;
 
     @OneToMany()
     private List<UserProfile> userProfileList = new ArrayList<>();
@@ -29,12 +31,13 @@ public class Hospital {
     public Hospital() {
     }
 
-    public Hospital(Long id, String name, Location location, String emergencyNumber, boolean isActive) {
+    public Hospital(Long id, String name, Location location, String emergencyNumber, boolean isActive,boolean isInternalSystem) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.emergencyNumber = emergencyNumber;
         this.isActive = isActive;
+        this.isInternalSystem =isInternalSystem;
     }
 
     public Long getId() {
@@ -75,6 +78,14 @@ public class Hospital {
 
     public void setIsActive(boolean active) {
         isActive = active;
+    }
+
+    public boolean getIsInternalSystem() {
+        return isInternalSystem;
+    }
+
+    public void setIsInternalSystem(boolean internalSystem) {
+        isInternalSystem = internalSystem;
     }
 
     public List<UserProfile> getUserProfileList() {
