@@ -6,7 +6,7 @@ import com.doctor.dr.requested.help.entity.RequestedHelp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {StatusDetailMapper.class, UserProfileDetailMapper.class})
+@Mapper(componentModel = "spring", uses = {StatusDetailMapper.class, UserProfileDetailMapper.class,ContactDetailMapper.class})
 public interface RequestedHelpMapper {
     @Mapping(source = "createdByUserProfile", target = "createdByUserProfile", qualifiedByName = "toUserProfile")
     RequestedHelp toRequestedHelp(RequestedHelpRequestDTO requestedHelpRequestDTO);
