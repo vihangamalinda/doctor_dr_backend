@@ -1,5 +1,6 @@
 package com.doctor.dr.requested.help.service;
 
+import com.doctor.dr.requested.help.dto.request.RequestedHelpFeedbackRequestDTO;
 import com.doctor.dr.requested.help.dto.request.RequestedHelpRequestDTO;
 import com.doctor.dr.requested.help.dto.response.RequestedHelpResponseDTO;
 
@@ -17,4 +18,6 @@ public interface RequestedHelpService {
     List<RequestedHelpResponseDTO> getRequestedHelpByCreatedUserProfileId(long id);
 
     List<RequestedHelpResponseDTO> getRequestedHelpByReviewedUserProfileId(long id);
+
+    void addFeedBack(Long id,RequestedHelpFeedbackRequestDTO requestedHelpFeedbackRequestDTO);
 }

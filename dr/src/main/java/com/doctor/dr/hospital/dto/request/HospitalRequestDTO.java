@@ -7,11 +7,13 @@ public class HospitalRequestDTO {
     private final String name;
     private final LocationDetailRequestDTO location;
     private final String emergencyNumber;
+    private final boolean isInternalSystem;
 
-    public HospitalRequestDTO(String name, LocationDetailRequestDTO location, String emergencyNumber) {
+    public HospitalRequestDTO(String name, LocationDetailRequestDTO location, String emergencyNumber, boolean isInternalSystem) {
         this.name = name;
         this.location = location;
         this.emergencyNumber = emergencyNumber;
+        this.isInternalSystem = isInternalSystem;
     }
 
     public String getName() {
@@ -24,5 +26,9 @@ public class HospitalRequestDTO {
 
     public String getEmergencyNumber() {
         return emergencyNumber;
+    }
+
+    public boolean getIsInternalSystem() {
+        return isInternalSystem;
     }
 }

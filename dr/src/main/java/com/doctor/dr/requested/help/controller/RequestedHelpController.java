@@ -1,5 +1,6 @@
 package com.doctor.dr.requested.help.controller;
 
+import com.doctor.dr.requested.help.dto.request.RequestedHelpFeedbackRequestDTO;
 import com.doctor.dr.requested.help.dto.request.RequestedHelpRequestDTO;
 import com.doctor.dr.requested.help.dto.response.RequestedHelpResponseDTO;
 import com.doctor.dr.requested.help.service.RequestedHelpService;
@@ -51,5 +52,11 @@ public class RequestedHelpController {
     public ResponseEntity<List<RequestedHelpResponseDTO>> getRequestedHelpByReviewedUserProfileId(@PathVariable("id") long id) {
         List<RequestedHelpResponseDTO> requestedHelpResponseDTOS = this.requestedHelpService.getRequestedHelpByReviewedUserProfileId(id);
         return ResponseEntity.ok(requestedHelpResponseDTOS);
+    }
+
+    @PutMapping("/add-feed-back/{id}")
+    public ResponseEntity<String> addFeedBack(@PathVariable("id") Long id, @RequestBody RequestedHelpFeedbackRequestDTO requestedHelpFeedbackRequestDTO){
+        this.requestedHelpService.addFeedBack(id,requestedHelpFeedbackRequestDTO);
+        return ResponseEntity.ok("Feedback added.");
     }
 }

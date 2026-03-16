@@ -9,17 +9,23 @@ public class HospitalResponseDTO {
     private final LocationDetailResponseDTO location;
     private final String emergencyNumber;
     private final boolean isActive;
+    private final boolean isInternalSystem;
 
-    public HospitalResponseDTO(Long id, String name, LocationDetailResponseDTO location, String emergencyNumber, boolean isActive) {
+    public HospitalResponseDTO(Long id, String name, LocationDetailResponseDTO location, String emergencyNumber, boolean isActive, boolean isInternalSystem) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.emergencyNumber = emergencyNumber;
         this.isActive = isActive;
+        this.isInternalSystem = isInternalSystem;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public boolean getIsInternalSystem() {
+        return isInternalSystem;
     }
 
     public String getName() {
