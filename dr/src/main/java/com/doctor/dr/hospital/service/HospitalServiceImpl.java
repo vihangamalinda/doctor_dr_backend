@@ -56,6 +56,12 @@ public class HospitalServiceImpl implements HospitalService {
         persistEntity(hospital);
     }
 
+    @Override
+    public List<HospitalResponseDTO> getHospitalsByIsInternalSystem(boolean isInternalSystem) {
+        List<Hospital> hospitals= this.hospitalRepository.findByIsInternalSystem(isInternalSystem);
+        return hospitals.stream().map(this.hospitalMapper::toHospitalResponseDTO).collect(Collectors.toList());
+    }
+
     private void persistEntity(Hospital hospital) {
         this.hospitalRepository.save(hospital);
     }

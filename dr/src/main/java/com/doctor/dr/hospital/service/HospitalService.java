@@ -13,4 +13,6 @@ public interface HospitalService {
     void create(HospitalRequestDTO hospitalRequestDTO);
 
     void delete(long id);
+
+    List<HospitalResponseDTO> getHospitalsByIsInternalSystem(boolean isInternalSystem);
 }

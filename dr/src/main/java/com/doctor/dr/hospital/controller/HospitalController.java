@@ -40,5 +40,11 @@ public class HospitalController {
         return ResponseEntity.ok("deleted");
     }
 
+    @GetMapping("/system/{isInternalSystem}")
+    public ResponseEntity<List<HospitalResponseDTO>> getHospitalsByIsInternalSystem(@PathVariable("isInternalSystem") boolean isInternalSystem){
+      List<HospitalResponseDTO> hospitalResponseDTOS=  this.hospitalService.getHospitalsByIsInternalSystem(isInternalSystem);
+      return ResponseEntity.ok(hospitalResponseDTOS);
+    }
+
 
 }
