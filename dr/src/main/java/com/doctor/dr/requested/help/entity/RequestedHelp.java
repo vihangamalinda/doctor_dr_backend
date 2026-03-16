@@ -1,5 +1,6 @@
 package com.doctor.dr.requested.help.entity;
 
+import com.doctor.dr.contact.entity.Contact;
 import com.doctor.dr.status.entity.Status;
 import com.doctor.dr.user.profile.entity.UserProfile;
 import jakarta.persistence.*;
@@ -30,17 +31,16 @@ public class RequestedHelp {
     @JoinColumn(name = "reviewed_by_user_profile_id", nullable = true)
     private UserProfile reviewedByUserProfile;
 
-    @Column(name = "contact_person_name")
-    private String contactName;
-    @Column(name = "contact_person_number")
-    private String contactNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contact_id",nullable = true)
+    private Contact contact;
     @Column(name = "is_active")
     private boolean isActive;
 
     public RequestedHelp() {
     }
 
-    public RequestedHelp(Long id, String title, String description, LocalDateTime createdDateTime, UserProfile createdByUserProfile, Status status, String feedback, UserProfile reviewedByUserProfile, String contactName, String contactNumber, boolean isActive) {
+    public RequestedHelp(Long id, String title, String description, LocalDateTime createdDateTime, UserProfile createdByUserProfile, Status status, String feedback, UserProfile reviewedByUserProfile, boolean isActive) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -49,8 +49,6 @@ public class RequestedHelp {
         this.status = status;
         this.feedback = feedback;
         this.reviewedByUserProfile = reviewedByUserProfile;
-        this.contactName = contactName;
-        this.contactNumber = contactNumber;
         this.isActive = isActive;
     }
 
@@ -126,19 +124,11 @@ public class RequestedHelp {
         this.reviewedByUserProfile = reviewedByUserProfile;
     }
 
-    public String getContactName() {
-        return contactName;
+    public Contact getContact() {
+        return contact;
     }
 
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 }
