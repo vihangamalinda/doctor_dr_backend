@@ -20,8 +20,8 @@ public class UserCredentialController {
 
     @PostMapping("/login")
     public String login(@RequestBody UserLoginRequestDTO userLoginRequestDTO) {
-        this.userCredentialService.login(userLoginRequestDTO);
-        return "Test";
+        String token =this.userCredentialService.login(userLoginRequestDTO);
+        return token;
     }
 
     @GetMapping("/getAll")

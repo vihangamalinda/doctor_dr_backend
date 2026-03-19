@@ -8,5 +8,5 @@ import java.util.List;
 public interface UserCredentialService {
     List<UserCredentialResponseDTO> getAll();
 
-    void login(UserLoginRequestDTO userLoginRequestDTO);
+    String login(UserLoginRequestDTO userLoginRequestDTO);
 }
