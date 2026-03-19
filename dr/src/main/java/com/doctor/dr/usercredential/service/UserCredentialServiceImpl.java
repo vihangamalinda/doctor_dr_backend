@@ -4,7 +4,8 @@ import com.doctor.dr.usercredential.dto.request.UserLoginRequestDTO;
 import com.doctor.dr.usercredential.dto.response.UserCredentialResponseDTO;
 import com.doctor.dr.usercredential.entity.UserCredential;
 import com.doctor.dr.usercredential.repository.UserCredentialRepository;
-import com.doctor.dr.userrole.service.information.UserRoleDetailService;
+import com.doctor.dr.usercredential.service.jwtservice.JwtService;
+import com.doctor.dr.usercredential.service.jwtservice.JwtServiceImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,10 +18,12 @@ import java.util.stream.Collectors;
 public class UserCredentialServiceImpl implements UserCredentialService {
     private final UserCredentialRepository userCredentialRepository;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-    public UserCredentialServiceImpl(UserCredentialRepository userCredentialRepository, AuthenticationManager authenticationManager) {
+    public UserCredentialServiceImpl(UserCredentialRepository userCredentialRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.userCredentialRepository = userCredentialRepository;
         this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     private UserCredential persistEntity(UserCredential userCredential) {
@@ -39,7 +42,7 @@ public class UserCredentialServiceImpl implements UserCredentialService {
         Authentication authenticationToken= authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         if(authenticationToken.isAuthenticated()) {
             System.out.println("User authenticated successfully.");
-            return "77777777777777777777";
+            return jwtService.generateToken(dto.getUsername());
         }else {
             System.out.println("Authentication failed.");
             return "failed";
