@@ -1,8 +1,9 @@
-package com.doctor.dr.usercredential.service.jwtservice;
+package com.doctor.dr.auth.jwtservice;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;
@@ -37,6 +38,16 @@ public class JwtServiceImpl implements JwtService {
                 .and()
                 .signWith(getKey())
                 .compact();
+    }
+
+    @Override
+    public String extractUsername(String jwtToken) {
+        return null;
+    }
+
+    @Override
+    public boolean isTokenValid(String jwtToken, UserDetails userdetails) {
+        return false;
     }
 
     private void configureSecureKey()  {
