@@ -5,7 +5,11 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +19,10 @@ public class JwtServiceImpl implements JwtService {
     private String secretKey = null;
     private final String TOKEN_ISSUER = "DOCTOR_DR";
     private final int TEN_HOURS_IN_MILLISECONDS = 1000 * 60 * 60 * 10;
+
+    public JwtServiceImpl() {
+        configureSecureKey();
+    }
 
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
@@ -27,18 +35,25 @@ public class JwtServiceImpl implements JwtService {
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + TEN_HOURS_IN_MILLISECONDS))
                 .and()
-                .signWith(generateKey())
+                .signWith(getKey())
                 .compact();
     }
 
-    private SecretKey generateKey() {
-        byte[] decode = Decoders.BASE64.decode(getSecretKey());
-        SecretKey key = Keys.hmacShaKeyFor(decode);
-        return key;
+    private void configureSecureKey()  {
+        try {
+            KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
+            this.secretKey = Base64.getEncoder().encodeToString(keyGenerator.generateKey().getEncoded());
+        }catch (NoSuchAlgorithmException e){
+            throw new RuntimeException("Error generating key: " + e.getMessage());
+        }
     }
 
-    public String getSecretKey() {
-        this.secretKey = "gGGcDI8qi5jrjC1EWK+w23dqGuzLlMfWsdr6xbK2MRI="; //need to add this to environment variable or generate
-        return this.secretKey;
+    private Key getKey() {
+        if (this.secretKey == null) {
+            configureSecureKey();
+        }
+
+        byte[] keyBytes = Decoders.BASE64.decode(this.secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
