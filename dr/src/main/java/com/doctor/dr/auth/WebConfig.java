@@ -1,5 +1,6 @@
 package com.doctor.dr.auth;
 
+import com.doctor.dr.auth.authenticationfilter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
