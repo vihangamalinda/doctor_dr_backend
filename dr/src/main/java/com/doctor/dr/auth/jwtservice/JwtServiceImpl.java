@@ -1,5 +1,6 @@
 package com.doctor.dr.auth.jwtservice;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -8,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService {
@@ -42,12 +43,36 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String extractUsername(String jwtToken) {
-        return null;
+
+        return extractClaims(jwtToken, Claims::getSubject);
+    }
+
+    private <T>T extractClaims(String jwtToken, Function<Claims,T> claimsResolver) {
+        Claims claims = extractClaims(jwtToken);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractClaims(String jwtToken) {
+        return Jwts
+                .parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(jwtToken)
+                .getPayload();
     }
 
     @Override
     public boolean isTokenValid(String jwtToken, UserDetails userdetails) {
-        return false;
+        final String username = extractUsername(jwtToken);
+        return username.equals(userdetails.getUsername()) && !isTokenExpired(jwtToken);
+    }
+
+    private boolean isTokenExpired(String jwtToken) {
+        return extractExpiration(jwtToken).before(new Date());
+    }
+
+    private Date extractExpiration(String jwtToken) {
+        return extractClaims(jwtToken, Claims::getExpiration);
     }
 
     private void configureSecureKey()  {
@@ -59,7 +84,7 @@ public class JwtServiceImpl implements JwtService {
         }
     }
 
-    private Key getKey() {
+    private SecretKey getKey() {
         if (this.secretKey == null) {
             configureSecureKey();
         }
