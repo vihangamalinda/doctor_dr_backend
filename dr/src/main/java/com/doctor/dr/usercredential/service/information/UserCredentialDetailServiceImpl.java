@@ -5,6 +5,8 @@ import com.doctor.dr.roleassignment.service.RoleAssignmentDetailService;
 import com.doctor.dr.usercredential.dto.request.UserCredentialRegistrationRequestDTO;
 import com.doctor.dr.usercredential.entity.UserCredential;
 import com.doctor.dr.usercredential.repository.UserCredentialRepository;
+import com.doctor.dr.usercredential.service.emailsender.EmailInformation;
+import com.doctor.dr.usercredential.service.emailsender.EmailSenderService;
 import com.doctor.dr.usercredential.service.passwordgenerator.SecurePasswordGenerator;
 import com.doctor.dr.userrole.service.information.UserRoleDetailService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,11 +19,13 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
     private final UserCredentialRepository userCredentialRepository;
     private final RoleAssignmentDetailService roleAssignmentDetailService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final EmailSenderService emailSenderService;
 
-    public UserCredentialDetailServiceImpl(UserCredentialRepository userCredentialRepository, RoleAssignmentDetailService roleAssignmentDetailService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserCredentialDetailServiceImpl(UserCredentialRepository userCredentialRepository, RoleAssignmentDetailService roleAssignmentDetailService, BCryptPasswordEncoder bCryptPasswordEncoder, EmailSenderService emailSenderService) {
         this.userCredentialRepository = userCredentialRepository;
         this.roleAssignmentDetailService = roleAssignmentDetailService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.emailSenderService = emailSenderService;
     }
 
     @Override
@@ -31,7 +35,8 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
 
     @Override
     public void createUserCredentials(UserCredentialRegistrationRequestDTO dto) {
-        String encryptedPassword = createEncryptedPassword();
+        String password= createSecurePassword();
+        String encryptedPassword = encryptPassword(password);
 
         UserCredential userCredential = new UserCredential();
         userCredential.setUserName(dto.getUserName());
@@ -43,17 +48,23 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
 
         RoleAssignmentRequestDTO roleAssignmentDTO = new RoleAssignmentRequestDTO(userCredential, dto.getUserRoleId());
         this.roleAssignmentDetailService.create(roleAssignmentDTO);
+
+        EmailInformation emailInformation = new
+                EmailInformation(dto.getUserProfile().getEmail(),dto.getUserName(),password,true);
+        this.emailSenderService.sendSimpleEmail(emailInformation);
     }
 
-    private String createEncryptedPassword() {
+    private String createSecurePassword(){
         String generate = SecurePasswordGenerator.generate(10);
         System.out.println("Password:->" + generate);
 
-        String encode = bCryptPasswordEncoder.encode(generate);
+        return generate;
+    }
+    private String encryptPassword(String password){
+        String encode = bCryptPasswordEncoder.encode(password);
         System.out.println("Encrypted password:->" + encode);
 
-
-        return encode;//need to encrypt
+        return encode;
     }
 
     private UserCredential persistEntity(UserCredential userCredential) {
