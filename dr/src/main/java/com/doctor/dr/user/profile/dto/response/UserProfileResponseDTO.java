@@ -8,17 +8,19 @@ public class UserProfileResponseDTO {
     private final String firstName;
     private final String lastName;
     private final LocationDetailResponseDTO location;
+    private final String email;
     private final boolean isActive;
     private final LocalDateTime createdDateTime;
 
     private final LocalDateTime modifiedDateTime;
     private final HospitalDetailResponseDTO hospital;
 
-    public UserProfileResponseDTO(Long id, String firstName, String lastName, LocationDetailResponseDTO location, boolean isActive, LocalDateTime createdDateTime, LocalDateTime modifiedDateTime, HospitalDetailResponseDTO hospital) {
+    public UserProfileResponseDTO(Long id, String firstName, String lastName, LocationDetailResponseDTO location, String email, boolean isActive, LocalDateTime createdDateTime, LocalDateTime modifiedDateTime, HospitalDetailResponseDTO hospital) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.location = location;
+        this.email = email;
         this.isActive = isActive;
         this.createdDateTime = createdDateTime;
         this.modifiedDateTime = modifiedDateTime;
@@ -55,5 +57,9 @@ public class UserProfileResponseDTO {
 
     public HospitalDetailResponseDTO getHospital() {
         return hospital;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

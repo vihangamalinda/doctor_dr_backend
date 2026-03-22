@@ -8,7 +8,6 @@ public class UserCredentialRegistrationRequestDTO {
     private final UserProfile userProfile;
     private final Long userRoleId;
 
-
     public UserCredentialRegistrationRequestDTO(String userName, UserProfile userProfile, Long userRoleId) {
         this.userName = userName;
         this.userProfile = userProfile;

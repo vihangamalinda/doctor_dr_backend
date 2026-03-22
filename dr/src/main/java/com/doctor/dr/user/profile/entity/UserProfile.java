@@ -31,6 +31,8 @@ public class UserProfile {
     private LocalDateTime createdDateTime;
     @Column(name = "modified_date_time")
     private LocalDateTime modifiedDateTime;
+    @Column(name = "user_email_address")
+    private String email;
 
     @ManyToOne()
     @JoinColumn(name = "hospital_id")
@@ -53,7 +55,7 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(Long id, String firstName, String lastName, Location location, boolean isActive, LocalDateTime createdDateTime, LocalDateTime modifiedDateTime, Hospital hospital, UserCredential userCredential) {
+    public UserProfile(Long id, String firstName, String lastName, Location location, boolean isActive, LocalDateTime createdDateTime, LocalDateTime modifiedDateTime, Hospital hospital, UserCredential userCredential,String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -63,6 +65,7 @@ public class UserProfile {
         this.modifiedDateTime = modifiedDateTime;
         this.hospital =hospital;
         this.userCredential = userCredential;
+        this.email =email;
     }
 
     public Long getId() {
@@ -143,5 +146,13 @@ public class UserProfile {
 
     public void setUserCredential(UserCredential userCredential) {
         this.userCredential = userCredential;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
