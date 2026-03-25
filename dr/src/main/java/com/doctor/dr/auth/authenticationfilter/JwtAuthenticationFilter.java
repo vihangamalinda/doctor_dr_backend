@@ -1,5 +1,6 @@
 package com.doctor.dr.auth.authenticationfilter;
 
+import com.doctor.dr.auth.cookieservice.CookieService;
 import com.doctor.dr.auth.jwtservice.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,21 +21,34 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final CookieService cookieService;
 
-    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService, CookieService cookieService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.cookieService = cookieService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        boolean isTokenInHeader = authHeader != null && authHeader.startsWith("Bearer ");
+        String jwtToken =
+                (isTokenInHeader) ? authHeader.substring(7) : this.cookieService.getTokenFromCookie(request);
+
+//        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+//            jwtToken = this.cookieService.getTokenFromCookie(request);
+////            filterChain.doFilter(request, response);
+//            return;
+//        }else {
+//            jwtToken = authHeader.substring(7);
+//        }
+
+        if(jwtToken == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        final String jwtToken = authHeader.substring(7);
         final String username = jwtService.extractUsername(jwtToken);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
