@@ -1,9 +1,11 @@
 package com.doctor.dr.usercredential.controller;
 
 import com.doctor.dr.usercredential.dto.request.UserLoginRequestDTO;
+import com.doctor.dr.usercredential.dto.response.AuthenticatedUserCredentialResponseDTO;
 import com.doctor.dr.usercredential.dto.response.UserCredentialResponseDTO;
 import com.doctor.dr.usercredential.entity.UserCredential;
 import com.doctor.dr.usercredential.service.UserCredentialService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +21,9 @@ public class UserCredentialController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserLoginRequestDTO userLoginRequestDTO) {
-        String token =this.userCredentialService.login(userLoginRequestDTO);
-        return token;
+    public ResponseEntity<AuthenticatedUserCredentialResponseDTO> login(@RequestBody UserLoginRequestDTO userLoginRequestDTO, HttpServletResponse httpServletResponse) {
+        AuthenticatedUserCredentialResponseDTO auth =this.userCredentialService.login(userLoginRequestDTO,httpServletResponse);
+        return ResponseEntity.ok(auth);
     }
 
     @GetMapping("/getAll")
