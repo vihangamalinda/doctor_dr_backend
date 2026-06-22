@@ -11,7 +11,8 @@ import java.util.List;
 
 @RestController()
 @RequestMapping("/v1/requested-helper")
-public class RequestedHelpController {
+public class
+RequestedHelpController {
     private final RequestedHelpService requestedHelpService;
 
     public RequestedHelpController(RequestedHelpService requestedHelpService) {
@@ -58,5 +59,11 @@ public class RequestedHelpController {
     public ResponseEntity<String> addFeedBack(@PathVariable("id") Long id, @RequestBody RequestedHelpFeedbackRequestDTO requestedHelpFeedbackRequestDTO){
         this.requestedHelpService.addFeedBack(id,requestedHelpFeedbackRequestDTO);
         return ResponseEntity.ok("Feedback added.");
+    }
+
+    @GetMapping("/status-value/{value}")
+    public ResponseEntity<List<RequestedHelpResponseDTO>> getRequestedHelpsByStatusValue(@PathVariable("value") long value ){
+        List<RequestedHelpResponseDTO> helpList =this.requestedHelpService.getRequestedHelpsByStatusValue(value);
+        return ResponseEntity.ok(helpList);
     }
 }

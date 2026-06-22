@@ -20,4 +20,6 @@ public interface RequestedHelpService {
     List<RequestedHelpResponseDTO> getRequestedHelpByReviewedUserProfileId(long id);
 
     void addFeedBack(Long id,RequestedHelpFeedbackRequestDTO requestedHelpFeedbackRequestDTO);
+
+    List<RequestedHelpResponseDTO> getRequestedHelpsByStatusValue(long value);
 }

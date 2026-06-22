@@ -1,8 +1,10 @@
 package com.doctor.dr.user.profile.controller;
 
+import com.doctor.dr.user.profile.dto.request.UpdateUserProfilePasswordDTO;
 import com.doctor.dr.user.profile.dto.request.UserProfileRequestDTO;
 import com.doctor.dr.user.profile.dto.response.UserProfileResponseDTO;
 import com.doctor.dr.user.profile.service.UserProfileService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +41,16 @@ public class UserProfileController {
     public ResponseEntity<String> deleteById(@PathVariable("id") long id){
         this.userProfileService.deleteById(id);
         return ResponseEntity.ok("deleted");
+    }
+    @GetMapping("/user-role-value/{userRoleValue}")
+    public ResponseEntity<List<UserProfileResponseDTO>> getUserProfilesByUserRoleValue(@PathVariable("userRoleValue") String userRoleValue){
+        List<UserProfileResponseDTO> userProfileResponseDTOList =this.userProfileService.getUserProfilesByUserRoleValue(userRoleValue);
+        return ResponseEntity.ok(userProfileResponseDTOList);
+    }
+
+    @PostMapping("/update-password")
+    public ResponseEntity<String> updatePassword(@RequestBody UpdateUserProfilePasswordDTO updateUserProfilePasswordDTO, HttpServletResponse response){
+        this.userProfileService.updatePassword(updateUserProfilePasswordDTO,response);
+        return ResponseEntity.ok("password updated");
     }
 }

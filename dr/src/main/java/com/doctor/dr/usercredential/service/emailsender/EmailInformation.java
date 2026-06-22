@@ -26,6 +26,12 @@ public class EmailInformation {
     }
 
     public String getEmailBody() {
+        if(!this.isAccountRegistration){
+            return "\n Your account credentials has successfully updated on Doctor DR application. Following are the updated User credentials: \n" +
+                    "Username: `" + username + "`\n" +
+                    "Password: `" + password + "`\n";
+        }
+
         return "\n Your account has successfully registered on Doctor DR application. Following are the User credentials: \n" +
                 "Username: " + username + "\n" +
                 "Password: " + password + "\n";

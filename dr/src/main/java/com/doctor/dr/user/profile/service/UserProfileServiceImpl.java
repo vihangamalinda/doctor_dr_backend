@@ -1,5 +1,6 @@
 package com.doctor.dr.user.profile.service;
 
+import com.doctor.dr.user.profile.dto.request.UpdateUserProfilePasswordDTO;
 import com.doctor.dr.user.profile.dto.request.UserInternalSystemInformationRequestDTO;
 import com.doctor.dr.user.profile.dto.request.UserProfileRequestDTO;
 import com.doctor.dr.user.profile.dto.response.UserProfileResponseDTO;
@@ -8,6 +9,7 @@ import com.doctor.dr.user.profile.mapper.UserProfileMapper;
 import com.doctor.dr.user.profile.repository.UserProfileRepository;
 import com.doctor.dr.usercredential.dto.request.UserCredentialRegistrationRequestDTO;
 import com.doctor.dr.usercredential.service.information.UserCredentialDetailService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,6 +59,21 @@ public class UserProfileServiceImpl implements UserProfileService {
         UserProfile userProfile = this.findById(id);
         userProfile.setIsActive(false);
         this.persistEntity(userProfile);
+    }
+
+    @Override
+    public List<UserProfileResponseDTO> getUserProfilesByUserRoleValue(String userRoleValue) {
+        List<UserProfile> userProfileList = this.userProfileRepository.findByUserCredential_RoleAssignments_UserRole_ValueAndIsActiveTrue(userRoleValue);
+        List<UserProfile> userProfileList1 = this.userProfileRepository.findByUserCredential_RoleAssignments_UserRole_Value(userRoleValue);
+        return userProfileList.stream().map(this.userProfileMapper::toUserProfileResponseDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updatePassword(UpdateUserProfilePasswordDTO dto, HttpServletResponse response) {
+        UserProfile userProfile = this.findById(dto.getUserProfileId());
+
+
+        this.userCredentialDetailService.updatePassword(userProfile.getUserCredential(), dto.getNewPassword(),response);
     }
 
     private UserProfile findById(long id) {

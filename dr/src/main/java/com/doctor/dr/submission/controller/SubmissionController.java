@@ -1,6 +1,7 @@
 package com.doctor.dr.submission.controller;
 
 import com.doctor.dr.submission.dto.request.SubmissionRequestDTO;
+import com.doctor.dr.submission.dto.response.ModelPredictionPrimaryDTO;
 import com.doctor.dr.submission.dto.response.SubmissionResponseDTO;
 import com.doctor.dr.submission.service.SubmissionService;
 import org.springframework.http.MediaType;
@@ -31,9 +32,9 @@ public class SubmissionController {
     }
 
     @PostMapping(value="/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> create(@ModelAttribute SubmissionRequestDTO submissionRequestDTO) {
-        this.submissionService.create(submissionRequestDTO);
-        return ResponseEntity.ok("created");
+    public ResponseEntity<ModelPredictionPrimaryDTO> create(@ModelAttribute SubmissionRequestDTO submissionRequestDTO) {
+        ModelPredictionPrimaryDTO result =this.submissionService.create(submissionRequestDTO);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -1,5 +1,6 @@
 package com.doctor.dr.usercredential.service.information;
 
+import com.doctor.dr.auth.cookieservice.CookieService;
 import com.doctor.dr.roleassignment.dto.request.RoleAssignmentRequestDTO;
 import com.doctor.dr.roleassignment.service.RoleAssignmentDetailService;
 import com.doctor.dr.usercredential.dto.request.UserCredentialRegistrationRequestDTO;
@@ -9,6 +10,7 @@ import com.doctor.dr.usercredential.service.emailsender.EmailInformation;
 import com.doctor.dr.usercredential.service.emailsender.EmailSenderService;
 import com.doctor.dr.usercredential.service.passwordgenerator.SecurePasswordGenerator;
 import com.doctor.dr.userrole.service.information.UserRoleDetailService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +22,14 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
     private final RoleAssignmentDetailService roleAssignmentDetailService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailSenderService emailSenderService;
+    private final CookieService cookieService;
 
-    public UserCredentialDetailServiceImpl(UserCredentialRepository userCredentialRepository, RoleAssignmentDetailService roleAssignmentDetailService, BCryptPasswordEncoder bCryptPasswordEncoder, EmailSenderService emailSenderService) {
+    public UserCredentialDetailServiceImpl(UserCredentialRepository userCredentialRepository, RoleAssignmentDetailService roleAssignmentDetailService, BCryptPasswordEncoder bCryptPasswordEncoder, EmailSenderService emailSenderService, CookieService cookieService) {
         this.userCredentialRepository = userCredentialRepository;
         this.roleAssignmentDetailService = roleAssignmentDetailService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.emailSenderService = emailSenderService;
+        this.cookieService = cookieService;
     }
 
     @Override
@@ -36,6 +40,11 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
     @Override
     public void createUserCredentials(UserCredentialRegistrationRequestDTO dto) {
         String password= createSecurePassword();
+
+//        System.out.println("**************");
+//        System.out.println("Generated password:->" + password);
+//        System.out.println("**************");
+
         String encryptedPassword = encryptPassword(password);
 
         UserCredential userCredential = new UserCredential();
@@ -52,6 +61,22 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
         EmailInformation emailInformation = new
                 EmailInformation(dto.getUserProfile().getEmail(),dto.getUserName(),password,true);
         this.emailSenderService.sendSimpleEmail(emailInformation);
+    }
+
+    @Override
+    public void updatePassword(UserCredential userCredential, String newPassword, HttpServletResponse response) {
+        String encryptedPassword = encryptPassword(newPassword);
+        userCredential.setPassword(encryptedPassword);
+        persistEntity(userCredential);
+
+        EmailInformation emailInformation = new
+                EmailInformation(userCredential.getUserProfile().getEmail(),userCredential.getUserName(),newPassword,false);
+        this.emailSenderService.sendSimpleEmail(emailInformation);
+        this.performLogout(response);
+    }
+
+    private  void performLogout(HttpServletResponse response){
+        cookieService.clearTokenCookie(response);
     }
 
     private String createSecurePassword(){

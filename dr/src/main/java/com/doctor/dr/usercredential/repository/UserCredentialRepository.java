@@ -17,4 +17,11 @@ public interface UserCredentialRepository extends JpaRepository<UserCredential,L
             WHERE u.userName = :username
             """)
     Optional<UserCredential> findByUserName(String username);
+    @Query("""
+            SELECT U
+            FROM UserCredential U
+            LEFT JOIN FETCH U.userProfile UP
+            WHERE U.userName = :username
+            """)
+    Optional<UserCredential> findUserProfileByUserName(String username);
 }
