@@ -57,4 +57,11 @@ public class UserRoleServiceImpl implements UserRoleService {
             persistEntity(userRole);
         }
     }
+
+    @Override
+    public UserRoleResponseDTO getUserRoleByUserRoleValue(String userRoleValue) {
+        UserRole userRole =this.userRoleRepository.findByValue(userRoleValue)
+                .orElseThrow(()-> new RuntimeException("Given User role value was not found. "+userRoleValue));
+        return this.userRoleMapper.toUserRoleResponseDTO(userRole);
+    }
 }

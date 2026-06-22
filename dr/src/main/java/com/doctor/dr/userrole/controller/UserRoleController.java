@@ -40,4 +40,9 @@ public class UserRoleController {
         return ResponseEntity.ok("deleted");
     }
 
+    @GetMapping("/user-role-value/{userRoleValue}")
+    public ResponseEntity<UserRoleResponseDTO> getUserRoleByUserRoleValue(@PathVariable("userRoleValue") String userRoleValue){
+       UserRoleResponseDTO userRoleResponseDTO = this.userRoleService.getUserRoleByUserRoleValue(userRoleValue);
+       return ResponseEntity.ok(userRoleResponseDTO);
+    }
 }

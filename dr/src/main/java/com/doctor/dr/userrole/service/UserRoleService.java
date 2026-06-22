@@ -13,4 +13,6 @@ public interface UserRoleService {
     UserRoleResponseDTO getById(long id);
 
     void deleteById(long id);
+
+    UserRoleResponseDTO getUserRoleByUserRoleValue(String userRoleValue);
 }
