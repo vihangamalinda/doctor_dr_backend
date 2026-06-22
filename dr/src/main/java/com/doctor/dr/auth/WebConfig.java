@@ -61,7 +61,7 @@ public class WebConfig implements WebMvcConfigurer {
                         .requestMatchers("/v1/user-profile/create","/v1/user-credential/login").permitAll().
 
                         anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
+//                .httpBasic(Customizer.withDefaults())
                 // Using stateless because of JWT token based authentication,
                 // so that the server doesn't maintain any session state for the client
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
