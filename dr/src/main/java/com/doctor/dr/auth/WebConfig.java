@@ -58,7 +58,12 @@ public class WebConfig implements WebMvcConfigurer {
                 })).
                 csrf(AbstractHttpConfigurer::disable).
                 authorizeHttpRequests(request -> request
-                        .requestMatchers("/v1/user-profile/create","/v1/user-credential/login").permitAll().
+                        .requestMatchers("/v1/user-profile/create","/v1/user-credential/login",
+                                         "/swagger-ui/**",
+                                         "/swagger-ui.html",
+                                         "/v3/api-docs/**",
+                                         "/v3/api-docs.yaml"
+                                         ).permitAll().
 
                         anyRequest().authenticated())
 //                .httpBasic(Customizer.withDefaults())
