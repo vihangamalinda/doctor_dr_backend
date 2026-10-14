@@ -47,8 +47,8 @@ public class UserProfileController {
             return ResponseEntity.ok(userProfileResponseDTO);
     }
 
-    @Operation(summary = "Delete user profile by ID",
-            description = "This endpoint deletes a user profile by its unique ID.",
+    @Operation(summary = "Inactivate user profile by ID",
+            description = "This endpoint inactivates an existing user profile identified by its unique ID.",
             tags = {"User Profile Management"})
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable("id") long id){

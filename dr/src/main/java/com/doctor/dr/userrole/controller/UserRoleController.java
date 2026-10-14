@@ -45,8 +45,8 @@ public class UserRoleController {
         return ResponseEntity.ok(userRoleResponseDTO);
     }
 
-    @Operation(summary = "Delete user role by ID",
-            description = "This endpoint deletes a user role by its unique ID.",
+    @Operation(summary = "Inactivate user role by ID",
+            description = "This endpoint inactivates an existing user role identified by its unique ID",
             tags = {"User Role Management"})
     public ResponseEntity<String> deleteById(@PathVariable("id") long id){
         this.userRoleService.deleteById(id);

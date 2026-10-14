@@ -46,8 +46,8 @@ public class ContactController {
         return ResponseEntity.ok(contactResponseDTO);
     }
 
-    @Operation(summary = "Update contact by ID",
-            description = "This endpoint inactivate an existing contact identified by its unique ID.",
+    @Operation(summary = "Inactivate contact by ID",
+            description = "This endpoint inactivates an existing contact identified by its unique ID.",
             tags = {"Contact Management"})
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable("id") Long id){

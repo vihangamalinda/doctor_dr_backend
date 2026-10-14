@@ -35,8 +35,8 @@ public class ReportedIssueController {
         return ResponseEntity.ok(reportedIssueResponseDTO);
     }
 
-    @Operation(summary = "Delete reported issue by ID",
-            description = "This endpoint deletes a reported issue by its unique ID.",
+    @Operation(summary = "Inactivate reported issue by ID",
+            description = "This endpoint inactivates  an existing reported issue identified  by its unique ID.",
             tags = {"Reported Issue Management"})
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable("id") long id) {

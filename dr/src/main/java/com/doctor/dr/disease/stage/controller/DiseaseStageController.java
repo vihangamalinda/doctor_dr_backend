@@ -45,7 +45,7 @@ public class DiseaseStageController {
         return ResponseEntity.ok("created");
     }
 
-    @Operation(summary = "Update disease stage by ID",
+    @Operation(summary = "Inactivate disease stage by ID",
             description = "This endpoint inactivates an existing disease stage identified by its unique ID.",
             tags = {"Disease Stage Management"})
     @DeleteMapping("/delete/{id}")

@@ -44,7 +44,7 @@ public class LocationController {
         return ResponseEntity.ok(this.locationService.getById(id));
     }
 
-    @Operation(summary = "Update location by ID",
+    @Operation(summary = "Inactivate location by ID",
             description = "This endpoint inactivates an existing location identified by its unique ID.",
             tags = {"Location Management"})
     @DeleteMapping("/delete/{id}")

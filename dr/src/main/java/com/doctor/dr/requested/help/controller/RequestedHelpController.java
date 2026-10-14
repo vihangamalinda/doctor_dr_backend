@@ -47,7 +47,7 @@ RequestedHelpController {
         return ResponseEntity.ok("created");
     }
 
-    @Operation(summary = "Update requested help by ID",
+    @Operation(summary = "Inactivate requested help by ID",
             description = "This endpoint inactivates an existing requested help identified by its unique ID.",
             tags = {"Requested Help Management"})
     @DeleteMapping("/delete/{id}")

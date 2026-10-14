@@ -45,7 +45,7 @@ public class StatusController {
         return ResponseEntity.ok("created");
     }
 
-    @Operation(summary = "Update status by ID",
+    @Operation(summary = "Inactivate status by ID",
             description = "This endpoint inactivates an existing status identified by its unique ID.",
             tags = {"Status Management"})
     @DeleteMapping("/delete/{id}")

@@ -47,8 +47,8 @@ public class SubmissionController {
         return ResponseEntity.ok(result);
     }
 
-    @Operation(summary = "Delete submission by ID",
-            description = "This endpoint deletes a submission by its unique ID.",
+    @Operation(summary = "Inactivate submission by ID",
+            description = "This endpoint inactivates  an existing  submission  identified by its unique ID.",
             tags = {"Submission Management"})
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable("id") long id) {

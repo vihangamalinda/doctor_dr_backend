@@ -44,7 +44,7 @@ public class HospitalController {
         return ResponseEntity.ok("created");
     }
 
-    @Operation(summary = "Update hospital by ID",
+    @Operation(summary = "Inactivate hospital by ID",
             description = "This endpoint inactivates an existing hospital identified by its unique ID.",
             tags = {"Hospital Management"})
     @DeleteMapping("/delete/{id}")
