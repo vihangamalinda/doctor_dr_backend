@@ -3,21 +3,26 @@ package com.doctor.dr.auth.cookieservice;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CookieServiceImpl implements CookieService {
     private final int TEN_HOURS_IN_SECONDS = 60 * 60 * 10;
 
+    @Value("${app.cookie.secure:true}")
+    private boolean secureCookie;
 
     @Override
     public Cookie getCookieWithToken(String jwtToken) {
         Cookie cookie = new Cookie("jwt", jwtToken);
-        cookie.setValue(jwtToken);
+//        cookie.setValue(jwtToken);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); // for production environments, ensure this is set to true
+        cookie.setSecure(secureCookie); // for production environments, ensure this is set to true
         cookie.setPath("/");
         cookie.setMaxAge(TEN_HOURS_IN_SECONDS);
+        cookie.setAttribute("SameSite", "Lax");
+        cookie.setAttribute("SameSite", "Lax");
         return cookie;
     }
 
@@ -37,11 +42,13 @@ public class CookieServiceImpl implements CookieService {
 
     @Override
     public void clearTokenCookie(HttpServletResponse response) {
-        Cookie cookie = new Cookie("jwt", null);
+        Cookie cookie = new Cookie("jwt", "");
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); // for production environments, ensure this is set to true
+        cookie.setSecure(secureCookie); // for production environments, ensure this is set to true
         cookie.setPath("/");
         cookie.setMaxAge(0); // This will delete the cookie
+        cookie.setAttribute("SameSite", "Lax");
+
         response.addCookie(cookie);
     }
 }
