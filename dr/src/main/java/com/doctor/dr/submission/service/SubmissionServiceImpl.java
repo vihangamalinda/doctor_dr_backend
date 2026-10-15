@@ -81,11 +81,10 @@ public class SubmissionServiceImpl implements SubmissionService {
         MultipartFile multipartFileImage = submissionRequestDTO.getMultipartFileImage();
         try {
             ModelPredictionResponse modelPrediction= modelClientService.performModelPrediction(multipartFileImage,ModelPredictionResponse.class);
-            if(modelPrediction==null || modelPrediction.getData()==null){
-                throw new RuntimeException("Model prediction failed: Model response is null or missing data.");
-            }
+            validateModelPrediction(modelPrediction);
 
-            DiseaseStage diseaseStage = getDiseaseStageInformationByDiseaseLevel(modelPrediction.getData().getPredictionIndex());
+            Integer predictionIndex = modelPrediction.getData().getPredictionIndex();
+            DiseaseStage diseaseStage = getDiseaseStageInformationByDiseaseLevel(predictionIndex);
             boolean hasDisease = diseaseStage.getDiseaseLevel() != 0;
             submission.setHasDisease(hasDisease);
 
@@ -99,6 +98,12 @@ public class SubmissionServiceImpl implements SubmissionService {
             Status failedStatus = getStatusInformationById(SubmissionStatusId.REJECTED);
             submission.setStatus(failedStatus);
             throw  new RuntimeException("Model prediction failed: " + e.getMessage());
+        }
+    }
+
+    private void validateModelPrediction(ModelPredictionResponse modelPrediction) {
+        if(modelPrediction ==null || modelPrediction.getData()==null || modelPrediction.getData().getPredictionIndex() == null ){
+            throw new RuntimeException("Model prediction failed: Model response is null or missing data.");
         }
     }
 
