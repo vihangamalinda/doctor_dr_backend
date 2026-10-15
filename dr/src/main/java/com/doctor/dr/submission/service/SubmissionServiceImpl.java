@@ -8,6 +8,7 @@ import com.doctor.dr.status.service.information.StatusInformation;
 import com.doctor.dr.submission.dto.external.ModelPredictionResponse;
 import com.doctor.dr.submission.dto.external.PredictionDetailResponse;
 import com.doctor.dr.submission.dto.response.*;
+import com.doctor.dr.submission.constants.SubmissionStatusId;
 
 import com.doctor.dr.submission.dto.request.SubmissionRequestDTO;
 import com.doctor.dr.submission.entity.Submission;
@@ -68,7 +69,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
         Submission submission = this.submissionMapper.toSubmission(submissionRequestDTO);
         submission.setIsActive(true);
-        Status pendingStatus = getStatusInformationById(1);
+        Status pendingStatus = getStatusInformationById(SubmissionStatusId.IN_PROGRESS);
         submission.setStatus(pendingStatus);
         persistEntity(submission);
 //        submission.setStatus(); // pending
@@ -80,19 +81,24 @@ public class SubmissionServiceImpl implements SubmissionService {
         MultipartFile multipartFileImage = submissionRequestDTO.getMultipartFileImage();
         try {
             ModelPredictionResponse modelPrediction= modelClientService.performModelPrediction(multipartFileImage,ModelPredictionResponse.class);
+            if(modelPrediction==null || modelPrediction.getData()==null){
+                throw new RuntimeException("Model prediction failed: Model response is null or missing data.");
+            }
 
             DiseaseStage diseaseStage = getDiseaseStageInformationByDiseaseLevel(modelPrediction.getData().getPredictionIndex());
             boolean hasDisease = diseaseStage.getDiseaseLevel() != 0;
-            if(hasDisease){
-                submission.setHasDisease(true);
-            }
+            submission.setHasDisease(hasDisease);
+
+
             submission.setDiseaseStage(diseaseStage);
-            Status sucseededStatus = getStatusInformationById(2);
+            Status sucseededStatus = getStatusInformationById(SubmissionStatusId.COMPLETED);
             submission.setStatus(sucseededStatus);
             Submission persistedEntity=persistEntity(submission);
             return generateResponse(persistedEntity,modelPrediction,multipartFileImage);
         }catch (Exception e){
-           throw  new RuntimeException("Model prediction failed: " + e.getMessage());
+            Status failedStatus = getStatusInformationById(SubmissionStatusId.REJECTED);
+            submission.setStatus(failedStatus);
+            throw  new RuntimeException("Model prediction failed: " + e.getMessage());
         }
     }
 
