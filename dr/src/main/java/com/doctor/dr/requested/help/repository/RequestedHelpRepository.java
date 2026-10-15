@@ -4,7 +4,6 @@ import com.doctor.dr.requested.help.entity.RequestedHelp;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface RequestedHelpRepository extends JpaRepository<RequestedHelp, Long> {
     List<RequestedHelp> findAllByIsActiveTrue();
@@ -12,5 +11,5 @@ public interface RequestedHelpRepository extends JpaRepository<RequestedHelp, Lo
     List<RequestedHelp> findByCreatedByUserProfile_id(long id);
 
     List<RequestedHelp> findByReviewedByUserProfile_id(long id);
-    List<RequestedHelp> findByStatus_value(long value);
+    List<RequestedHelp> findByStatus_valueAndIsActiveTrue(long value);
 }

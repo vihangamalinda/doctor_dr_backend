@@ -102,7 +102,7 @@ public class RequestedHelpServiceImpl implements RequestedHelpService {
 
     @Override
     public List<RequestedHelpResponseDTO> getRequestedHelpsByStatusValue(long value) {
-        List<RequestedHelp> requestedHelps = this.requestedHelpRepository.findByStatus_value(value);
+        List<RequestedHelp> requestedHelps = this.requestedHelpRepository.findByStatus_valueAndIsActiveTrue(value);
 
         return requestedHelps.stream().map(this.requestedHelpMapper::toRequestedHelpResponseDTO).collect(Collectors.toList());
     }
