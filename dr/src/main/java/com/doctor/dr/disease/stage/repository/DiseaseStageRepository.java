@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface DiseaseStageRepository extends JpaRepository<DiseaseStage, Long> {
     List<DiseaseStage> findAllByIsActiveTrue();
-    Optional<DiseaseStage> findByDiseaseLevel(int diseaseLevel);
+    Optional<DiseaseStage> findByDiseaseLevelAndIsActiveTrue(int diseaseLevel);
 }

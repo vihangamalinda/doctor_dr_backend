@@ -20,7 +20,7 @@ public class DiseaseStageInformationImpl implements DiseaseStageInformation{
 
     @Override
     public DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel) {
-        return this.diseaseStageRepository.findByDiseaseLevel(diseaseLevel)
+        return this.diseaseStageRepository.findByDiseaseLevelAndIsActiveTrue(diseaseLevel)
                 .orElseThrow(()-> new RuntimeException("Disease level not found."));
     }
 }
