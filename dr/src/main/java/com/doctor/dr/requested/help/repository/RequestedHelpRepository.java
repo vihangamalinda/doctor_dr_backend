@@ -11,4 +11,5 @@ public interface RequestedHelpRepository extends JpaRepository<RequestedHelp, Lo
     List<RequestedHelp> findByCreatedByUserProfile_id(long id);
 
     List<RequestedHelp> findByReviewedByUserProfile_id(long id);
+    List<RequestedHelp> findByStatus_valueAndIsActiveTrue(long value);
 }

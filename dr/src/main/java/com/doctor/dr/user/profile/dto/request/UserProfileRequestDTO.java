@@ -8,17 +8,21 @@ public class UserProfileRequestDTO {
     private final String lastName;
     private final LocationDetailRequestDTO location;
     private final LocalDateTime createdDateTime;
+    private final String email;
 
     private final LocalDateTime modifiedDateTime;
     private final HospitalDetailRequestDTO hospital;
+    private final UserInternalSystemInformationRequestDTO userInternalSystemInformation;
 
-    public UserProfileRequestDTO(String firstName, String lastName, LocationDetailRequestDTO location, LocalDateTime createdDateTime, LocalDateTime modifiedDateTime, HospitalDetailRequestDTO hospital) {
+    public UserProfileRequestDTO(String firstName, String lastName, LocationDetailRequestDTO location, LocalDateTime createdDateTime, String email, LocalDateTime modifiedDateTime, HospitalDetailRequestDTO hospital, UserInternalSystemInformationRequestDTO userInternalSystemInformation) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.location = location;
         this.createdDateTime = createdDateTime;
+        this.email = email;
         this.modifiedDateTime = modifiedDateTime;
         this.hospital = hospital;
+        this.userInternalSystemInformation = userInternalSystemInformation;
     }
 
     public String getFirstName() {
@@ -43,5 +47,13 @@ public class UserProfileRequestDTO {
 
     public HospitalDetailRequestDTO getHospital() {
         return hospital;
+    }
+
+    public UserInternalSystemInformationRequestDTO getUserInternalSystemInformation() {
+        return userInternalSystemInformation;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

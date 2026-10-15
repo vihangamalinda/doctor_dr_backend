@@ -17,4 +17,10 @@ public class DiseaseStageInformationImpl implements DiseaseStageInformation{
     public DiseaseStage getDiseaseStageById(long id) {
         return this.diseaseStageRepository.findById(id).orElseThrow(()-> new RuntimeException("Id not found."));
     }
+
+    @Override
+    public DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel) {
+        return this.diseaseStageRepository.findByDiseaseLevelAndIsActiveTrue(diseaseLevel)
+                .orElseThrow(()-> new RuntimeException("Disease level not found."));
+    }
 }

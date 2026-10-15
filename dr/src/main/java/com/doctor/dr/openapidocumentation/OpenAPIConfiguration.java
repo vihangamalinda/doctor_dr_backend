@@ -1,0 +1,41 @@
+package com.doctor.dr.openapidocumentation;
+
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
+
+@Configuration
+public class OpenAPIConfiguration {
+
+    @Bean
+    public OpenAPI defineOpenApi(){
+        Server server = new Server();
+        server.setUrl("/");
+        server.setDescription("Current deployment environment");
+
+        Contact contact = new Contact();
+        contact.setName("Vihanga Malinda");
+        contact.setEmail("doctordrapplication@gmail.com");
+
+        Info info = new Info().title("Doctor DR API Documentation")
+                .version("1.0.0")
+                .description("This is the API documentation for Doctor DR application.")
+                .contact(contact);
+
+        SecurityScheme bearerAuthScheme = new SecurityScheme()
+                .type(SecurityScheme.Type.HTTP)
+                .scheme("bearer")
+                .bearerFormat("JWT");
+
+        return new OpenAPI().info(info).servers(List.of(server)).components(new Components().addSecuritySchemes("bearerAuth",
+                                                                                                                bearerAuthScheme)).addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
+    }
+}

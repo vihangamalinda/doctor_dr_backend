@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface UserProfileRepository extends JpaRepository<UserProfile,Long> {
     List<UserProfile> findAllByIsActiveTrue();
+
+    List<UserProfile> findByUserCredential_RoleAssignments_UserRole_ValueAndIsActiveTrue(String userRoleValue);
+    List<UserProfile> findByUserCredential_RoleAssignments_UserRole_Value(String userRoleValue);
 }

@@ -6,7 +6,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserProfileDetailServiceImpl implements UserProfileDetailService{
-    private UserProfileRepository userProfileRepository;
+    private final UserProfileRepository userProfileRepository;
+    public UserProfileDetailServiceImpl(UserProfileRepository userProfileRepository){
+        this.userProfileRepository =userProfileRepository;
+    }
+
     @Override
     public UserProfile getUserProfileById(Long userProfileId) {
         return this.userProfileRepository.findById(userProfileId).orElseThrow(()->new RuntimeException(("User Profile Id not found.")));

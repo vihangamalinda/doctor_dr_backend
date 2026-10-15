@@ -1,0 +1,14 @@
+In order for this system to entier system to work:
+
+* Microsoft SQL should be installed on your system
+* Java 17 version should be installed
+* Python 3--- should be insluded
+
+
+Prerequistes tha should be perform:
+
+Intiaily You have to copy the conent inside install_database.sql or you have to run the script. It will create a user that can connect with microsoft sql.
+
+Then you have to run the Data base Back up.
+
+This will helps you to run the backend system. 

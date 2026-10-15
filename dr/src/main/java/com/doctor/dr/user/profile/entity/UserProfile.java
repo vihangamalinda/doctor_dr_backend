@@ -1,5 +1,6 @@
 package com.doctor.dr.user.profile.entity;
 
+import com.doctor.dr.usercredential.entity.UserCredential;
 import com.doctor.dr.hospital.entity.Hospital;
 import com.doctor.dr.location.entity.Location;
 import com.doctor.dr.reported.issue.entity.ReportedIssue;
@@ -30,10 +31,14 @@ public class UserProfile {
     private LocalDateTime createdDateTime;
     @Column(name = "modified_date_time")
     private LocalDateTime modifiedDateTime;
+    @Column(name = "user_email_address")
+    private String email;
 
     @ManyToOne()
     @JoinColumn(name = "hospital_id")
     private Hospital hospital;
+    @OneToOne(mappedBy = "userProfile")
+    private UserCredential userCredential;
     @OneToMany(mappedBy = "userProfile")
     private List<Submission> submissionList = new ArrayList<>();
 
@@ -50,7 +55,7 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(Long id, String firstName, String lastName, Location location, boolean isActive, LocalDateTime createdDateTime, LocalDateTime modifiedDateTime,Hospital hospital) {
+    public UserProfile(Long id, String firstName, String lastName, Location location, boolean isActive, LocalDateTime createdDateTime, LocalDateTime modifiedDateTime, Hospital hospital, UserCredential userCredential,String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -59,6 +64,8 @@ public class UserProfile {
         this.createdDateTime = createdDateTime;
         this.modifiedDateTime = modifiedDateTime;
         this.hospital =hospital;
+        this.userCredential = userCredential;
+        this.email =email;
     }
 
     public Long getId() {
@@ -133,4 +140,19 @@ public class UserProfile {
         this.hospital = hospital;
     }
 
+    public UserCredential getUserCredential() {
+        return userCredential;
+    }
+
+    public void setUserCredential(UserCredential userCredential) {
+        this.userCredential = userCredential;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

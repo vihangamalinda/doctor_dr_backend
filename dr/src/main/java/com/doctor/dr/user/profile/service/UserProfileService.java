@@ -1,7 +1,9 @@
 package com.doctor.dr.user.profile.service;
 
+import com.doctor.dr.user.profile.dto.request.UpdateUserProfilePasswordDTO;
 import com.doctor.dr.user.profile.dto.request.UserProfileRequestDTO;
 import com.doctor.dr.user.profile.dto.response.UserProfileResponseDTO;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
 
@@ -13,4 +15,8 @@ public interface UserProfileService {
     UserProfileResponseDTO getById(long id);
 
     void deleteById(long id);
+
+    List<UserProfileResponseDTO> getUserProfilesByUserRoleValue(String userRoleValue);
+
+    void updatePassword(UpdateUserProfilePasswordDTO dto, HttpServletResponse response);
 }

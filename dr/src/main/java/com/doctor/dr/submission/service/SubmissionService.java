@@ -1,6 +1,7 @@
 package com.doctor.dr.submission.service;
 
 import com.doctor.dr.submission.dto.request.SubmissionRequestDTO;
+import com.doctor.dr.submission.dto.response.ModelPredictionPrimaryDTO;
 import com.doctor.dr.submission.dto.response.SubmissionResponseDTO;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface SubmissionService {
 
     SubmissionResponseDTO getSubmissionById(long id);
 
-    void create(SubmissionRequestDTO submissionRequestDTO);
+    ModelPredictionPrimaryDTO create(SubmissionRequestDTO submissionRequestDTO);
 
     void deleteById(long id);
 
