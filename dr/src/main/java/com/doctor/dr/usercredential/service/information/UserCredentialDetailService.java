@@ -9,6 +9,6 @@ public interface UserCredentialDetailService {
 
     void createUserCredentials(UserCredentialRegistrationRequestDTO dto);
 
-    void updatePassword(UserCredential userCredential, String newPassword, HttpServletResponse response);
+    void updatePassword(UserCredential userCredential,String currentPassword, String newPassword, HttpServletResponse response);
 
 }

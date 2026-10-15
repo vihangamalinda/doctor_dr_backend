@@ -11,6 +11,7 @@ import com.doctor.dr.usercredential.service.emailsender.EmailSenderService;
 import com.doctor.dr.usercredential.service.passwordgenerator.SecurePasswordGenerator;
 import com.doctor.dr.userrole.service.information.UserRoleDetailService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +65,11 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
     }
 
     @Override
-    public void updatePassword(UserCredential userCredential, String newPassword, HttpServletResponse response) {
+    public void updatePassword(UserCredential userCredential,String currentPassword, String newPassword, HttpServletResponse response) {
+        if(!bCryptPasswordEncoder.matches(currentPassword, userCredential.getPassword())){
+            throw new BadCredentialsException("The current password is not correct.");
+        }
+
         String encryptedPassword = encryptPassword(newPassword);
         userCredential.setPassword(encryptedPassword);
         persistEntity(userCredential);

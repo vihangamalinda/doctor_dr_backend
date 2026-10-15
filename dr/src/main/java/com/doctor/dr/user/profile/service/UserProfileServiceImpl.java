@@ -1,5 +1,6 @@
 package com.doctor.dr.user.profile.service;
 
+import com.doctor.dr.auth.custom.CustomUserDetail;
 import com.doctor.dr.user.profile.dto.request.UpdateUserProfilePasswordDTO;
 import com.doctor.dr.user.profile.dto.request.UserInternalSystemInformationRequestDTO;
 import com.doctor.dr.user.profile.dto.request.UserProfileRequestDTO;
@@ -8,8 +9,11 @@ import com.doctor.dr.user.profile.entity.UserProfile;
 import com.doctor.dr.user.profile.mapper.UserProfileMapper;
 import com.doctor.dr.user.profile.repository.UserProfileRepository;
 import com.doctor.dr.usercredential.dto.request.UserCredentialRegistrationRequestDTO;
+import com.doctor.dr.usercredential.entity.UserCredential;
 import com.doctor.dr.usercredential.service.information.UserCredentialDetailService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -72,8 +76,16 @@ public class UserProfileServiceImpl implements UserProfileService {
     public void updatePassword(UpdateUserProfilePasswordDTO dto, HttpServletResponse response) {
         UserProfile userProfile = this.findById(dto.getUserProfileId());
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null
+                || !(authentication.getPrincipal() instanceof CustomUserDetail principal)) {
+            throw new org.springframework.security.access.AccessDeniedException(
+                    "Authenticated user could not be identified."
+            );
+        }
+        UserCredential userCredential = principal.getUserCredential();
 
-        this.userCredentialDetailService.updatePassword(userProfile.getUserCredential(), dto.getNewPassword(),response);
+        this.userCredentialDetailService.updatePassword(userCredential, dto.getCurrentPassword(),dto.getNewPassword(),response);
     }
 
     private UserProfile findById(long id) {
