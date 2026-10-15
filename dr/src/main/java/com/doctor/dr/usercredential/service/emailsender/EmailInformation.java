@@ -20,9 +20,9 @@ public class EmailInformation {
 
     public String getSubject() {
         if (this.isAccountRegistration) {
-            return "Your has been Registered Successfully on Doctor DR Application";
+            return "Your account has been Registered Successfully on Doctor DR Application";
         }
-        return "Your Account Credentials has successfully updated on Doctor DR Application";
+        return "Your Account Credentials have successfully updated on Doctor DR Application";
     }
 
     public String getEmailBody() {
