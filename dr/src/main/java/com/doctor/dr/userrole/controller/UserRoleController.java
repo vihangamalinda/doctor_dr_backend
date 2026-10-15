@@ -5,6 +5,7 @@ import com.doctor.dr.userrole.dto.response.UserRoleResponseDTO;
 import com.doctor.dr.userrole.service.UserRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class UserRoleController {
     @Operation(summary = "Create a new user role",
             description = "This endpoint allows the creation of a new user role in the system.",
             tags = {"User Role Management"})
+    @PreAuthorize("hasAuthority('ADMIN')") // Only users with 'ADMIN' authority can access this endpoint
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody UserRoleRequestDTO userRoleRequestDTO){
         this.userRoleService.create(userRoleRequestDTO);
@@ -48,6 +50,7 @@ public class UserRoleController {
     @Operation(summary = "Inactivate user role by ID",
             description = "This endpoint inactivates an existing user role identified by its unique ID",
             tags = {"User Role Management"})
+    @PreAuthorize("hasAuthority('ADMIN')") // Only users with 'ADMIN' authority can access this endpoint
     public ResponseEntity<String> deleteById(@PathVariable("id") long id){
         this.userRoleService.deleteById(id);
         return ResponseEntity.ok("deleted");
