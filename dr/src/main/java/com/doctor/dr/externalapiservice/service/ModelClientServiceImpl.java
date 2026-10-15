@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
+import java.time.Duration;
 
 @Service
 public class ModelClientServiceImpl implements ModelClientService{
@@ -35,7 +36,7 @@ public class ModelClientServiceImpl implements ModelClientService{
                 .bodyValue(bodyBuilder.build())
                 .retrieve()
                 .bodyToMono(responseType)
-                .block();// blocking for simplicity
+                .block(Duration.ofSeconds(60));// blocking for simplicity
     }
 
     private ByteArrayResource getByteArrayResource(MultipartFile multipartFile) throws IOException {
