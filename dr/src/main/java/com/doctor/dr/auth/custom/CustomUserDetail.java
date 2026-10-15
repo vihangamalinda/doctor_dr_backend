@@ -60,4 +60,8 @@ public class CustomUserDetail implements UserDetails {
     public boolean isEnabled() {
         return this.userCredential.getIsActive();
     }
+
+    public UserCredential getUserCredential() {
+        return this.userCredential;
+    }
 }
