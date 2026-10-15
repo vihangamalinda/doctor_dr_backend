@@ -86,13 +86,13 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
 
     private String createSecurePassword(){
         String generate = SecurePasswordGenerator.generate(10);
-        System.out.println("Password:->" + generate);
+//        System.out.println("Password:->" + generate);
 
         return generate;
     }
     private String encryptPassword(String password){
         String encode = bCryptPasswordEncoder.encode(password);
-        System.out.println("Encrypted password:->" + encode);
+//        System.out.println("Encrypted password:->" + encode);
 
         return encode;
     }
