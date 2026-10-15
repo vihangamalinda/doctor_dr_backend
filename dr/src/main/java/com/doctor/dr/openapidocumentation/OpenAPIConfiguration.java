@@ -15,8 +15,8 @@ public class OpenAPIConfiguration {
     @Bean
     public OpenAPI defineOpenApi(){
         Server server = new Server();
-        server.setUrl("http://localhost:8080");
-        server.setDescription("Development");
+        server.setUrl("/");
+        server.setDescription("Current deployment environment");
 
         Contact contact = new Contact();
         contact.setName("Vihanga Malinda");
