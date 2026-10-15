@@ -51,6 +51,7 @@ public class UserRoleController {
             description = "This endpoint inactivates an existing user role identified by its unique ID",
             tags = {"User Role Management"})
     @PreAuthorize("hasAuthority('ADMIN')") // Only users with 'ADMIN' authority can access this endpoint
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable("id") long id){
         this.userRoleService.deleteById(id);
         return ResponseEntity.ok("deleted");
