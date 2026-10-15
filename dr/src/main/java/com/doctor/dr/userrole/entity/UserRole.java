@@ -19,7 +19,7 @@ public class UserRole {
     @Column(name = "user_role_value")
     private String value;
 
-    @OneToMany()
+    @OneToMany(mappedBy = "userRole")
     private Set<RoleAssignment> roleAssignments = new HashSet<>();
 
     public UserRole() {
