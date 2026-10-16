@@ -1,5 +1,6 @@
 package com.doctor.dr.reported.issue.service;
 
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.reported.issue.dto.request.ReportedIssueRequestDTO;
 import com.doctor.dr.reported.issue.dto.response.ReportedIssueResponseDTO;
 import com.doctor.dr.reported.issue.entity.ReportedIssue;
@@ -38,7 +39,7 @@ public class ReportedIssueServiceImpl implements ReportedIssueService {
     }
 
     private ReportedIssue findById(long id) {
-        return this.reportedIssueRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
+        return this.reportedIssueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found"));
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.doctor.dr.contact.dto.response.ContactResponseDTO;
 import com.doctor.dr.contact.entity.Contact;
 import com.doctor.dr.contact.mapper.ContactMapper;
 import com.doctor.dr.contact.repository.ContactRepository;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +56,7 @@ public class ContactServiceImpl implements ContactService{
     }
 
     private Contact findById(Long id) {
-        return this.contactRepository.findById(id).orElseThrow(() -> new RuntimeException("Contact Id was not found."));
+        return this.contactRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Contact Id was not found."));
     }
 
     @Override

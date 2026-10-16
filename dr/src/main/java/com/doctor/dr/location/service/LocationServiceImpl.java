@@ -1,5 +1,6 @@
 package com.doctor.dr.location.service;
 
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.location.dto.LocationRequestDTO;
 import com.doctor.dr.location.dto.LocationResponseDTO;
 import com.doctor.dr.location.entity.Location;
@@ -45,7 +46,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     private Location findById(long id) {
-        return this.locationRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found."));
+        return this.locationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found."));
     }
 
     @Override

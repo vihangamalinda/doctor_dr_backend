@@ -2,6 +2,7 @@ package com.doctor.dr.submission.service;
 
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import com.doctor.dr.disease.stage.service.information.DiseaseStageInformation;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.externalapiservice.service.ModelClientService;
 import com.doctor.dr.status.entity.Status;
 import com.doctor.dr.status.service.information.StatusInformation;
@@ -56,7 +57,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     private Submission findSubmissionById(long id) {
-        return this.submissionRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found."));
+        return this.submissionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found."));
     }
 
     /**
@@ -103,7 +104,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     private void validateModelPrediction(ModelPredictionResponse modelPrediction) {
         if(modelPrediction ==null || modelPrediction.getData()==null || modelPrediction.getData().getPredictionIndex() == null ){
-            throw new RuntimeException("Model prediction failed: Model response is null or missing data.");
+            throw new IllegalArgumentException("Model prediction failed: Model response is null or missing data.");
         }
     }
 

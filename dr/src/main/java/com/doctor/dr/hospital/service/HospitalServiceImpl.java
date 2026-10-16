@@ -1,5 +1,6 @@
 package com.doctor.dr.hospital.service;
 
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.hospital.dto.request.HospitalRequestDTO;
 import com.doctor.dr.hospital.dto.response.HospitalResponseDTO;
 import com.doctor.dr.hospital.entity.Hospital;
@@ -39,7 +40,7 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     private Hospital findById(long id) {
-        return this.hospitalRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
+        return this.hospitalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found"));
     }
 
     @Override

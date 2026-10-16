@@ -5,6 +5,7 @@ import com.doctor.dr.disease.stage.dto.DiseaseStageRequestDTO;
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import com.doctor.dr.disease.stage.mapper.DiseaseStageMapper;
 import com.doctor.dr.disease.stage.repository.DiseaseStageRepository;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class DiseaseStageServiceImpl implements DiseaseStageService {
     }
 
     private DiseaseStage findById(long id) {
-        return this.diseaseStageRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found."));
+        return this.diseaseStageRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found."));
     }
 
     @Override

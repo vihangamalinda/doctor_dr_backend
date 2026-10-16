@@ -2,6 +2,7 @@ package com.doctor.dr.requested.help.service;
 
 import com.doctor.dr.contact.entity.Contact;
 import com.doctor.dr.contact.service.information.ContactInformation;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.requested.help.dto.request.RequestedHelpFeedbackRequestDTO;
 import com.doctor.dr.requested.help.dto.request.RequestedHelpRequestDTO;
 import com.doctor.dr.requested.help.dto.response.RequestedHelpResponseDTO;
@@ -46,7 +47,7 @@ public class RequestedHelpServiceImpl implements RequestedHelpService {
     }
 
     private RequestedHelp findById(long id) {
-        return this.requestedHelpRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found."));
+        return this.requestedHelpRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found."));
     }
 
     @Override

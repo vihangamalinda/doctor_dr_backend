@@ -1,5 +1,6 @@
 package com.doctor.dr.status.service;
 
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.status.dto.request.StatusRequestDTO;
 import com.doctor.dr.status.dto.response.StatusResponseDTO;
 import com.doctor.dr.status.entity.Status;
@@ -52,7 +53,7 @@ public class StatusServiceImpl implements StatusService {
     }
 
     private Status findById(long id) {
-        return this.statusRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
+        return this.statusRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found"));
     }
 
 }

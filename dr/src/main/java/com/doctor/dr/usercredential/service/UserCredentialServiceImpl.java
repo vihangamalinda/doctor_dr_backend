@@ -1,6 +1,7 @@
 package com.doctor.dr.usercredential.service;
 
 import com.doctor.dr.auth.cookieservice.CookieService;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.usercredential.dto.request.UserLoginRequestDTO;
 import com.doctor.dr.usercredential.dto.response.AuthenticatedCurrentUserResponse;
 import com.doctor.dr.usercredential.dto.response.AuthenticatedUserCredentialResponseDTO;
@@ -77,7 +78,7 @@ public class UserCredentialServiceImpl implements UserCredentialService {
 
         UserCredential userCredential = this.userCredentialRepository
                 .findUserProfileByUserName(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User profile not found for the given username."));
+                .orElseThrow(() -> new ResourceNotFoundException("User profile not found for the given username."));
 
         List<String> authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         Long userProfileId = userCredential.getUserProfile().getId();
@@ -113,6 +114,6 @@ public class UserCredentialServiceImpl implements UserCredentialService {
     }
 
     private UserCredential findByUserName(String userName) {
-        return this.userCredentialRepository.findByUserName(userName).orElseThrow(() -> new RuntimeException("Given username is not registered."));
+        return this.userCredentialRepository.findByUserName(userName).orElseThrow(() -> new ResourceNotFoundException("Given username is not registered."));
     }
 }

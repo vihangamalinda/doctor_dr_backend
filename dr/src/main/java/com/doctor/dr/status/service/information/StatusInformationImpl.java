@@ -1,5 +1,6 @@
 package com.doctor.dr.status.service.information;
 
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.status.entity.Status;
 import com.doctor.dr.status.repository.StatusRepository;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,6 @@ public class StatusInformationImpl implements StatusInformation{
 
     @Override
     public Status getStatusById(long id) {
-        return this.statusRepository.findById(id).orElseThrow(()-> new RuntimeException("Id not found."));
+        return this.statusRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Id not found."));
     }
 }
