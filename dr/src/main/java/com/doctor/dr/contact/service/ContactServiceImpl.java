@@ -29,9 +29,19 @@ public class ContactServiceImpl implements ContactService{
 
     @Override
     public void create(ContactRequestDTO contactRequestDTO) {
+        this.validateRequest(contactRequestDTO);
         Contact contact = this.contactMapper.toContact(contactRequestDTO);
         contact.setIsActive(true);
         persistEntity(contact);
+    }
+
+    private void validateRequest(ContactRequestDTO dto) {
+        if (isInvalidData(dto.getFirstName()) || isInvalidData(dto.getLastName()) || isInvalidData(dto.getContactNumber()))
+            throw new IllegalArgumentException("First name , last name and contact number can not be empty");
+    }
+
+    private boolean isInvalidData(String s){
+        return s == null || s.isBlank();
     }
 
     private void persistEntity(Contact contact) {
