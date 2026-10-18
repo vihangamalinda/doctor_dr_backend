@@ -2,6 +2,8 @@ package com.doctor.dr.submission.service;
 
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import com.doctor.dr.disease.stage.service.information.DiseaseStageInformation;
+import com.doctor.dr.exception.DataInvalidException;
+import com.doctor.dr.exception.ModelPredictionException;
 import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.externalapiservice.service.ModelClientService;
 import com.doctor.dr.status.entity.Status;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,11 +98,20 @@ public class SubmissionServiceImpl implements SubmissionService {
             submission.setStatus(sucseededStatus);
             Submission persistedEntity=persistEntity(submission);
             return generateResponse(persistedEntity,modelPrediction,multipartFileImage);
-        }catch (Exception e){
-            Status failedStatus = getStatusInformationById(SubmissionStatusId.REJECTED);
-            submission.setStatus(failedStatus);
-            throw  new RuntimeException("Model prediction failed: " + e.getMessage());
+        }catch (IOException e){
+            markSubmissionInvalid(submission);
+            String message = "Model prediction failed: " + e.getMessage();
+            throw  new ModelPredictionException(message,e);
+        }catch (IllegalArgumentException e){
+            markSubmissionInvalid(submission);
+            String message ="Data retrieved from model prediction API call were corrupted. More information: "+e.getMessage();
+            throw new DataInvalidException(message,e);
         }
+    }
+
+    private void markSubmissionInvalid(Submission submission) {
+        Status failedStatus = getStatusInformationById(SubmissionStatusId.REJECTED);
+        submission.setStatus(failedStatus);
     }
 
     private void validateModelPrediction(ModelPredictionResponse modelPrediction) {
