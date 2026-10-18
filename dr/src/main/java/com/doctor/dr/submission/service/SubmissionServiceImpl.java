@@ -18,8 +18,6 @@ import com.doctor.dr.submission.entity.Submission;
 import com.doctor.dr.submission.mapper.SubmissionMapper;
 import com.doctor.dr.submission.repository.SubmissionRepository;
 import com.doctor.dr.user.profile.entity.UserProfile;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,13 +36,15 @@ public class SubmissionServiceImpl implements SubmissionService {
     private final StatusInformation statusInformation;
     private final DiseaseStageInformation diseaseStageInformation;
     private final ModelClientService modelClientService;
+    private final ImageUtils imageUtilsImpl;
 
-    public SubmissionServiceImpl(SubmissionRepository submissionRepository, SubmissionMapper submissionMapper, StatusInformation statusInformation, DiseaseStageInformation diseaseStageInformation, ModelClientService modelClientService) {
+    public SubmissionServiceImpl(SubmissionRepository submissionRepository, SubmissionMapper submissionMapper, StatusInformation statusInformation, DiseaseStageInformation diseaseStageInformation, ModelClientService modelClientService, ImageUtils imageUtilsImpl) {
         this.submissionRepository = submissionRepository;
         this.submissionMapper = submissionMapper;
         this.statusInformation = statusInformation;
         this.diseaseStageInformation = diseaseStageInformation;
         this.modelClientService = modelClientService;
+        this.imageUtilsImpl = imageUtilsImpl;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     private ModelPredictionPrimaryDTO generateResponse(Submission persistedEntity, ModelPredictionResponse modelPrediction,MultipartFile originalInputImage) {
         PredictionDetailResponse modelPredictionResponse =modelPrediction.getData();
-        String EncodedOriginalInputImage = ImageUtils.prepareImageForJson(originalInputImage);
+        String EncodedOriginalInputImage = this.imageUtilsImpl.prepareImageForJson(originalInputImage);
         ModelPredictionDetailsResponseDTO modelPredictionDetailsResponseDTO =
                 new ModelPredictionDetailsResponseDTO.Builder()
                         .withPredictionIndex(modelPredictionResponse.getPredictionIndex())
