@@ -2,28 +2,32 @@ package com.doctor.dr.submission.service;
 
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import com.doctor.dr.disease.stage.service.information.DiseaseStageInformation;
+import com.doctor.dr.exception.DataInvalidException;
+import com.doctor.dr.exception.ModelPredictionException;
 import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.externalapiservice.service.ModelClientService;
 import com.doctor.dr.status.entity.Status;
 import com.doctor.dr.status.service.information.StatusInformation;
-import com.doctor.dr.submission.dto.response.DiseaseStageDetailResponseDTO;
-import com.doctor.dr.submission.dto.response.StatusDetailResponseDTO;
-import com.doctor.dr.submission.dto.response.SubmissionResponseDTO;
-import com.doctor.dr.submission.dto.response.UserProfileDetailResponseDTO;
+import com.doctor.dr.submission.dto.external.ModelPredictionResponse;
+import com.doctor.dr.submission.dto.external.PredictionDetailResponse;
+import com.doctor.dr.submission.dto.request.SubmissionRequestDTO;
+import com.doctor.dr.submission.dto.request.UserProfileDetailRequestDTO;
+import com.doctor.dr.submission.dto.response.*;
 import com.doctor.dr.submission.entity.Submission;
 import com.doctor.dr.submission.mapper.SubmissionMapper;
 import com.doctor.dr.submission.repository.SubmissionRepository;
 import com.doctor.dr.user.profile.entity.UserProfile;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -40,6 +44,8 @@ class SubmissionServiceImplTest {
     private DiseaseStageInformation diseaseStageInformation;
     @Mock
     private ModelClientService modelClientService;
+    @Mock
+    private ImageUtils imageUtils;
     @InjectMocks
     private SubmissionServiceImpl submissionService;
 
@@ -51,7 +57,7 @@ class SubmissionServiceImplTest {
         DiseaseStage diseaseStageLevelZero = this.getDiseaseStage(0);
 
         UserProfile userProfile = this.getUserProfile(1);
-        Status completed = this.getStatus(1);
+        Status completed = this.getStatus();
         Submission firstSubmission = this.createSubmission(1L, "patient_01", LocalDateTime.now(), true, diseaseStageLevelThree, userProfile, completed);
         Submission secondSubmission = this.createSubmission(7L, "patient_07", LocalDateTime.now(), true, diseaseStageLevelZero, userProfile, completed);
 
@@ -109,7 +115,7 @@ class SubmissionServiceImplTest {
     @Test
     void getSubmissionById_shouldReturnSubmission_whenValidSubmissionIdIsGiven() {
         UserProfile userProfile = this.getUserProfile(3);
-        Status completed = this.getStatus(1);
+        Status completed = this.getStatus();
         DiseaseStage diseaseStageLevelThree = this.getDiseaseStage(3);
         Submission submission = this.createSubmission(4L, "patient_04", LocalDateTime.now(), true, diseaseStageLevelThree, userProfile, completed);
 
@@ -138,7 +144,7 @@ class SubmissionServiceImplTest {
     void deleteById_shouldDeactivateSubmission_whenValidActiveSubmissionIdIsGive() {
 
         DiseaseStage diseaseStage = this.getDiseaseStage(3);
-        Status status = this.getStatus(1);
+        Status status = this.getStatus();
         UserProfile userProfile = mock(UserProfile.class);
         Submission submission = this.createSubmission(4L, "patient_04", LocalDateTime.now(), true, diseaseStage, userProfile, status);
 
@@ -152,7 +158,7 @@ class SubmissionServiceImplTest {
     @Test
     void deleteById_shouldPerformNothing_whenValidDeactivatedSubmissionIdIsGive() {
         DiseaseStage diseaseStage = this.getDiseaseStage(3);
-        Status status = this.getStatus(1);
+        Status status = this.getStatus();
         UserProfile userProfile = mock(UserProfile.class);
         Submission submission = this.createSubmission(4L, "patient_04", LocalDateTime.now(), false, diseaseStage, userProfile, status);
 
@@ -181,7 +187,7 @@ class SubmissionServiceImplTest {
         DiseaseStage diseaseStage = this.getDiseaseStage(3);
         when(diseaseStage.getId()).thenReturn(3L);
         UserProfile userProfile = this.getUserProfile(5L);
-        Status status = this.getStatus(1);
+        Status status = this.getStatus();
 
         Submission firstSubmission = this.createSubmission(33L, "patient_33", LocalDateTime.now(), true, diseaseStage, userProfile, status);
         Submission secondSubmission = this.createSubmission(45L, "patient_45", LocalDateTime.now(), true, diseaseStage, userProfile, status);
@@ -222,7 +228,7 @@ class SubmissionServiceImplTest {
     void getSubmissionsByUserProfileId_shouldReturnSubmissions_whenValidUserProfileIdIsGiven() {
         UserProfile userProfile = this.getUserProfile(5L);
         DiseaseStage diseaseStage = this.getDiseaseStage(2);
-        Status status = this.getStatus(2);
+        Status status = this.getStatus();
         Submission submission = this.createSubmission(33L, "patient_33", LocalDateTime.now(), true, diseaseStage, userProfile, status);
         SubmissionResponseDTO dto = this.submissionToSubmissionResponseDTO(submission);
 
@@ -246,6 +252,231 @@ class SubmissionServiceImplTest {
         verify(this.submissionMapper,times(0)).toSubmissionResponseDTO(null);
     }
 
+    @Test
+    void create_shouldCreateSubmission_whenValidDataIsGiven() throws IOException {
+
+            MultipartFile file = mock(MultipartFile.class);
+
+            long pendingStatusId = 1;
+            long completedStatusId = 2;
+            long rejectedStatusId = 20003;
+            int predictionIndex= 3;
+
+            Status pendingStatus = this.getStatus("Pending");
+            Status completedStatus = this.getStatus("Completed");
+            Status rejectedStatus = this.getStatus("Rejected");
+
+               int diseaseLevel = 3;
+             DiseaseStage diseaseStage =this.getDiseaseStage(diseaseLevel);
+            long userProfileId = 5L;
+            SubmissionRequestDTO requestDTO = createSubmissionRequestDTO(file, userProfileId);
+
+            UserProfile userProfile = this.getUserProfile(userProfileId);
+            Submission submission = this.requestToSubmission(requestDTO,userProfile);
+            PredictionDetailResponse predictionDetailResponse =this.getPredictionDetailResponse(predictionIndex);
+            ModelPredictionResponse modelPredictionResponse = this.getModelPredictionResponse(predictionDetailResponse);
+
+            when(this.submissionMapper.toSubmission(any())).thenReturn(submission);
+
+            when(this.statusInformation.getStatusById(pendingStatusId)).thenReturn(pendingStatus);
+            when(this.statusInformation.getStatusById(completedStatusId)).thenReturn(completedStatus);
+//            when(this.statusInformation.getStatusById(rejectedStatusId)).thenReturn(rejectedStatus);
+
+
+            when(this.modelClientService.performModelPrediction(file, ModelPredictionResponse.class)).thenReturn(modelPredictionResponse);
+            when(this.diseaseStageInformation.getDiseaseStageByDiseaseLevel(predictionIndex)).thenReturn(diseaseStage);
+            when(this.imageUtils.prepareImageForJson(file)).thenReturn("EncodedOriginalInputImage");
+
+            when(this.submissionRepository.save(submission)).thenReturn(submission);
+            when(submission.getDiseaseStage()).thenReturn(diseaseStage);
+            when(submission.getStatus()).thenReturn(completedStatus);
+            ModelPredictionPrimaryDTO result = this.submissionService.create(requestDTO);
+
+            assertEquals(diseaseLevel,result.getDiseaseStage().getDiseaseLevel());
+//            assertEquals(completedStatus.getName(),result.getStatus());
+            assertEquals(predictionIndex,result.getModelPredictionDetails().getPredictionIndex());
+            verify(this.statusInformation,times(1)).getStatusById(pendingStatusId);
+            verify(this.statusInformation,times(1)).getStatusById(completedStatusId);
+            verify(this.statusInformation,times(0)).getStatusById(rejectedStatusId);
+
+    }
+
+    @Test
+    void create_shouldThrowModelPredictionException_whenModelPredictionApiFails() throws IOException {
+
+        MultipartFile file = mock(MultipartFile.class);
+
+        long pendingStatusId = 1;
+        long rejectedStatusId = 20003;
+        Status pendingStatus = this.getStatus("Pending");
+        Status rejectedStatus = this.getStatus("Rejected");
+
+        long userProfileId = 5L;
+        SubmissionRequestDTO requestDTO = createSubmissionRequestDTO(file, userProfileId);
+        Submission submission = mock(Submission.class);
+        when(this.submissionMapper.toSubmission(any())).thenReturn(submission);
+
+        when(this.statusInformation.getStatusById(pendingStatusId)).thenReturn(pendingStatus);
+        when(this.statusInformation.getStatusById(rejectedStatusId)).thenReturn(rejectedStatus);
+
+        when(this.modelClientService.performModelPrediction(file, ModelPredictionResponse.class)).thenThrow(new IOException("Model API had a failure."));
+        when(this.submissionRepository.save(submission)).thenReturn(submission);
+
+        Exception exception =assertThrows(ModelPredictionException.class,()->this.submissionService.create(requestDTO));
+
+        assertInstanceOf(IOException.class,exception.getCause());
+        verify(this.statusInformation,times(1)).getStatusById(pendingStatusId);
+        verify(this.statusInformation,times(1)).getStatusById(rejectedStatusId);
+    }
+
+    @Test
+    void create_shouldThrowDataInvalidException_whenModelPredictionApiResponseIsNull() throws IOException {
+
+        MultipartFile file = mock(MultipartFile.class);
+
+        long pendingStatusId = 1;
+        long rejectedStatusId = 20003;
+        Status pendingStatus = this.getStatus("Pending");
+        Status rejectedStatus = this.getStatus("Rejected");
+
+        long userProfileId = 5L;
+        SubmissionRequestDTO requestDTO = createSubmissionRequestDTO(file, userProfileId);
+        Submission submission = mock(Submission.class);
+        when(this.submissionMapper.toSubmission(any())).thenReturn(submission);
+
+
+//        UserProfile userProfile = this.getUserProfile(userProfileId);
+//        Submission submission = this.requestToSubmission(requestDTO,userProfile);
+//        PredictionDetailResponse predictionDetailResponse =this.getPredictionDetailResponse(predictionIndex);
+//        ModelPredictionResponse modelPredictionResponse = this.getModelPredictionResponse(null);
+
+        when(this.submissionMapper.toSubmission(any())).thenReturn(submission);
+
+        when(this.statusInformation.getStatusById(pendingStatusId)).thenReturn(pendingStatus);
+        when(this.statusInformation.getStatusById(rejectedStatusId)).thenReturn(rejectedStatus);
+
+        when(this.modelClientService.performModelPrediction(file, ModelPredictionResponse.class)).thenReturn(null);
+        when(this.submissionRepository.save(submission)).thenReturn(submission);
+
+        Exception exception =assertThrows(DataInvalidException.class,()->this.submissionService.create(requestDTO));
+
+        String expectedMessage = "Data retrieved from model prediction API call were corrupted. More information: Model prediction failed: Model response is null or missing data.";
+        assertEquals(expectedMessage, exception.getMessage());
+        assertInstanceOf(IllegalArgumentException.class,exception.getCause());
+        verify(this.statusInformation,times(1)).getStatusById(pendingStatusId);
+        verify(this.statusInformation,times(1)).getStatusById(rejectedStatusId);
+    }
+
+    @Test
+    void create_shouldThrowDataInvalidException_whenModelPredictionApiResponseDataIsNull() throws IOException {
+
+        MultipartFile file = mock(MultipartFile.class);
+
+        long pendingStatusId = 1;
+        long rejectedStatusId = 20003;
+        Status pendingStatus = this.getStatus("Pending");
+        Status rejectedStatus = this.getStatus("Rejected");
+
+        long userProfileId = 5L;
+        SubmissionRequestDTO requestDTO = createSubmissionRequestDTO(file, userProfileId);
+
+
+        Submission submission = mock(Submission.class);
+        when(this.submissionMapper.toSubmission(any())).thenReturn(submission);
+        when(this.submissionMapper.toSubmission(any())).thenReturn(submission);
+
+        when(this.statusInformation.getStatusById(pendingStatusId)).thenReturn(pendingStatus);
+        when(this.statusInformation.getStatusById(rejectedStatusId)).thenReturn(rejectedStatus);
+
+        ModelPredictionResponse modelPredictionResponse = mock(ModelPredictionResponse.class);
+        when(modelPredictionResponse.getData()).thenReturn(null);
+
+        when(this.modelClientService.performModelPrediction(file, ModelPredictionResponse.class)).thenReturn(modelPredictionResponse);
+        when(this.submissionRepository.save(submission)).thenReturn(submission);
+
+        Exception exception =assertThrows(DataInvalidException.class,()->this.submissionService.create(requestDTO));
+
+        String expectedMessage = "Data retrieved from model prediction API call were corrupted. More information: Model prediction failed: Model response is null or missing data.";
+        assertEquals(expectedMessage, exception.getMessage());
+        assertInstanceOf(IllegalArgumentException.class,exception.getCause());
+        verify(this.statusInformation,times(1)).getStatusById(pendingStatusId);
+        verify(this.statusInformation,times(1)).getStatusById(rejectedStatusId);
+    }
+
+    @Test
+    void create_shouldThrowDataInvalidException_whenModelPredictionApiResponsePredictionIndexIsNull() throws IOException {
+
+        MultipartFile file = mock(MultipartFile.class);
+
+        long pendingStatusId = 1;
+        long rejectedStatusId = 20003;
+        Status pendingStatus = this.getStatus("Pending");
+        Status rejectedStatus = this.getStatus("Rejected");
+
+        long userProfileId = 5L;
+        SubmissionRequestDTO requestDTO = createSubmissionRequestDTO(file, userProfileId);
+
+
+        Submission submission = mock(Submission.class);
+        when(this.submissionMapper.toSubmission(any())).thenReturn(submission);
+        when(this.submissionMapper.toSubmission(any())).thenReturn(submission);
+
+        when(this.statusInformation.getStatusById(pendingStatusId)).thenReturn(pendingStatus);
+        when(this.statusInformation.getStatusById(rejectedStatusId)).thenReturn(rejectedStatus);
+
+        PredictionDetailResponse detailResponse = mock(PredictionDetailResponse.class);
+        when(detailResponse.getPredictionIndex()).thenReturn(null);
+        ModelPredictionResponse modelPredictionResponse = mock(ModelPredictionResponse.class);
+        when(modelPredictionResponse.getData()).thenReturn(detailResponse);
+
+        when(this.modelClientService.performModelPrediction(file, ModelPredictionResponse.class)).thenReturn(modelPredictionResponse);
+        when(this.submissionRepository.save(submission)).thenReturn(submission);
+
+        Exception exception =assertThrows(DataInvalidException.class,()->this.submissionService.create(requestDTO));
+
+        String expectedMessage = "Data retrieved from model prediction API call were corrupted. More information: Model prediction failed: Model response is null or missing data.";
+        assertEquals(expectedMessage, exception.getMessage());
+        assertInstanceOf(IllegalArgumentException.class,exception.getCause());
+        verify(this.statusInformation,times(1)).getStatusById(pendingStatusId);
+        verify(this.statusInformation,times(1)).getStatusById(rejectedStatusId);
+    }
+
+    private ModelPredictionResponse getModelPredictionResponse(PredictionDetailResponse predictionDetail ){
+        ModelPredictionResponse response = mock(ModelPredictionResponse.class);
+        when(response.getData()).thenReturn(predictionDetail);
+        when(response.getMessage()).thenReturn("prediction message");
+        return  response;
+    }
+
+    private  @NonNull PredictionDetailResponse getPredictionDetailResponse(int predictionIndex) {
+        PredictionDetailResponse predictionDetail =  mock(PredictionDetailResponse.class);
+        when(predictionDetail.getPredictionIndex()).thenReturn(predictionIndex);
+        Map<String, Double> map = new HashMap<>();
+        when(predictionDetail.getClassProbability()).thenReturn(map);
+        when(predictionDetail.getOverlayImage()).thenReturn("");
+        return predictionDetail;
+    }
+
+    private Submission requestToSubmission(SubmissionRequestDTO dto,UserProfile userProfile) {
+        Submission submission =mock(Submission.class);
+        when(submission.getSubmissionId()).thenReturn(dto.getSubmissionId());
+        when(submission.getPatientReferenceId()).thenReturn(dto.getPatientReferenceId());
+        when(submission.getCreatedDateTime()).thenReturn(dto.getCreatedDateTime());
+        when(submission.getIsActive()).thenReturn(true);
+        when(submission.getUserProfile()).thenReturn(userProfile);
+        return submission;
+    }
+
+    private SubmissionRequestDTO createSubmissionRequestDTO(MultipartFile file,
+                                                            long userProfileId) {
+
+        UserProfileDetailRequestDTO userProfileDetailRequestDTO = new UserProfileDetailRequestDTO(userProfileId);
+        SubmissionRequestDTO requestDTO = new SubmissionRequestDTO(4L, "patient_456", LocalDateTime.now(), file,
+                userProfileDetailRequestDTO);
+        return requestDTO;
+    }
+
+
     private Submission createSubmission(long id, String patientReferenceId, LocalDateTime createdDateTime, boolean isActive, DiseaseStage diseaseStage, UserProfile userProfile, Status status) {
         boolean hasDisease = diseaseStage.getDiseaseLevel() != 0;
 
@@ -254,25 +485,16 @@ class SubmissionServiceImplTest {
         return submission;
     }
 
-    private Status getStatus(int index) {
-
+    private Status getStatus() {
+        return mock(Status.class);
+    }
+    private Status getStatus(String name){
         Status status = mock(Status.class);
-//        if (index == 1) {
-//            when(status.getId()).thenReturn(4L);
-//            when(status.getName()).thenReturn("completed");
-//            when(status.getValue()).thenReturn(2);
-//        } else if (index == 2) {
-//            when(status.getId()).thenReturn(5L);
-//            when(status.getName()).thenReturn("rejected");
-//            when(status.getValue()).thenReturn(3);
-//        } else {
-//            when(status.getId()).thenReturn(7L);
-//            when(status.getName()).thenReturn("pending");
-//            when(status.getValue()).thenReturn(0);
-//        }
-
+//        when(status.getId()).thenReturn(id);
+//        when(status.getName()).thenReturn(name);
         return status;
     }
+
 
     private DiseaseStage getDiseaseStage(int diseaseLevel) {
         DiseaseStage diseaseStage = mock(DiseaseStage.class);
