@@ -1,5 +1,6 @@
 package com.doctor.dr.submission.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -7,7 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
-
+@Service
 public class ImageUtilsImpl implements ImageUtils{
 
     public  String prepareImageForJson(MultipartFile file) {
