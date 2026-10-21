@@ -49,24 +49,17 @@ public class UserCredentialServiceImpl implements UserCredentialService {
     @Override
     public AuthenticatedUserCredentialResponseDTO login(UserLoginRequestDTO dto, HttpServletResponse httpServletResponse) {
 
-        Authentication authenticationToken = getAuthenticationToken(dto);
+        Authentication authenticationToken = this.getAuthenticationToken(dto);
+        String username = authenticationToken.getName();
 
-        if(authenticationToken.isAuthenticated()) {
-            String username = dto.getUsername();
+        List<String> userRoleNames = this.getUserRoleNames(username);
+        String token = this.jwtService.generateToken(username);
+        Cookie cookie = this.cookieService.getCookieWithToken(token);
+        httpServletResponse.addCookie(cookie);
 
-            List<String> userRoleNames = getUserRoleNames(username);
-            String token =jwtService.generateToken(username);
-            Cookie cookie=cookieService.getCookieWithToken(token);
-            httpServletResponse.addCookie(cookie);
-
-            AuthenticatedUserCredentialResponseDTO authResponse=
-                    new AuthenticatedUserCredentialResponseDTO(token, username,userRoleNames);
-            return authResponse;
-        }else {
-            System.out.println("Authentication failed.");
-            //shold do something here
-            return null;
-        }
+        AuthenticatedUserCredentialResponseDTO authResponse =
+                new AuthenticatedUserCredentialResponseDTO(token, username, userRoleNames);
+        return authResponse;
     }
 
     @Override
@@ -76,6 +69,8 @@ public class UserCredentialServiceImpl implements UserCredentialService {
         }
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        if (userDetails ==null) return new AuthenticatedCurrentUserResponse(false);
 
         UserCredential userCredential = this.userCredentialRepository
                 .findUserProfileByUserName(userDetails.getUsername())
