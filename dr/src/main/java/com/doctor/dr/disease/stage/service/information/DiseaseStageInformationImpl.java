@@ -2,6 +2,7 @@ package com.doctor.dr.disease.stage.service.information;
 
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import com.doctor.dr.disease.stage.repository.DiseaseStageRepository;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,12 +16,12 @@ public class DiseaseStageInformationImpl implements DiseaseStageInformation{
 
     @Override
     public DiseaseStage getDiseaseStageById(long id) {
-        return this.diseaseStageRepository.findById(id).orElseThrow(()-> new RuntimeException("Id not found."));
+        return this.diseaseStageRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Id not found."));
     }
 
     @Override
     public DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel) {
         return this.diseaseStageRepository.findByDiseaseLevelAndIsActiveTrue(diseaseLevel)
-                .orElseThrow(()-> new RuntimeException("Disease level not found."));
+                .orElseThrow(()-> new ResourceNotFoundException("Disease level not found."));
     }
 }

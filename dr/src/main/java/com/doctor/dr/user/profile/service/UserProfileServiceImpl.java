@@ -1,6 +1,7 @@
 package com.doctor.dr.user.profile.service;
 
 import com.doctor.dr.auth.custom.CustomUserDetail;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.user.profile.dto.request.UpdateUserProfilePasswordDTO;
 import com.doctor.dr.user.profile.dto.request.UserInternalSystemInformationRequestDTO;
 import com.doctor.dr.user.profile.dto.request.UserProfileRequestDTO;
@@ -89,7 +90,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     private UserProfile findById(long id) {
-        return this.userProfileRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
+        return this.userProfileRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found"));
     }
 
 
