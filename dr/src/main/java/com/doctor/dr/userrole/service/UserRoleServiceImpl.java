@@ -1,5 +1,6 @@
 package com.doctor.dr.userrole.service;
 
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.userrole.dto.request.UserRoleRequestDTO;
 import com.doctor.dr.userrole.dto.response.UserRoleResponseDTO;
 import com.doctor.dr.userrole.entity.UserRole;
@@ -29,9 +30,17 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     public void create(UserRoleRequestDTO userRoleRequestDTO) {
+        this.validate(userRoleRequestDTO);
+
         UserRole userRole = this.userRoleMapper.toUserRole(userRoleRequestDTO);
         userRole.setIsActive(true);
         persistEntity(userRole);
+    }
+
+    private void validate(UserRoleRequestDTO dto) {
+        if(dto.getName() ==null || dto.getName().isBlank() || dto.getValue()==null || dto.getValue().isBlank()){
+           throw  new IllegalArgumentException("Provided information are not valid.");
+        }
     }
 
     private void persistEntity(UserRole userRole) {
@@ -46,7 +55,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     private UserRole findById(long id) {
-        return this.userRoleRepository.findById(id).orElseThrow(() -> new RuntimeException("Given user role id was not found."));
+        return this.userRoleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Given user role id was not found."));
     }
 
     @Override
@@ -61,7 +70,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public UserRoleResponseDTO getUserRoleByUserRoleValue(String userRoleValue) {
         UserRole userRole =this.userRoleRepository.findByValue(userRoleValue)
-                .orElseThrow(()-> new RuntimeException("Given User role value was not found. "+userRoleValue));
+                .orElseThrow(()-> new ResourceNotFoundException("Given User role value was not found. "+userRoleValue));
         return this.userRoleMapper.toUserRoleResponseDTO(userRole);
     }
 }
