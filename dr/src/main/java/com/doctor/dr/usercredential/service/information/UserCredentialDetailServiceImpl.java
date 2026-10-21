@@ -1,6 +1,8 @@
 package com.doctor.dr.usercredential.service.information;
 
 import com.doctor.dr.auth.cookieservice.CookieService;
+import com.doctor.dr.exception.PasswordUpdateInformationException;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.roleassignment.dto.request.RoleAssignmentRequestDTO;
 import com.doctor.dr.roleassignment.service.RoleAssignmentDetailService;
 import com.doctor.dr.usercredential.dto.request.UserCredentialRegistrationRequestDTO;
@@ -9,13 +11,10 @@ import com.doctor.dr.usercredential.repository.UserCredentialRepository;
 import com.doctor.dr.usercredential.service.emailsender.EmailInformation;
 import com.doctor.dr.usercredential.service.emailsender.EmailSenderService;
 import com.doctor.dr.usercredential.service.passwordgenerator.SecurePasswordGenerator;
-import com.doctor.dr.userrole.service.information.UserRoleDetailService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserCredentialDetailServiceImpl implements UserCredentialDetailService {
@@ -40,6 +39,8 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
 
     @Override
     public void createUserCredentials(UserCredentialRegistrationRequestDTO dto) {
+        this.validate(dto);
+
         String password= createSecurePassword();
 
 //        System.out.println("**************");
@@ -64,11 +65,19 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
         this.emailSenderService.sendSimpleEmail(emailInformation);
     }
 
+    private void validate(UserCredentialRegistrationRequestDTO dto) {
+        if (dto.getUserName() == null || dto.getUserName().isBlank() || dto.getUserProfile() == null || dto.getUserRoleId() == null) {
+            throw new IllegalArgumentException("Requested data should be valid inorder to proceed.");
+        }
+    }
+
     @Override
     public void updatePassword(UserCredential userCredential,String currentPassword, String newPassword, HttpServletResponse response) {
         if(!bCryptPasswordEncoder.matches(currentPassword, userCredential.getPassword())){
             throw new BadCredentialsException("The current password is not correct.");
         }
+
+        this.validateNewPassword(newPassword);
 
         String encryptedPassword = encryptPassword(newPassword);
         userCredential.setPassword(encryptedPassword);
@@ -78,6 +87,12 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
                 EmailInformation(userCredential.getUserProfile().getEmail(),userCredential.getUserName(),newPassword,false);
         this.emailSenderService.sendSimpleEmail(emailInformation);
         this.performLogout(response);
+    }
+
+    private void validateNewPassword(String newPassword) {
+        int characterLimit = 10;
+        if (newPassword.trim().length() < characterLimit)
+            throw new PasswordUpdateInformationException("New password should be longer than 10 characters.");
     }
 
     private  void performLogout(HttpServletResponse response){
@@ -91,7 +106,7 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
         return generate;
     }
     private String encryptPassword(String password){
-        String encode = bCryptPasswordEncoder.encode(password);
+        String encode = this.bCryptPasswordEncoder.encode(password);
 //        System.out.println("Encrypted password:->" + encode);
 
         return encode;
@@ -102,6 +117,6 @@ public class UserCredentialDetailServiceImpl implements UserCredentialDetailServ
     }
 
     private UserCredential findByUserName(String username) {
-        return this.userCredentialRepository.findByUserName(username).orElseThrow(() -> new RuntimeException("The Given UserName is not found."));
+        return this.userCredentialRepository.findByUserName(username).orElseThrow(() -> new ResourceNotFoundException("The Given UserName is not found."));
     }
 }
