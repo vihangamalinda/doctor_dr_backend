@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.doctor.dr.requested.help.constants.RequestedHelpStatusId.CREATED_STATUS_ID;
+import static com.doctor.dr.requested.help.constants.RequestedHelpStatusId.FEEDBACK_PROVIDED_STATUS_ID;
+
 @Service
 public class RequestedHelpServiceImpl implements RequestedHelpService {
     private final RequestedHelpRepository requestedHelpRepository;
@@ -52,9 +55,11 @@ public class RequestedHelpServiceImpl implements RequestedHelpService {
 
     @Override
     public void create(RequestedHelpRequestDTO requestedHelpRequestDTO) {
+        this.validate(requestedHelpRequestDTO);
+
         RequestedHelp requestedHelp = this.requestedHelpMapper.toRequestedHelp(requestedHelpRequestDTO);
         requestedHelp.setIsActive(true);
-        Status status = this.statusInformation.getStatusById(10003);
+        Status status = this.statusInformation.getStatusById(CREATED_STATUS_ID);
         requestedHelp.setStatus(status);
         persistEntity(requestedHelp);
     }
@@ -89,9 +94,11 @@ public class RequestedHelpServiceImpl implements RequestedHelpService {
     @Override
     public void addFeedBack(Long id,RequestedHelpFeedbackRequestDTO dto) {
         // need to updated the status after reviewing and adding the feedbacks
+        this.validate(dto);
+
         RequestedHelp requestedHelp =this.findById(id);
         Contact contact =this.contactInformation.getContactById(dto.getContactId());
-        Status status =this.statusInformation.getStatusById(10004);
+        Status status =this.statusInformation.getStatusById(FEEDBACK_PROVIDED_STATUS_ID);
         UserProfile userProfile = this.userProfileDetailService.getUserProfileById(dto.getReviewedByUserProfileId());
 
         requestedHelp.setReviewedByUserProfile(userProfile);
@@ -101,10 +108,24 @@ public class RequestedHelpServiceImpl implements RequestedHelpService {
         this.requestedHelpRepository.save(requestedHelp);
     }
 
+
     @Override
     public List<RequestedHelpResponseDTO> getRequestedHelpsByStatusValue(long value) {
         List<RequestedHelp> requestedHelps = this.requestedHelpRepository.findByStatus_valueAndIsActiveTrue(value);
 
         return requestedHelps.stream().map(this.requestedHelpMapper::toRequestedHelpResponseDTO).collect(Collectors.toList());
+    }
+
+
+    private void validate(RequestedHelpFeedbackRequestDTO dto) {
+        if(dto.getContactId() ==null || dto.getFeedback() == null || dto.getFeedback().isBlank() || dto.getReviewedByUserProfileId() ==null){
+            throw  new IllegalArgumentException("Should provide valid inputs to the feedback");
+        }
+    }
+
+    private void validate(RequestedHelpRequestDTO dto){
+        if(dto.getCreatedByUserProfile()==null || dto.getCreatedDateTime() ==null || dto.getTitle() ==null ||dto.getTitle().isBlank() ||dto.getDescription() == null ||dto.getDescription().isBlank()){
+            throw new IllegalArgumentException("Invalid inputs.");
+        }
     }
 }
