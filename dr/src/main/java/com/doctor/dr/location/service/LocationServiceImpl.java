@@ -19,10 +19,10 @@ public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
 
-    public LocationServiceImpl(LocationRepository locationRepository) {
+    public LocationServiceImpl(LocationRepository locationRepository,LocationMapper locationMapper) {
 
         this.locationRepository = locationRepository;
-        this.locationMapper = Mappers.getMapper(LocationMapper.class);
+        this.locationMapper = locationMapper;
     }
 
     @Override
@@ -52,7 +52,10 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public void deleteById(long id) {
         Location location = this.findById(id);
-        location.setIsActive(false);
-        this.locationRepository.save(location);
+        if(location.getIsActive()){
+            location.setIsActive(false);
+            this.locationRepository.save(location);
+        }
+
     }
 }
