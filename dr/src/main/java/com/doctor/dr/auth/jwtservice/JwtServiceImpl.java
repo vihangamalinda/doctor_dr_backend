@@ -26,6 +26,7 @@ public class JwtServiceImpl implements JwtService {
         configureSecureKey();
     }
 
+    @Override
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts
