@@ -4,6 +4,7 @@ import com.doctor.dr.status.dto.request.StatusRequestDTO;
 import com.doctor.dr.status.dto.response.StatusResponseDTO;
 import com.doctor.dr.status.service.StatusService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class StatusController {
             description = "This endpoint allows the creation of a new status in the system.",
             tags = {"Status Management"})
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody StatusRequestDTO statusRequestDTO) {
+    public ResponseEntity<String> create(@Valid @RequestBody StatusRequestDTO statusRequestDTO) {
         this.statusService.create(statusRequestDTO);
         return ResponseEntity.ok("created");
     }

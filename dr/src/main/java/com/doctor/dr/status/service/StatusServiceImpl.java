@@ -17,9 +17,9 @@ public class StatusServiceImpl implements StatusService {
     private final StatusRepository statusRepository;
     private final StatusMapper statusMapper;
 
-    public StatusServiceImpl(StatusRepository statusRepository) {
+    public StatusServiceImpl(StatusRepository statusRepository,StatusMapper statusMapper) {
         this.statusRepository = statusRepository;
-        this.statusMapper = Mappers.getMapper(StatusMapper.class);
+        this.statusMapper = statusMapper;
     }
 
     @Override
@@ -44,8 +44,10 @@ public class StatusServiceImpl implements StatusService {
     @Override
     public void deleteById(long id) {
         Status status = this.findById(id);
-        status.setIsActive(false);
-        persistEntity(status);
+        if(status.getIsActive()){
+            status.setIsActive(false);
+            persistEntity(status);
+        }
     }
 
     private void persistEntity(Status status) {
