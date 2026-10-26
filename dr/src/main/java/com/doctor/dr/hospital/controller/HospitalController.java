@@ -49,7 +49,7 @@ public class HospitalController {
             tags = {"Hospital Management"})
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") long id) {
-        this.hospitalService.delete(id);
+        this.hospitalService.deleteById(id);
         return ResponseEntity.ok("deleted");
     }
 

@@ -51,10 +51,12 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     @Override
-    public void delete(long id) {
+    public void deleteById(long id) {
         Hospital hospital = findById(id);
-        hospital.setIsActive(false);
-        persistEntity(hospital);
+        if(hospital.getIsActive()){
+            hospital.setIsActive(false);
+            persistEntity(hospital);
+        }
     }
 
     @Override
