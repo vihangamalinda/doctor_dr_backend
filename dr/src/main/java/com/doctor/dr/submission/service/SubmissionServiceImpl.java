@@ -171,10 +171,10 @@ public class SubmissionServiceImpl implements SubmissionService {
         return this.diseaseStageInformation.getDiseaseStageByDiseaseLevel(diseaseLevel);
     }
 
-    private DiseaseStage getRandomDisease(){
-      int value=  (int)(Math.random() * ((6 - 1) + 1)) + 1;
-      return getDiseaseStageInformation(value);
-    }
+//    private DiseaseStage getRandomDisease(){
+//      int value=  (int)(Math.random() * ((6 - 1) + 1)) + 1;
+//      return getDiseaseStageInformation(value);
+//    }
 
     private Submission persistEntity(Submission submission) {
        return this.submissionRepository.save(submission);
@@ -201,41 +201,41 @@ public class SubmissionServiceImpl implements SubmissionService {
         List<Submission> submissionList =this.submissionRepository.findByUserProfile_id(userProfileId);
         return submissionList.stream().map(this.submissionMapper::toSubmissionResponseDTO).collect(Collectors.toList());
     }
-
-    private DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel) {
-        DiseaseStage diseaseStage = new DiseaseStage();
-        diseaseStage.setId(diseaseLevel); //might need to use proxy to comminucate to the diseaseStage layer
-        return diseaseStage;
-    }
-    public  String prepareImageForJson(MultipartFile file) {
-        try {
-            // 1. Convert MultipartFile → BufferedImage
-            BufferedImage image = ImageIO.read(file.getInputStream());
-
-            if (image == null) {
-                throw new RuntimeException("Invalid image file");
-            }
-
-            // 2. Convert to RGB (ensures 3 channels like your Python code)
-            BufferedImage rgbImage = new BufferedImage(
-                    image.getWidth(),
-                    image.getHeight(),
-                    BufferedImage.TYPE_3BYTE_BGR
-            );
-
-            rgbImage.getGraphics().drawImage(image, 0, 0, null);
-
-            // 3. Write image to byte array (JPEG)
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(rgbImage, "jpg", baos);
-
-            byte[] imageBytes = baos.toByteArray();
-
-            // 4. Encode to Base64
-            return Base64.getEncoder().encodeToString(imageBytes);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error processing image", e);
-        }
-    }
+//
+//    private DiseaseStage getDiseaseStageByDiseaseLevel(int diseaseLevel) {
+//        DiseaseStage diseaseStage = new DiseaseStage();
+//        diseaseStage.setId(diseaseLevel); //might need to use proxy to comminucate to the diseaseStage layer
+//        return diseaseStage;
+//    }
+//    public  String prepareImageForJson(MultipartFile file) {
+//        try {
+//            // 1. Convert MultipartFile → BufferedImage
+//            BufferedImage image = ImageIO.read(file.getInputStream());
+//
+//            if (image == null) {
+//                throw new RuntimeException("Invalid image file");
+//            }
+//
+//            // 2. Convert to RGB (ensures 3 channels like your Python code)
+//            BufferedImage rgbImage = new BufferedImage(
+//                    image.getWidth(),
+//                    image.getHeight(),
+//                    BufferedImage.TYPE_3BYTE_BGR
+//            );
+//
+//            rgbImage.getGraphics().drawImage(image, 0, 0, null);
+//
+//            // 3. Write image to byte array (JPEG)
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            ImageIO.write(rgbImage, "jpg", baos);
+//
+//            byte[] imageBytes = baos.toByteArray();
+//
+//            // 4. Encode to Base64
+//            return Base64.getEncoder().encodeToString(imageBytes);
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error processing image", e);
+//        }
+//    }
 }
