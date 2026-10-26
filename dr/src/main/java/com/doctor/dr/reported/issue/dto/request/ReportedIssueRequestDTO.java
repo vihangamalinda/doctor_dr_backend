@@ -1,11 +1,17 @@
 package com.doctor.dr.reported.issue.dto.request;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 public class ReportedIssueRequestDTO {
+    @NotBlank(message = "Title is required.")
     private final String title;
+    @NotBlank(message = "Description is required.")
     private final String description;
+    @NotNull(message = "Created date Time is required.")
     private final LocalDateTime createdDateTime;
 
     private final UserProfileDetailRequestDTO userProfile;

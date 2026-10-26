@@ -1,6 +1,7 @@
 package com.doctor.dr.reported.issue.service;
 
 import com.doctor.dr.exception.ResourceNotFoundException;
+import com.doctor.dr.reported.issue.constants.ReportedIssueStatusId;
 import com.doctor.dr.reported.issue.dto.request.ReportedIssueRequestDTO;
 import com.doctor.dr.reported.issue.dto.response.ReportedIssueResponseDTO;
 import com.doctor.dr.reported.issue.entity.ReportedIssue;
@@ -55,7 +56,7 @@ public class ReportedIssueServiceImpl implements ReportedIssueService {
     public void create(ReportedIssueRequestDTO reportedIssueRequestDTO) {
         ReportedIssue reportedIssue = this.reportedIssueMapper.toReportedIssue(reportedIssueRequestDTO);
         reportedIssue.setIsActive(true);
-        Status status = getStatusInformationById(10002);
+        Status status = getStatusInformationById(ReportedIssueStatusId.CREATED);
         reportedIssue.setStatus(status);
         persistEntity(reportedIssue);
     }
