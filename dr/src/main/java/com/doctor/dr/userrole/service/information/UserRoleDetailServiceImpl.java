@@ -1,5 +1,6 @@
 package com.doctor.dr.userrole.service.information;
 
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.userrole.entity.UserRole;
 import com.doctor.dr.userrole.repository.UserRoleRepository;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,6 @@ public class UserRoleDetailServiceImpl implements UserRoleDetailService{
         return this.findById(id);
     }
     private UserRole findById(long id) {
-        return this.userRoleRepository.findById(id).orElseThrow(() -> new RuntimeException("Given user role id was not found."));
+        return this.userRoleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Given user role id was not found."));
     }
 }

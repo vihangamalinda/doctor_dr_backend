@@ -5,6 +5,8 @@ import com.doctor.dr.disease.stage.dto.DiseaseStageRequestDTO;
 import com.doctor.dr.disease.stage.entity.DiseaseStage;
 import com.doctor.dr.disease.stage.mapper.DiseaseStageMapper;
 import com.doctor.dr.disease.stage.repository.DiseaseStageRepository;
+import com.doctor.dr.exception.DataInvalidException;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
@@ -35,14 +37,21 @@ public class DiseaseStageServiceImpl implements DiseaseStageService {
     }
 
     private DiseaseStage findById(long id) {
-        return this.diseaseStageRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found."));
+        return this.diseaseStageRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found."));
     }
 
     @Override
     public void create(DiseaseStageRequestDTO diseaseStageRequestDTO) {
+        this.validate(diseaseStageRequestDTO);
         DiseaseStage diseaseStage = this.diseaseStageMapper.toDiseaseStage(diseaseStageRequestDTO);
         diseaseStage.setIsActive(true);
         this.diseaseStageRepository.save(diseaseStage);
+    }
+
+    private void validate(DiseaseStageRequestDTO dto) {
+        if (dto.getDiseaseLevel() == null || dto.getName() == null || dto.getName().isBlank() || dto.getDescription() == null || dto.getDescription().isBlank()) {
+            throw new DataInvalidException("valid input has not been provided");
+        }
     }
 
     @Override

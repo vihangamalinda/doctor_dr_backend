@@ -1,5 +1,6 @@
 package com.doctor.dr.location.service;
 
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.location.dto.LocationRequestDTO;
 import com.doctor.dr.location.dto.LocationResponseDTO;
 import com.doctor.dr.location.entity.Location;
@@ -18,10 +19,10 @@ public class LocationServiceImpl implements LocationService {
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;
 
-    public LocationServiceImpl(LocationRepository locationRepository) {
+    public LocationServiceImpl(LocationRepository locationRepository,LocationMapper locationMapper) {
 
         this.locationRepository = locationRepository;
-        this.locationMapper = Mappers.getMapper(LocationMapper.class);
+        this.locationMapper = locationMapper;
     }
 
     @Override
@@ -45,13 +46,16 @@ public class LocationServiceImpl implements LocationService {
     }
 
     private Location findById(long id) {
-        return this.locationRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found."));
+        return this.locationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found."));
     }
 
     @Override
     public void deleteById(long id) {
         Location location = this.findById(id);
-        location.setIsActive(false);
-        this.locationRepository.save(location);
+        if(location.getIsActive()){
+            location.setIsActive(false);
+            this.locationRepository.save(location);
+        }
+
     }
 }

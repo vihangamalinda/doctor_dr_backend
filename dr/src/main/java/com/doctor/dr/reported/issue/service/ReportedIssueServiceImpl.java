@@ -1,5 +1,7 @@
 package com.doctor.dr.reported.issue.service;
 
+import com.doctor.dr.exception.ResourceNotFoundException;
+import com.doctor.dr.reported.issue.constants.ReportedIssueStatusId;
 import com.doctor.dr.reported.issue.dto.request.ReportedIssueRequestDTO;
 import com.doctor.dr.reported.issue.dto.response.ReportedIssueResponseDTO;
 import com.doctor.dr.reported.issue.entity.ReportedIssue;
@@ -38,7 +40,7 @@ public class ReportedIssueServiceImpl implements ReportedIssueService {
     }
 
     private ReportedIssue findById(long id) {
-        return this.reportedIssueRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
+        return this.reportedIssueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found"));
     }
 
     @Override
@@ -54,7 +56,7 @@ public class ReportedIssueServiceImpl implements ReportedIssueService {
     public void create(ReportedIssueRequestDTO reportedIssueRequestDTO) {
         ReportedIssue reportedIssue = this.reportedIssueMapper.toReportedIssue(reportedIssueRequestDTO);
         reportedIssue.setIsActive(true);
-        Status status = getStatusInformationById(10002);
+        Status status = getStatusInformationById(ReportedIssueStatusId.CREATED);
         reportedIssue.setStatus(status);
         persistEntity(reportedIssue);
     }

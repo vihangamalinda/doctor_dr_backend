@@ -2,6 +2,7 @@ package com.doctor.dr.contact.service.information;
 
 import com.doctor.dr.contact.entity.Contact;
 import com.doctor.dr.contact.repository.ContactRepository;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,6 @@ public class ContactInformationImpl implements ContactInformation{
 
     @Override
     public Contact getContactById(Long id) {
-        return this.contactRepository.findById(id).orElseThrow(() -> new RuntimeException("Contact Id was not found."));
+        return this.contactRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Contact Id was not found."));
     }
 }

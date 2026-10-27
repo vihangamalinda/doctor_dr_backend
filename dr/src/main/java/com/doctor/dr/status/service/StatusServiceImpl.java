@@ -1,5 +1,6 @@
 package com.doctor.dr.status.service;
 
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.status.dto.request.StatusRequestDTO;
 import com.doctor.dr.status.dto.response.StatusResponseDTO;
 import com.doctor.dr.status.entity.Status;
@@ -16,9 +17,9 @@ public class StatusServiceImpl implements StatusService {
     private final StatusRepository statusRepository;
     private final StatusMapper statusMapper;
 
-    public StatusServiceImpl(StatusRepository statusRepository) {
+    public StatusServiceImpl(StatusRepository statusRepository,StatusMapper statusMapper) {
         this.statusRepository = statusRepository;
-        this.statusMapper = Mappers.getMapper(StatusMapper.class);
+        this.statusMapper = statusMapper;
     }
 
     @Override
@@ -43,8 +44,10 @@ public class StatusServiceImpl implements StatusService {
     @Override
     public void deleteById(long id) {
         Status status = this.findById(id);
-        status.setIsActive(false);
-        persistEntity(status);
+        if(status.getIsActive()){
+            status.setIsActive(false);
+            persistEntity(status);
+        }
     }
 
     private void persistEntity(Status status) {
@@ -52,7 +55,7 @@ public class StatusServiceImpl implements StatusService {
     }
 
     private Status findById(long id) {
-        return this.statusRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
+        return this.statusRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found"));
     }
 
 }

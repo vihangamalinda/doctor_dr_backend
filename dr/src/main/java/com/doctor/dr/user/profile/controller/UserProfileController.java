@@ -6,6 +6,7 @@ import com.doctor.dr.user.profile.dto.response.UserProfileResponseDTO;
 import com.doctor.dr.user.profile.service.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +34,7 @@ public class UserProfileController {
             description = "This endpoint allows the creation of a new user profile in the system.",
             tags = {"User Profile Management"})
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody UserProfileRequestDTO userProfileRequestDTO){
+    public ResponseEntity<String> create(@Valid @RequestBody UserProfileRequestDTO userProfileRequestDTO){
         this.userProfileService.create(userProfileRequestDTO);
         return ResponseEntity.ok("created");
     }

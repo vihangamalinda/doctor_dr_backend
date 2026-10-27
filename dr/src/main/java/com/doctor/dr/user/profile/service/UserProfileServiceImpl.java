@@ -1,6 +1,7 @@
 package com.doctor.dr.user.profile.service;
 
 import com.doctor.dr.auth.custom.CustomUserDetail;
+import com.doctor.dr.exception.ResourceNotFoundException;
 import com.doctor.dr.user.profile.dto.request.UpdateUserProfilePasswordDTO;
 import com.doctor.dr.user.profile.dto.request.UserInternalSystemInformationRequestDTO;
 import com.doctor.dr.user.profile.dto.request.UserProfileRequestDTO;
@@ -61,20 +62,22 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public void deleteById(long id) {
         UserProfile userProfile = this.findById(id);
-        userProfile.setIsActive(false);
-        this.persistEntity(userProfile);
+        if(userProfile.getIsActive()) {
+            userProfile.setIsActive(false);
+            this.persistEntity(userProfile);
+        }
     }
 
     @Override
     public List<UserProfileResponseDTO> getUserProfilesByUserRoleValue(String userRoleValue) {
         List<UserProfile> userProfileList = this.userProfileRepository.findByUserCredential_RoleAssignments_UserRole_ValueAndIsActiveTrue(userRoleValue);
-        List<UserProfile> userProfileList1 = this.userProfileRepository.findByUserCredential_RoleAssignments_UserRole_Value(userRoleValue);
+//        List<UserProfile> userProfileList1 = this.userProfileRepository.findByUserCredential_RoleAssignments_UserRole_Value(userRoleValue);
         return userProfileList.stream().map(this.userProfileMapper::toUserProfileResponseDTO).collect(Collectors.toList());
     }
 
     @Override
     public void updatePassword(UpdateUserProfilePasswordDTO dto, HttpServletResponse response) {
-        UserProfile userProfile = this.findById(dto.getUserProfileId());
+//        UserProfile userProfile = this.findById(dto.getUserProfileId());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null
@@ -89,9 +92,8 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     private UserProfile findById(long id) {
-        return this.userProfileRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found"));
+        return this.userProfileRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id not found"));
     }
-
 
     private UserProfile persistEntity(UserProfile userProfile) {
         return this.userProfileRepository.save(userProfile);
