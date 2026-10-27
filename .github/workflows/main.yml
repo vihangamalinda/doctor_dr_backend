@@ -15,6 +15,10 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./dr
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,6 +29,7 @@ jobs:
           java-version: '17'
           distribution: temurin
           cache: maven
+          cache-dependency-path: dr/pom.xml
 
       - name: Make Maven wrapper executable
         run: chmod +x mvnw
